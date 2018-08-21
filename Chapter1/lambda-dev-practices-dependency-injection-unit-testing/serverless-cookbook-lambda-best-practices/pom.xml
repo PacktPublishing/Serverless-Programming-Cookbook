@@ -16,7 +16,6 @@
 
     <properties>
         <guice.version>4.2.0</guice.version>
-        <junit.version>4.12</junit.version>
     </properties>
 
     <dependencies>
@@ -39,21 +38,23 @@
             <version>${guice.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/junit/junit -->
+        <!-- Below dependencies are already part of simple-starter-parent-java -->
+        <!--
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>2.21.0</version>
             <scope>test</scope>
         </dependency>
+
+        -->
 
     </dependencies>
 
