@@ -1,0 +1,14 @@
+aws cloudformation create-stack \
+    --stack-name myapistack-1 \
+    --template-body file://resources/api-with-mapping-templates-cf-template.yml \
+    --profile admin
+
+
+aws cloudformation describe-stacks \
+    --stack-name <stack-id> \
+    --profile admin
+
+
+aws cloudformation delete-stack \
+    --stack-name <stack-id> \
+    --profile admin

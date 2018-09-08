@@ -1,0 +1,73 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: API with Lambda Integration
+Resources:
+  MyRestAPI:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: Greeting API with Lambda Backend
+      Description: API for greeting an user
+      FailOnWarnings: true
+
+  GreetingResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId: !Ref MyRestAPI
+      ParentId: !GetAtt MyRestAPI.RootResourceId
+      PathPart: 'lambdagreeting'
+
+  NamePathParamResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId: !Ref MyRestAPI
+      ParentId: !Ref GreetingResource
+      PathPart: '{name}'
+
+  MyMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      AuthorizationType: NONE
+      HttpMethod: GET
+      Integration:
+        Type: AWS
+        IntegrationHttpMethod: POST
+        IntegrationResponses:
+        - StatusCode: 200
+        RequestTemplates:
+          application/json: "{\"name\": \"$input.params('name')\" , \"time\": \"$input.params('time')\"}"
+        Uri:
+          !Sub
+            - 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:${LAMBDA_NAME}/invocations'
+            - LAMBDA_NAME: !ImportValue LambdaForApiGateway
+
+      ResourceId: !Ref NamePathParamResource
+      RestApiId: !Ref MyRestAPI
+      MethodResponses:
+      - StatusCode: 200
+
+  MyDeployment:
+    DependsOn: MyMethod
+    Type: AWS::ApiGateway::Deployment
+    Properties:
+      Description: 'First API with Lambda'
+      RestApiId: !Ref MyRestAPI
+      StageDescription:
+        Description: 'Dev Stage'
+      StageName: 'dev'
+
+  LambdaInvokePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !ImportValue LambdaForApiGateway
+      Action: 'lambda:InvokeFunction'
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub
+         - arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${API_ID}/*/GET/lambdagreeting/{name}
+         - API_ID: !Ref MyRestAPI
+
+Outputs:
+  SampleEndpoint:
+    Description: 'Sample Endpoint'
+    Value: !Sub
+        - https://${API_ID}.execute-api.${AWS::Region}.amazonaws.com/dev/lambdagreeting/Heartin
+        - API_ID: !Ref MyRestAPI

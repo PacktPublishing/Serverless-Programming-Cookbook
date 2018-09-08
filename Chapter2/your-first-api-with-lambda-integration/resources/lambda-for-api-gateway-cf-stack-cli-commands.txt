@@ -1,0 +1,15 @@
+aws cloudformation create-stack \
+    --stack-name mylambdastack-1 \
+    --template-body file://resources/lambda-for-api-gateway-cf-template.yml \
+    --capabilities CAPABILITY_NAMED_IAM \
+    --profile admin
+
+
+aws cloudformation describe-stacks \
+    --stack-name <stack-id> \
+    --profile admin
+
+
+aws cloudformation delete-stack \
+    --stack-name <stack-id> \
+    --profile admin

@@ -1,0 +1,48 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Building Lambda with AWS CloudFormation
+Resources:
+  IamRoleLambdaExecution:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Policies:
+      - PolicyName: 'lambda-with-cf-policy'
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+            Resource: arn:aws:logs:*:*:*
+      Path: "/"
+      RoleName: "lambda-with-cf-role"
+  LambdaFunctionWithCF:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: 'serverless-cookbook'
+        S3Key: lambda-handler-with-pojos-0.0.1-SNAPSHOT.jar
+      FunctionName: first-lambda-with-cloud-formation
+      Handler: tech.heartin.books.serverlesscookbook.MyLambdaHandler::handleRequest
+      MemorySize: 512
+
+      Role:
+        Fn::GetAtt:
+        - IamRoleLambdaExecution
+        - Arn
+
+      Runtime: java8
+      Timeout: 15
+    DependsOn:
+    - IamRoleLambdaExecution

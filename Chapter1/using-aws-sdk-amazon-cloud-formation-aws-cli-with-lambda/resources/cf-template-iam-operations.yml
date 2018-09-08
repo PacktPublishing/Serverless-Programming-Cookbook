@@ -5,7 +5,7 @@ Resources:
   MyLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: "/aws/lambda/aws-sdk-iam-with-cloud-formation"
+      LogGroupName: "/aws/lambda/aws-sdk-iam-with-cf-cli"
   IamRoleLambdaExecution:
     Type: AWS::IAM::Role
     Properties:
@@ -19,12 +19,7 @@ Resources:
           Action:
           - sts:AssumeRole
       Policies:
-      - PolicyName:
-          Fn::Join:
-          - "-"
-          - - dev
-            - aws-sdk-iam-with-cloud-formation
-            - lambda
+      - PolicyName: 'aws-sdk-iam-with-cf-cli-lambdaPolicy'
         PolicyDocument:
           Version: '2012-10-17'
           Statement:
@@ -32,12 +27,12 @@ Resources:
             Action:
             - logs:CreateLogStream
             Resource:
-            - Fn::Sub: arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/aws-sdk-iam-with-cloud-formation:*
+            - Fn::Sub: arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/aws-sdk-iam-with-cf-cli:*
           - Effect: Allow
             Action:
             - logs:PutLogEvents
             Resource:
-            - Fn::Sub: arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/aws-sdk-iam-with-cloud-formation:*:*
+            - Fn::Sub: arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/aws-sdk-iam-with-cf-cli:*:*
           - Effect: Allow
             Action:
             - iam:CreateUser
@@ -46,20 +41,14 @@ Resources:
             Resource:
             - Fn::Sub: arn:aws:iam::${AWS::AccountId}:user/*
       Path: "/"
-      RoleName:
-        Fn::Join:
-        - "-"
-        - - aws-sdk-iam-with-cloud-formation
-          - dev
-          - us-east-1
-          - lambdaRole
+      RoleName: 'aws-sdk-iam-with-cf-cli-us-east-1-lambdaRole'
   LambdaFunctionWithCF:
     Type: AWS::Lambda::Function
     Properties:
       Code:
         S3Bucket: 'serverless-cookbook'
-        S3Key: original-serverless-cookbook-helloworld-lambda-0.0.1-SNAPSHOT.jar
-      FunctionName: aws-sdk-iam-with-cloud-formation
+        S3Key: iam-operations-0.0.1-SNAPSHOT.jar
+      FunctionName: aws-sdk-iam-with-cf-cli
       Handler: tech.heartin.books.serverlesscookbook.MyLambdaHandler::handleRequest
       MemorySize: 512
       Role:

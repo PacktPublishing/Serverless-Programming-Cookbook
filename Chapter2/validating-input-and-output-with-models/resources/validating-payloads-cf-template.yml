@@ -1,0 +1,104 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Validating POST API Request with CloudFormation
+Resources:
+  MyRestAPI:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: POST API Request Validation
+      Description: POST API Request Validation
+      FailOnWarnings: true
+
+  GreetingResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId: !Ref MyRestAPI
+      ParentId: !GetAtt MyRestAPI.RootResourceId
+      PathPart: lambdagreeting
+
+  MyRequestValidationModel:
+    Type: AWS::ApiGateway::Model
+    Properties:
+      ContentType: application/json
+      Description: Greeting Request Model
+      Name: GreetingRequestModel
+      RestApiId: !Ref MyRestAPI
+      Schema: '{"$schema": "http://json-schema.org/draft-04/schema#",
+                "title": "greetingModel",
+                "type": "object",
+                "properties": {
+                  "user" : {"type": "object",
+                    "properties": {
+                      "name" : {"type" : "string"}
+                    }
+                  },
+                  "greeting" : {"type": "object",
+                    "properties" : {
+                      "time" : {"type" : "string"}
+                    }
+                  }
+                },
+                "required" : ["user", "greeting"]
+              }'
+
+  MyRequestValidator:
+    Type: AWS::ApiGateway::RequestValidator
+    Properties:
+      Name: GreetingRequestValidator
+      RestApiId: !Ref MyRestAPI
+      ValidateRequestBody: true
+      ValidateRequestParameters: false
+
+  MyMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      AuthorizationType: NONE
+      HttpMethod: POST
+      Integration:
+        Type: AWS
+        IntegrationHttpMethod: POST
+        PassthroughBehavior: WHEN_NO_TEMPLATES
+        RequestTemplates:
+          application/json: "{ \"name\" : $input.json('$.user.name'), \"time\": $input.json('$.greeting.time') }"
+        IntegrationResponses:
+        - StatusCode: 200
+          ResponseTemplates:
+            application/json: "{ \"greeting\" : $input.json('$.message')}"
+        Uri:
+          !Sub
+            - 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:${AWS::AccountId}:function:${LAMBDA_NAME}/invocations'
+            - LAMBDA_NAME: !ImportValue LambdaForApiGateway
+      RequestModels:
+        application/json: !Ref MyRequestValidationModel
+      RequestValidatorId: !Ref MyRequestValidator
+      ResourceId: !Ref GreetingResource
+      RestApiId: !Ref MyRestAPI
+      MethodResponses:
+      - StatusCode: 200
+
+  MyDeployment:
+    DependsOn: MyMethod
+    Type: AWS::ApiGateway::Deployment
+    Properties:
+      Description: Your First POST API
+      RestApiId: !Ref MyRestAPI
+      StageDescription:
+        Description: Dev Stage
+      StageName: dev
+
+  LambdaInvokePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !ImportValue LambdaForApiGateway
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub
+         - arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${API_ID}/*/POST/lambdagreeting
+         - API_ID: !Ref MyRestAPI
+
+Outputs:
+  POSTEndpoint:
+    Description: POST Endpoint
+    Value: !Sub
+        - https://${API_ID}.execute-api.${AWS::Region}.amazonaws.com/dev/lambdagreeting
+        - API_ID: !Ref MyRestAPI

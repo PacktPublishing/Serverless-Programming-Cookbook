@@ -1,0 +1,113 @@
+aws apigateway create-rest-api \
+    --name 'POST API With Validation' \
+    --region us-east-1 \
+    --profile admin
+
+
+aws apigateway get-resources \
+    --rest-api-id dqnqdyb3z2 \
+    --region us-east-1 \
+    --profile admin
+
+
+aws apigateway create-resource \
+    --rest-api-id dqnqdyb3z2 \
+    --region us-east-1 \
+    --parent-id g9uv5fdhei \
+    --path-part 'lambdagreeting' \
+    --profile admin
+
+
+aws apigateway create-model \
+    --rest-api-id dqnqdyb3z2 \
+    --name 'greetingRequestModel' \
+    --description 'Greeting Request Model' \
+    --content-type 'application/json'  \
+    --schema '{
+                  "$schema": "http://json-schema.org/draft-04/schema#",
+                  "title": "greetingModel",
+                  "type": "object",
+                  "properties": {
+                      "user" : {"type": "object",
+                          "properties": {
+                              "name" : {"type" : "string"}
+                          }
+                      },
+                      "greeting" : {"type": "object",
+                          "properties" : {
+                              "time" : {"type" : "string"}
+                          }
+                      }
+                  },
+                  "required" : ["user", "greeting"]
+              }' \
+    --profile admin
+
+
+aws apigateway create-request-validator \
+    --rest-api-id dqnqdyb3z2 \
+    --name greetingRequestValidator \
+    --validate-request-body \
+    --profile admin
+
+
+aws apigateway put-method \
+    --rest-api-id dqnqdyb3z2 \
+    --resource-id ffknxp \
+    --http-method POST \
+    --authorization-type "NONE" \
+    --request-models application/json=greetingRequestModel \
+    --request-validator-id 549e4h \
+    --region us-east-1 \
+    --profile admin
+
+
+aws apigateway put-method-response \
+    --rest-api-id dqnqdyb3z2 \
+    --resource-id ffknxp \
+    --http-method POST \
+    --status-code 200 \
+    --region us-east-1 \
+    --profile admin
+
+
+aws apigateway put-integration \
+    --rest-api-id dqnqdyb3z2 \
+    --resource-id ffknxp \
+    --http-method POST \
+    --type AWS \
+    --integration-http-method POST \
+    --uri 'arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:<account_id>:function:lambda-for-api-gateway/invocations' \
+    --request-templates '{ "application/json" : "{ \"name\" : $input.json('"'"'$.user.name'"'"'), \"time\" : $input.json('"'"'$.greeting.time'"'"')}" }' \
+    --passthrough-behavior WHEN_NO_TEMPLATES \
+    --region us-east-1 \
+    --profile admin
+
+
+aws apigateway put-integration-response \
+    --rest-api-id dqnqdyb3z2 \
+    --resource-id ffknxp \
+    --http-method POST \
+    --status-code 200 \
+    --region us-east-1 \
+    --selection-pattern "" \
+    --response-templates '{ "application/json" : "{ \"greeting\" : $input.json('"'"'$.message'"'"')}" }' \
+    --profile admin
+
+
+aws apigateway create-deployment \
+    --rest-api-id dqnqdyb3z2 \
+    --region us-east-1 \
+    --stage-name dev \
+    --stage-description 'Dev stage' \
+    --description 'First deployment' \
+    --profile admin
+
+
+aws lambda add-permission \
+    --function-name lambda-for-api-gateway \
+    --statement-id apigateway-st-1 \
+    --action lambda:InvokeFunction \
+    --principal apigateway.amazonaws.com \
+    --source-arn "arn:aws:execute-api:us-east-1:<account_id>:dqnqdyb3z2/*/POST/lambdagreeting" \
+    --profile admin

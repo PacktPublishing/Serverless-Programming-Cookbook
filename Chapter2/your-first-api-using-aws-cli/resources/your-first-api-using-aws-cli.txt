@@ -1,0 +1,73 @@
+aws apigateway create-rest-api \
+    --name 'API Gateway Hello World' \
+    --region us-east-1 \
+    --profile admin
+
+
+aws apigateway get-resources \
+    --rest-api-id s1knmmxyl3 \
+    --region us-east-1 \
+    --profile admin
+
+
+aws apigateway create-resource \
+    --rest-api-id s1knmmxyl3 \
+    --region us-east-1 \
+    --parent-id 6dsmamgob7 \
+    --path-part 'greeting' \
+    --profile admin
+
+
+aws apigateway create-resource \
+    --rest-api-id s1knmmxyl3 \
+    --region us-east-1 \
+    --parent-id 4l8brb \
+    --path-part '{name}' \
+    --profile admin
+
+
+aws apigateway put-method \
+    --rest-api-id s1knmmxyl3 \
+    --resource-id j8dvbw \
+    --http-method GET \
+    --authorization-type "NONE" \
+    --region us-east-1 \
+    --profile admin
+
+
+aws apigateway put-method-response --rest-api-id s1knmmxyl3 \
+    --resource-id j8dvbw \
+    --http-method GET \
+    --status-code 200 \
+    --region us-east-1 \
+    --profile admin
+
+
+aws apigateway put-integration \
+    --rest-api-id s1knmmxyl3 \
+    --resource-id j8dvbw \
+    --http-method GET \
+    --type MOCK \
+    --integration-http-method GET \
+    --request-templates '{ "application/json": "{\"statusCode\": 200}" }' \
+    --region us-east-1 \
+    --profile admin
+
+
+aws apigateway put-integration-response \
+    --rest-api-id s1knmmxyl3 \
+    --resource-id j8dvbw \
+    --http-method GET \
+    --status-code 200 \
+    --response-templates '{"application/json": "{\"message\": \"Hello $input.params('"'"'name'"'"')\"}"}' \
+    --region us-east-1 \
+    --profile admin
+
+
+aws apigateway create-deployment \
+    --rest-api-id s1knmmxyl3 \
+    --region us-east-1 \
+    --stage-name dev \
+    --stage-description 'Dev stage' \
+    --description 'First deployment' \
+    --profile admin

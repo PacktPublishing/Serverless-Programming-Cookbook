@@ -1,0 +1,75 @@
+aws apigateway create-rest-api \
+    --name 'API For Lambda Proxy Integration' \
+    --region us-east-1 \
+    --profile admin
+
+
+aws apigateway get-resources \
+    --rest-api-id qacob6w4v7 \
+    --region us-east-1 \
+    --profile admin
+
+
+aws apigateway create-resource \
+    --rest-api-id qacob6w4v7 \
+    --region us-east-1 \
+    --parent-id xitaiyjnuf \
+    --path-part '{proxy+}' \
+    --profile admin
+
+
+aws apigateway put-method \
+    --rest-api-id qacob6w4v7 \
+    --resource-id k7zima \
+    --http-method ANY \
+    --authorization-type "NONE" \
+    --region us-east-1 \
+    --profile admin
+
+
+aws apigateway put-method-response \
+    --rest-api-id qacob6w4v7 \
+    --resource-id k7zima \
+    --http-method ANY \
+    --status-code 200 \
+    --region us-east-1 \
+    --profile admin
+
+
+aws apigateway put-integration \
+    --rest-api-id qacob6w4v7 \
+    --resource-id k7zima \
+    --http-method ANY \
+    --type AWS_PROXY \
+    --integration-http-method POST \
+    --uri 'arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:<account_id>:function:lambda-for-proxy-integration/invocations' \
+    --region us-east-1 \
+    --profile admin
+
+
+aws apigateway put-integration-response \
+    --rest-api-id qacob6w4v7 \
+    --resource-id k7zima \
+    --http-method ANY \
+    --status-code 200 \
+    --region us-east-1 \
+    --selection-pattern "" \
+    --profile admin
+
+
+aws apigateway create-deployment \
+    --rest-api-id qacob6w4v7 \
+    --region us-east-1 \
+    --stage-name dev \
+    --stage-description 'Dev stage' \
+    --description 'Deployment to dev' \
+    --profile admin
+
+
+aws lambda add-permission \
+    --function-name lambda-for-proxy-integration \
+    --statement-id apigateway-st-1 \
+    --action lambda:InvokeFunction \
+    --principal apigateway.amazonaws.com \
+    --source-arn "arn:aws:execute-api:us-east-1:<account_id>:qacob6w4v7/*/*/{proxy+}" \
+    --profile admin

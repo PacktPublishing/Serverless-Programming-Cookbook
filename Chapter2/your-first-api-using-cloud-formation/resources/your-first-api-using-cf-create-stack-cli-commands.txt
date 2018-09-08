@@ -1,0 +1,14 @@
+aws cloudformation create-stack \
+    --stack-name myteststack \
+    --template-body file://resources/your-first-rest-api-with-api-gateway-cf.yml \
+    --profile admin
+
+
+aws cloudformation describe-stacks \
+    --stack-name <stack-id> \
+    --profile admin
+
+
+aws cloudformation delete-stack \
+    --stack-name <stack-id> \
+    --profile admin

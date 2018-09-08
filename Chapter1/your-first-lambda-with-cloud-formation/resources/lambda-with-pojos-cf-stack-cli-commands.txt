@@ -1,0 +1,14 @@
+aws cloudformation create-stack \
+    --stack-name myteststack \
+    --template-body file://resources/template-for-hello-world-lambda.yml.yml \
+    --profile admin
+
+
+aws cloudformation describe-stacks \
+    --stack-name arn:aws:cloudformation:us-east-1:855923912133:stack/myteststack/e8201060-ac40-11e8-8038-503acac5c0fd \
+    --profile admin
+
+
+aws cloudformation delete-stack \
+    --stack-name arn:aws:cloudformation:us-east-1:855923912133:stack/myteststack/e8201060-ac40-11e8-8038-503acac5c0fd \
+    --profile admin

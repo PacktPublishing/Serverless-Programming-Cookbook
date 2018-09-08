@@ -1,0 +1,85 @@
+aws apigateway create-rest-api \
+    --name 'API Gateway With Lambda' \
+    --region us-east-1 \
+    --profile admin
+
+
+aws apigateway get-resources \
+    --rest-api-id 19sh9qhri2 \
+    --region us-east-1 \
+    --profile admin
+
+
+aws apigateway create-resource \
+    --rest-api-id 19sh9qhri2 \
+    --region us-east-1 \
+    --parent-id sjr9elmwl7 \
+    --path-part 'lambdagreeting' \
+    --profile admin
+
+
+aws apigateway create-resource \
+    --rest-api-id 19sh9qhri2 \
+    --region us-east-1 \
+    --parent-id tip4r1 \
+    --path-part '{name}' \
+    --profile admin
+
+
+aws apigateway put-method \
+    --rest-api-id 19sh9qhri2 \
+    --resource-id n9iev1 \
+    --http-method GET \
+    --authorization-type "NONE" \
+    --request-parameters method.request.path.name=true \
+    --region us-east-1 \
+    --profile admin
+
+
+aws apigateway put-method-response \
+    --rest-api-id 19sh9qhri2 \
+    --resource-id n9iev1 \
+    --http-method GET \
+    --status-code 200 \
+    --region us-east-1 \
+    --profile admin
+
+
+aws apigateway put-integration \
+    --rest-api-id 19sh9qhri2 \
+    --resource-id n9iev1 \
+    --http-method GET \
+    --type AWS \
+    --integration-http-method POST \
+    --uri 'arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:<account_id>:function:lambda-for-api-gateway/invocations' \
+    --request-templates '{"application/json": "{\"name\": \"$input.params('"'"'name'"'"')\" , \"time\": \"$input.params('"'"'time'"'"')\"}"}' \
+    --region us-east-1 \
+    --profile admin
+
+
+aws apigateway put-integration-response \
+    --rest-api-id 19sh9qhri2 \
+    --resource-id n9iev1 \
+    --http-method GET \
+    --status-code 200 \
+    --region us-east-1 \
+    --selection-pattern "" \
+    --profile admin
+
+
+aws apigateway create-deployment \
+    --rest-api-id p291ddbpz6 \
+    --region us-east-1 \
+    --stage-name dev \
+    --stage-description 'Dev stage' \
+    --description 'First deployment' \
+    --profile admin
+
+
+aws lambda add-permission \
+    --function-name lambda-for-api-gateway \
+    --statement-id apigateway-st-1 \
+    --action lambda:InvokeFunction \
+    --principal apigateway.amazonaws.com \
+    --source-arn "arn:aws:execute-api:us-east-1:<account_id>:p291ddbpz6/*/GET/lambdagreeting/{name}" \
+    --profile admin

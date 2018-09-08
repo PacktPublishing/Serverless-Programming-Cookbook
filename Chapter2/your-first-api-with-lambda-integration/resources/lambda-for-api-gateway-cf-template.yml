@@ -27,13 +27,13 @@ Resources:
             Resource: arn:aws:logs:*:*:*
       Path: "/"
       RoleName: "lambda-with-cf-role"
-  LambdaFunctionWithCF:
+  MyLambdaFunction:
     Type: AWS::Lambda::Function
     Properties:
       Code:
         S3Bucket: 'serverless-cookbook'
         S3Key: lambda-handler-with-pojos-0.0.1-SNAPSHOT.jar
-      FunctionName: first-lambda-with-cloud-formation
+      FunctionName: 'lambda-for-api-gateway'
       Handler: tech.heartin.books.serverlesscookbook.MyLambdaHandler::handleRequest
       MemorySize: 512
       Role:
@@ -44,3 +44,9 @@ Resources:
       Timeout: 15
     DependsOn:
     - IamRoleLambdaExecution
+Outputs:
+  LambdaOutput:
+    Description: 'Lambda For API Gateway Reference'
+    Value: !Ref MyLambdaFunction
+    Export:
+      Name: LambdaForApiGateway
