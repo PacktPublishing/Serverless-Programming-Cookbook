@@ -1,0 +1,58 @@
+aws s3 cp \
+    target/original-serverless-cookbook-lambda-handler-with-pojos-0.0.1-SNAPSHOT.jar \
+    s3://serverless-cookbook/lambda-handler-with-pojos-0.0.1-SNAPSHOT.jar \
+    --profile admin
+
+
+aws iam create-policy \
+    --policy-name lambda_iam_policy_test \
+    --policy-document file://resources/basic-lambda-permissions.txt \
+    --profile admin
+
+
+aws iam create-role \
+    --role-name lambda_iam_role_test \
+    --assume-role-policy-document file://resources/iam-role-trust-relationship.txt \
+    --profile admin
+
+
+aws iam attach-role-policy \
+    --role-name lambda_iam_role_test \
+    --policy-arn arn:aws:iam::<account_id>:policy/lambda_iam_policy_test \
+    --profile admin
+
+
+aws lambda create-function \
+    --function-name demo-lambda-with-cli \
+    --runtime java8 \
+    --role arn:aws:iam::<account_id>:role/lambda_iam_role_test \
+    --handler tech.heartin.books.serverlesscookbook.MyLambdaHandler::handleRequest \
+    --code S3Bucket=serverless-cookbook,S3Key=lambda-handler-with-pojos-0.0.1-SNAPSHOT.jar \
+    --timeout 15 \
+    --memory-size 512 \
+    --profile admin
+
+
+aws lambda invoke \
+    --invocation-type RequestResponse \
+    --function-name demo-lambda-with-cli \
+    --log-type Tail \
+    --payload '{"name":"Heartin"}' \
+    --profile admin \
+    outputfile.txt
+
+
+aws iam detach-role-policy \
+    --role-name lambda_iam_role_test \
+    --policy-arn arn:aws:iam::<account_id>:policy/lambda_iam_policy_test \
+    --profile admin
+
+
+aws iam delete-role \
+    --role-name lambda_iam_role_test \
+    --profile admin
+
+
+aws iam delete-policy \
+    --policy-arn arn:aws:iam::<account_id>:policy/lambda_iam_policy_test \
+    --profile admin
