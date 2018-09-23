@@ -3,12 +3,10 @@ aws apigateway create-rest-api \
     --region us-east-1 \
     --profile admin
 
-
 aws apigateway get-resources \
     --rest-api-id qacob6w4v7 \
     --region us-east-1 \
     --profile admin
-
 
 aws apigateway create-resource \
     --rest-api-id qacob6w4v7 \
@@ -16,7 +14,6 @@ aws apigateway create-resource \
     --parent-id xitaiyjnuf \
     --path-part '{proxy+}' \
     --profile admin
-
 
 aws apigateway put-method \
     --rest-api-id qacob6w4v7 \
@@ -26,7 +23,6 @@ aws apigateway put-method \
     --region us-east-1 \
     --profile admin
 
-
 aws apigateway put-method-response \
     --rest-api-id qacob6w4v7 \
     --resource-id k7zima \
@@ -34,7 +30,6 @@ aws apigateway put-method-response \
     --status-code 200 \
     --region us-east-1 \
     --profile admin
-
 
 aws apigateway put-integration \
     --rest-api-id qacob6w4v7 \
@@ -46,7 +41,6 @@ aws apigateway put-integration \
     --region us-east-1 \
     --profile admin
 
-
 aws apigateway put-integration-response \
     --rest-api-id qacob6w4v7 \
     --resource-id k7zima \
@@ -56,7 +50,6 @@ aws apigateway put-integration-response \
     --selection-pattern "" \
     --profile admin
 
-
 aws apigateway create-deployment \
     --rest-api-id qacob6w4v7 \
     --region us-east-1 \
@@ -64,7 +57,6 @@ aws apigateway create-deployment \
     --stage-description 'Dev stage' \
     --description 'Deployment to dev' \
     --profile admin
-
 
 aws lambda add-permission \
     --function-name lambda-for-proxy-integration \

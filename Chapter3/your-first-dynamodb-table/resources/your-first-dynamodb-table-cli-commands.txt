@@ -1,0 +1,25 @@
+aws dynamodb create-table \
+    --table-name my_table \
+    --attribute-definitions 'AttributeName=id, AttributeType=S' 'AttributeName=dateandtime, AttributeType=N' \
+    --key-schema 'AttributeName=id, KeyType=HASH' 'AttributeName=dateandtime, KeyType=RANGE' \
+    --provisioned-throughput 'ReadCapacityUnits=5, WriteCapacityUnits=5' \
+    --region us-east-1 \
+    --profile admin
+
+aws dynamodb list-tables \
+    --region us-east-1 \
+    --profile admin
+
+aws dynamodb describe-table \
+    --table-name my_table \
+    --profile admin
+
+aws dynamodb update-table \
+    --table-name my_table \
+    --provisioned-throughput 'ReadCapacityUnits=10, WriteCapacityUnits=10' \
+    --profile admin
+
+aws dynamodb delete-table \
+    --table-name my_table \
+    --profile admin
+

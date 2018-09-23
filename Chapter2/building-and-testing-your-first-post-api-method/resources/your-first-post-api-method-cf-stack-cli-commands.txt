@@ -1,14 +1,13 @@
 aws cloudformation create-stack \
     --stack-name myapistack-1 \
     --template-body file://resources/your-first-post-api-method-cf-template.yml \
+    --region us-east-1 \
     --profile admin
-
 
 aws cloudformation describe-stacks \
-    --stack-name <stack-id> \
+    --stack-name mylambdastack-1 \
     --profile admin
 
-
 aws cloudformation delete-stack \
-    --stack-name <stack-id> \
+    --stack-name mylambdastack-1 \
     --profile admin

@@ -1,0 +1,25 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Your First DynamoDB Table
+Resources:
+  MyFirstTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: my_table
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      KeySchema:
+        -
+          AttributeName: id
+          KeyType: HASH
+        -
+          AttributeName: dateandtime
+          KeyType: RANGE
+      AttributeDefinitions:
+        -
+          AttributeName: id
+          AttributeType: S
+        -
+          AttributeName: dateandtime
+          AttributeType: N

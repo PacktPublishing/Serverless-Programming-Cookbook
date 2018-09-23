@@ -1,0 +1,83 @@
+aws dynamodb put-item \
+    --table-name my_table \
+    --item '{"id":{"S":"001"}, "dateandtime":{"N":"1536898265"}, "field1":{"N":"20"}}' \
+    --profile admin
+
+aws dynamodb put-item \
+    --table-name my_table \
+    --item '{"id":{"S":"001"},"dateandtime":{"N":"1536898285"}, "field1":{"N":"30"}, "field2":{"S":"ABC"}}' \
+    --profile admin
+
+aws dynamodb put-item \
+    --table-name my_table \
+    --item '{"id":{"S":"002"},"dateandtime":{"N":"1536898295"}, "field1":{"S":"DEF"}}' \
+    --profile admin
+
+aws dynamodb get-item \
+    --table-name my_table \
+    --key '{"id":{"S":"002"},"dateandtime":{"N":"1536898295"}}' \
+    --return-consumed-capacity TOTAL \
+    --profile admin
+
+aws dynamodb query \
+    --table-name my_table \
+    --key-condition-expression "id=:id" \
+    --filter-expression "field1=:field1" \
+    --expression-attribute-values '{":id":{"S":"001"}, ":field1":{"N":"20"}}' \
+    --return-consumed-capacity TOTAL \
+    --profile admin
+
+aws dynamodb query \
+    --table-name my_table \
+    --key-condition-expression "id=:id and dateandtime=:dateandtime" \
+    --filter-expression "field1=:field1" \
+    --expression-attribute-values '{":id":{"S":"001"}, ":field1":{"N":"20"}, ":dateandtime":{"N":"1536898265"}, ":field1":{"N":"20"}}' \
+    --return-consumed-capacity TOTAL \
+    --profile admin
+
+aws dynamodb query \
+    --table-name my_table \
+    --key-condition-expression "id=:id and dateandtime=:dateandtime" \
+    --filter-expression "field1=:field1" \
+    --expression-attribute-values '{":id":{"S":"001"}, ":field1":{"N":"20"}, ":dateandtime":{"N":"1536898265"}, ":field1":{"N":"20"}}' \
+    --consistent-read \
+    --return-consumed-capacity TOTAL \
+    --profile admin
+
+aws dynamodb query \
+    --table-name my_table \
+    --key-condition-expression "id=:id" \
+    --expression-attribute-values '{":id":{"S":"001"}}' \
+    --return-consumed-capacity TOTAL \
+    --profile admin
+
+aws dynamodb scan \
+    --table-name my_table \
+    --filter-expression "id=:id and dateandtime=:dateandtime and field1=:field1" \
+    --expression-attribute-values '{":id":{"S":"002"}, ":dateandtime":{"N":"1536898295"}, ":field1":{"S":"DEF"}}' \
+    --return-consumed-capacity TOTAL \
+    --profile admin
+
+aws dynamodb scan \
+    --table-name my_table \
+    --filter-expression "field1=:field1" \
+    --expression-attribute-values '{":field1":{"S":"DEF"}}' \
+    --return-consumed-capacity TOTAL \
+    --profile admin
+
+aws dynamodb scan \
+    --table-name my_table \
+    --return-consumed-capacity TOTAL \
+    --profile admin
+
+aws dynamodb update-item \
+    --table-name my_table \
+    --key '{"id":{"S":"001"},"dateandtime":{"N":"1536898285"}}' \
+    --update-expression "SET field1=:field1" \
+    --expression-attribute-values '{":field1":{"N":"80"}}' \
+    --profile admin
+
+aws dynamodb delete-item \
+    --table-name my_table \
+    --key '{"id":{"S":"002"},"dateandtime":{"N":"1536898295"}}' \
+    --profile admin

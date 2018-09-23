@@ -3,12 +3,10 @@ aws apigateway create-rest-api \
     --region us-east-1 \
     --profile admin
 
-
 aws apigateway get-resources \
     --rest-api-id dqnqdyb3z2 \
     --region us-east-1 \
     --profile admin
-
 
 aws apigateway create-resource \
     --rest-api-id dqnqdyb3z2 \
@@ -16,7 +14,6 @@ aws apigateway create-resource \
     --parent-id g9uv5fdhei \
     --path-part 'lambdagreeting' \
     --profile admin
-
 
 aws apigateway create-model \
     --rest-api-id dqnqdyb3z2 \
@@ -43,13 +40,11 @@ aws apigateway create-model \
               }' \
     --profile admin
 
-
 aws apigateway create-request-validator \
     --rest-api-id dqnqdyb3z2 \
     --name greetingRequestValidator \
     --validate-request-body \
     --profile admin
-
 
 aws apigateway put-method \
     --rest-api-id dqnqdyb3z2 \
@@ -61,7 +56,6 @@ aws apigateway put-method \
     --region us-east-1 \
     --profile admin
 
-
 aws apigateway put-method-response \
     --rest-api-id dqnqdyb3z2 \
     --resource-id ffknxp \
@@ -69,7 +63,6 @@ aws apigateway put-method-response \
     --status-code 200 \
     --region us-east-1 \
     --profile admin
-
 
 aws apigateway put-integration \
     --rest-api-id dqnqdyb3z2 \
@@ -83,7 +76,6 @@ aws apigateway put-integration \
     --region us-east-1 \
     --profile admin
 
-
 aws apigateway put-integration-response \
     --rest-api-id dqnqdyb3z2 \
     --resource-id ffknxp \
@@ -94,7 +86,6 @@ aws apigateway put-integration-response \
     --response-templates '{ "application/json" : "{ \"greeting\" : $input.json('"'"'$.message'"'"')}" }' \
     --profile admin
 
-
 aws apigateway create-deployment \
     --rest-api-id dqnqdyb3z2 \
     --region us-east-1 \
@@ -102,7 +93,6 @@ aws apigateway create-deployment \
     --stage-description 'Dev stage' \
     --description 'First deployment' \
     --profile admin
-
 
 aws lambda add-permission \
     --function-name lambda-for-api-gateway \

@@ -3,12 +3,10 @@ aws apigateway create-rest-api \
     --region us-east-1 \
     --profile admin
 
-
 aws apigateway get-resources \
     --rest-api-id 19sh9qhri2 \
     --region us-east-1 \
     --profile admin
-
 
 aws apigateway create-resource \
     --rest-api-id 19sh9qhri2 \
@@ -17,14 +15,12 @@ aws apigateway create-resource \
     --path-part 'lambdagreeting' \
     --profile admin
 
-
 aws apigateway create-resource \
     --rest-api-id 19sh9qhri2 \
     --region us-east-1 \
     --parent-id tip4r1 \
     --path-part '{name}' \
     --profile admin
-
 
 aws apigateway put-method \
     --rest-api-id 19sh9qhri2 \
@@ -35,7 +31,6 @@ aws apigateway put-method \
     --region us-east-1 \
     --profile admin
 
-
 aws apigateway put-method-response \
     --rest-api-id 19sh9qhri2 \
     --resource-id n9iev1 \
@@ -43,7 +38,6 @@ aws apigateway put-method-response \
     --status-code 200 \
     --region us-east-1 \
     --profile admin
-
 
 aws apigateway put-integration \
     --rest-api-id 19sh9qhri2 \
@@ -56,7 +50,6 @@ aws apigateway put-integration \
     --region us-east-1 \
     --profile admin
 
-
 aws apigateway put-integration-response \
     --rest-api-id 19sh9qhri2 \
     --resource-id n9iev1 \
@@ -66,7 +59,6 @@ aws apigateway put-integration-response \
     --selection-pattern "" \
     --profile admin
 
-
 aws apigateway create-deployment \
     --rest-api-id p291ddbpz6 \
     --region us-east-1 \
@@ -74,7 +66,6 @@ aws apigateway create-deployment \
     --stage-description 'Dev stage' \
     --description 'First deployment' \
     --profile admin
-
 
 aws lambda add-permission \
     --function-name lambda-for-api-gateway \

@@ -2,14 +2,13 @@ aws cloudformation create-stack \
     --stack-name mylambdaproxystack-1 \
     --template-body file://resources/lambda-for-proxy-integration-cf-template.yml \
     --capabilities CAPABILITY_NAMED_IAM \
+    --region us-east-1 \
     --profile admin
-
 
 aws cloudformation describe-stacks \
-    --stack-name <stack-id> \
+    --stack-name mylambdaproxystack-1 \
     --profile admin
 
-
 aws cloudformation delete-stack \
-    --stack-name <stack-id> \
+    --stack-name mylambdaproxystack-1 \
     --profile admin
