@@ -12,14 +12,17 @@ aws dynamodb list-tables \
 
 aws dynamodb describe-table \
     --table-name my_table \
+    --region us-east-1 \
     --profile admin
 
 aws dynamodb update-table \
     --table-name my_table \
     --provisioned-throughput 'ReadCapacityUnits=10, WriteCapacityUnits=10' \
+    --region us-east-1 \
     --profile admin
 
 aws dynamodb delete-table \
     --table-name my_table \
+    --region us-east-1 \
     --profile admin
 

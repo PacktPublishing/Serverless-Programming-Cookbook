@@ -1,0 +1,4 @@
+aws s3 cp \
+target/lambda-dynamodb-create-table-0.0.1-SNAPSHOT.jar \
+s3://serverless-cookbook/lambda-dynamodb-create-table-0.0.1-SNAPSHOT.jar \
+--profile admin

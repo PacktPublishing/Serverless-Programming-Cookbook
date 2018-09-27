@@ -1,0 +1,53 @@
+aws s3 cp \
+target/lambda-dynamodb-create-table-0.0.1-SNAPSHOT.jar \
+s3://serverless-cookbook/lambda-dynamodb-create-table-0.0.1-SNAPSHOT.jar \
+--profile admin
+
+aws cloudformation create-stack \
+    --stack-name myteststack-c \
+    --template-body file://resources/lambda-dynamodb-create-table-cf-template.yml \
+    --capabilities CAPABILITY_NAMED_IAM \
+    --region us-east-1 \
+    --profile admin
+
+aws cloudformation describe-stacks \
+    --stack-name myteststack-c \
+    --region us-east-1 \
+    --profile admin
+
+aws cloudformation delete-stack \
+    --stack-name myteststack-c \
+    --region us-east-1 \
+    --profile admin
+
+aws lambda invoke \
+    --invocation-type RequestResponse \
+    --function-name lambda-dynamodb-create-table \
+    --log-type Tail \
+    --payload '{
+                    "tableName":"my_table",
+                    "partitionKey": "id",
+                    "sortKey": "dateandtime",
+                    "readCapacityUnits": 1,
+                    "writeCapacityUnits": 1,
+                    "waitForActive": false
+                }' \
+    --region us-east-1 \
+    --profile admin \
+    outputfile.txt
+
+aws dynamodb describe-table \
+    --table-name my_table \
+    --region us-east-1 \
+    --profile admin
+
+aws dynamodb delete-table \
+    --table-name my_table \
+    --region us-east-1 \
+    --profile admin
+
+aws lambda update-function-configuration \
+    --function-name lambda-dynamodb-create-table \
+    --environment Variables={API_VERSION=V2} \
+    --region us-east-1 \
+    --profile admin

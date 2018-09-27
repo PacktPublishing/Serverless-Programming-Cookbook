@@ -1,0 +1,81 @@
+aws s3 cp \
+target/lambda-dynamodb-put-item-0.0.1-SNAPSHOT.jar \
+s3://serverless-cookbook/lambda-dynamodb-put-item-0.0.1-SNAPSHOT.jar \
+--profile admin
+
+aws cloudformation create-stack \
+    --stack-name myteststack-p \
+    --template-body file://resources/lambda-dynamodb-put-item-cf-template.yml \
+    --capabilities CAPABILITY_NAMED_IAM \
+    --region us-east-1 \
+    --profile admin
+
+aws cloudformation describe-stacks \
+    --stack-name myteststack-p \
+    --region us-east-1 \
+    --profile admin
+
+aws cloudformation delete-stack \
+    --stack-name myteststack-p \
+    --region us-east-1 \
+    --profile admin
+
+aws lambda invoke \
+    --invocation-type RequestResponse \
+    --function-name lambda-dynamodb-put-item \
+    --log-type Tail \
+    --payload '{
+                    "tableName":"my_table",
+                    "partitionKey": "id",
+                    "sortKey": "dateandtime",
+                    "partitionKeyValue": "p1",
+                    "sortKeyValue": 1537963031,
+                    "waitForActive": false
+                }' \
+    --region us-east-1 \
+    --profile admin \
+    outputfile.txt
+
+aws dynamodb get-item \
+    --table-name my_table \
+    --key '{"id":{"S":"p1"},"dateandtime":{"N":"1537963031"}}' \
+    --return-consumed-capacity TOTAL \
+    --region us-east-1 \
+    --profile admin
+
+aws lambda invoke \
+    --invocation-type RequestResponse \
+    --function-name lambda-dynamodb-put-item \
+    --log-type Tail \
+    --payload '{
+                    "tableName":"my_table",
+                    "partitionKey": "id",
+                    "sortKey": "dateandtime",
+                    "partitionKeyValue": "p1",
+                    "sortKeyValue": 1537963034,
+                    "waitForActive": false,
+                    "stringData" : {
+                        "s1": "v1",
+                        "s2": "v2"
+                    },
+                    "integerData" : {
+                        "i1" : 1,
+                        "i2" : 2
+                    }
+                }' \
+    --region us-east-1 \
+    --profile admin \
+    outputfile.txt
+
+aws dynamodb get-item \
+    --table-name my_table \
+    --key '{"id":{"S":"p1"},"dateandtime":{"N":"1537963034"}}' \
+    --return-consumed-capacity TOTAL \
+    --region us-east-1 \
+    --profile admin
+
+aws lambda update-function-configuration \
+    --function-name lambda-dynamodb-put-item \
+    --environment Variables={API_VERSION=V2} \
+    --region us-east-1 \
+    --profile admin
