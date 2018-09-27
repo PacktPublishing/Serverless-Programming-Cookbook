@@ -7,8 +7,10 @@ aws cloudformation create-stack \
 
 aws cloudformation describe-stacks \
     --stack-name mylambdaproxystack-1 \
+    --region us-east-1 \
     --profile admin
 
 aws cloudformation delete-stack \
     --stack-name mylambdaproxystack-1 \
+    --region us-east-1 \
     --profile admin

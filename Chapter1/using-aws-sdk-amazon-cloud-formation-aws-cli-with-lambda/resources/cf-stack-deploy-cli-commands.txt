@@ -6,8 +6,10 @@ aws cloudformation create-stack \
 
 aws cloudformation describe-stacks \
     --stack-name myteststack \
+    --region us-east-1 \
     --profile admin
 
 aws cloudformation delete-stack \
     --stack-name myteststack \
+    --region us-east-1 \
     --profile admin
