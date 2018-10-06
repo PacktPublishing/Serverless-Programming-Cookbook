@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>tech.heartin.books.serverlesscookbook</groupId>
-    <artifactId>serverless-cookbook-helloworld-lambda</artifactId>
+    <groupId>tech.heartin.books.serverless-cookbook</groupId>
+    <artifactId>helloworld-lambda</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <parent>

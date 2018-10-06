@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>tech.heartin.books</groupId>
-    <artifactId>serverless-cookbook-lambda-handler-with-pojos</artifactId>
+    <groupId>tech.heartin.books.serverless-cookbook</groupId>
+    <artifactId>iam-operations</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <parent>
@@ -20,6 +20,13 @@
             <artifactId>aws-lambda-java-core</artifactId>
             <version>${aws.lambda.java.core.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-iam</artifactId>
+            <version>${aws.sdk.version}</version>
+        </dependency>
+
     </dependencies>
 
 </project>
