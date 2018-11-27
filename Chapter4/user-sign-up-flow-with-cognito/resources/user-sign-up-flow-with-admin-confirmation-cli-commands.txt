@@ -1,0 +1,38 @@
+aws cognito-idp create-user-pool-client \
+    --user-pool-id us-east-1_fYsb1Gyec \
+    --explicit-auth-flows USER_PASSWORD_AUTH \
+    --client-name user-pool-client-signup \
+    --profile admin
+
+aws cognito-idp describe-user-pool-client \
+    --user-pool-id us-east-1_fYsb1Gyec \
+    --client-id 4s69op0v8es2cojl5ncjql2v4g \
+    --profile admin
+
+aws cognito-idp sign-up \
+    --client-id 4s69op0v8es2cojl5ncjql2v4g \
+    --username testuser4 \
+    --password Passw0rd$
+
+aws cognito-idp admin-confirm-sign-up \
+    --user-pool-id us-east-1_fYsb1Gyec \
+    --username testuser4 \
+    --profile admin
+
+aws cognito-idp initiate-auth \
+    --client-id 4s69op0v8es2cojl5ncjql2v4g \
+    --auth-flow USER_PASSWORD_AUTH \
+    --auth-parameters USERNAME=testuser4,PASSWORD=Passw0rd$
+
+aws cognito-idp delete-user \
+    --access-token eyJraWQiOiI0VTY1ZHNqWlgyRHZoUDNwVFhnaTVkNU4zNkhmUkdOOFFVZHFvd1pmTXVnPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJhYThlNTM3Mi01YmFmLTRlM2UtOTI4NC05MTA0N2IyN2FhYmQiLCJldmVudF9pZCI6IjU4OWRhYTg5LWVkYTMtMTFlOC1iNzlkLTlkNzczMWY2Yzc0OSIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoiYXdzLmNvZ25pdG8uc2lnbmluLnVzZXIuYWRtaW4iLCJhdXRoX3RpbWUiOjE1NDI4MTQ2NDUsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX2ZZc2IxR3llYyIsImV4cCI6MTU0MjgxODI0NSwiaWF0IjoxNTQyODE0NjQ1LCJqdGkiOiJhNmY0NmFiNS1iMzcyLTRiMDUtODM4Mi0yZTI5ODA3ZTE5NDAiLCJjbGllbnRfaWQiOiI0czY5b3AwdjhlczJjb2psNW5janFsMnY0ZyIsInVzZXJuYW1lIjoidGVzdHVzZXI0In0.f8tkxc8BcbLxDcFlnW_U1u_UV8k_REgBOuQ4FRgOYVO2W4qng5Nvdea5DOYaHqazSprPAemUS6pHNA9R6Iup6dUPh9-fSoWERJYxD0FITkU6ROrqmb1cKjuNzBgCqJ71QvkSxVq7AoB4c5y5KA4Ip60ixC9bxO7HcVgWt1_3nrrern14DL7SOVuCdR46OAQwVqqcS7H4QjYn_0wsyBchnwPpd7CQnLDaYsNjmwsK0fNC6lEe11mNvB_hJzswCoJOjuOd3X6TFoB-VxfBoiUkv7yb97c8jZfzYojPACnIBW95gynWuAkO-ah7sPKZDPoVCFdBmvwrAoCKduMTHlakhg
+
+aws cognito-idp delete-user-pool-client \
+    --user-pool-id us-east-1_fYsb1Gyec \
+    --client-id 4s69op0v8es2cojl5ncjql2v4g \
+    --profile admin
+
+aws cognito-idp admin-delete-user \
+     --user-pool-id us-east-1_fYsb1Gyec \
+     --username testuser4 \
+     --profile admin

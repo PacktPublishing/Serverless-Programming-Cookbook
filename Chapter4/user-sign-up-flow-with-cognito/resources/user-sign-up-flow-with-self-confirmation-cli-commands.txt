@@ -1,0 +1,34 @@
+aws cognito-idp create-user-pool-client \
+    --user-pool-id us-east-1_fYsb1Gyec \
+    --explicit-auth-flows USER_PASSWORD_AUTH \
+    --client-name user-pool-client-signup \
+    --profile admin
+
+aws cognito-idp describe-user-pool-client \
+    --user-pool-id us-east-1_fYsb1Gyec \
+    --client-id 4s69op0v8es2cojl5ncjql2v4g \
+    --profile admin
+
+aws cognito-idp sign-up \
+    --client-id 4s69op0v8es2cojl5ncjql2v4g \
+    --username testuser4 \
+    --password Passw0rd$ \
+    --user-attributes Name=email,Value=heartin@gmail.com
+
+aws cognito-idp confirm-sign-up \
+    --client-id 4s69op0v8es2cojl5ncjql2v4g \
+    --username testuser4 \
+    --confirmation-code 145649
+
+aws cognito-idp initiate-auth \
+    --client-id 4s69op0v8es2cojl5ncjql2v4g \
+    --auth-flow USER_PASSWORD_AUTH \
+    --auth-parameters USERNAME=testuser4,PASSWORD=Passw0rd$
+
+aws cognito-idp delete-user \
+    --access-token eyJraWQiOiI0VTY1ZHNqWlgyRHZoUDNwVFhnaTVkNU4zNkhmUkdOOFFVZHFvd1pmTXVnPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiI0MDMwYjAyYi04Nzc5LTRkNTEtYjFjNi1mZmFlOGI2Y2NiMTIiLCJldmVudF9pZCI6ImFjYzIyNGYxLWVkYjgtMTFlOC04ZTFhLWQ3OWVjYzQ1ZDhmYSIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoiYXdzLmNvZ25pdG8uc2lnbmluLnVzZXIuYWRtaW4iLCJhdXRoX3RpbWUiOjE1NDI4MjM4MDYsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX2ZZc2IxR3llYyIsImV4cCI6MTU0MjgyNzQwNiwiaWF0IjoxNTQyODIzODA2LCJqdGkiOiI4M2M1YWJhYi1lYWNiLTRhN2ItYWI1NS1iYTNmZjljYjMzMzQiLCJjbGllbnRfaWQiOiI0czY5b3AwdjhlczJjb2psNW5janFsMnY0ZyIsInVzZXJuYW1lIjoidGVzdHVzZXI0In0.PoCpT2vnP3cSz4rUyIRcwl6NgQtPUlX0bLd5saTHFOnUulLl0uWMvwVEQJ86BHIGQFTunKPVPZD34Lk0-GqeMeZrc7BgQTP5fWgCTU4v_QEEyb-j2D8QJMfL3erXF3JoDZo5Cvb4bwSp6HdfRVkyqIP074hzq_JCvaegobV7xry6tWT5NcoKwn9Q0Ed49aDfj87ZPoho__oMwcuPYoTxubYQK_UVPMIHrFSBukumnTzoGUFhffp4RpLWiAgpjFezkQQlEAee-9o2Uy0AunHH98d6XiiI5gWMsntx8-AMZpT_MAN63OyHrgOeRnvnlO8vqhC97n-kVznvlTgP5KaT1Q
+
+aws cognito-idp delete-user-pool-client \
+    --user-pool-id us-east-1_fYsb1Gyec \
+    --client-id 4s69op0v8es2cojl5ncjql2v4g \
+    --profile admin

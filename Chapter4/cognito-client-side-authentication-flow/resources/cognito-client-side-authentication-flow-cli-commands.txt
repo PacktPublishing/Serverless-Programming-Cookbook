@@ -1,0 +1,47 @@
+aws cognito-idp create-user-pool-client \
+    --user-pool-id us-east-1_fYsb1Gyec \
+    --client-name my-user-pool-client \
+    --explicit-auth-flows USER_PASSWORD_AUTH \
+    --profile admin
+
+aws cognito-idp describe-user-pool-client \
+    --user-pool-id us-east-1_fYsb1Gyec \
+    --client-id 3jiv1fi1rspotsst9m19hktu58 \
+    --profile admin
+
+aws cognito-idp admin-create-user \
+     --user-pool-id us-east-1_fYsb1Gyec \
+     --username testuser2 \
+     --temporary-password Passw0rd$ \
+     --profile admin
+
+aws cognito-idp initiate-auth \
+    --client-id 3jiv1fi1rspotsst9m19hktu58 \
+    --auth-flow USER_PASSWORD_AUTH \
+    --auth-parameters USERNAME=testuser2,PASSWORD=Passw0rd$
+
+aws cognito-idp respond-to-auth-challenge \
+    --client-id 3jiv1fi1rspotsst9m19hktu58 \
+    --challenge-name NEW_PASSWORD_REQUIRED \
+    --challenge-responses USERNAME=testuser2,NEW_PASSWORD=NewPass0123$ \
+    --session Thv5UYHUL5dT8TULGB63gXYiNUuYBO-aaDg8K1Y9hcGiiagS4plWzxngAZ0emJoH1Ojjp9jPHG__YnOX7N5xvUW36vpRnL-zrfSFUwXByUVGD34z5wHRz1z8ICAIbl7ccfgFp5kkl_qgF-NIDH3DX3E8y8LaWH7Jg1hprrqgFCWi8q3BYGbi7jJwMZFMljnaKYDl4Ji5MqP3qf70muxxxpyl054sNlE8pAVhRMnVcnrqVA8gIAW8jR78plXXYTugwnxoaDGmfyAuuOglQBsl29N6z3lyAel5FAqGAvPN8Usy_zij-nsWFP1DDW-nF-xc9Xc_ozgFFf9OC6fWQCsSrbfnJGpIODM5XYaw17tys4-UdZlEZbQmZ2S3ZJrDoAry8fmd1aeSowz_MfEXKFf68JH8jJzZQcIEPANnmAp1dwzqBDudt7ySNLvun7YD3NEbyatWu07bCFIHCrGyCG7NQxeuuF9-v3Z3jTRpknFoIl7C6moDHcsuVaFdBEfMx8snuR7L5ugYeL8rJN2CT_NAAELxbQkShLhDg-LEXG6q82HTq2ww4Om9nJUSjcUdHswUoYmvhFw80NtGd73_P0lVvkvnMh4pUFU2rxUCdyl9QrgREFVl1aYfiVQ7H385hZP-u3P4TOo0xYHU11PSvLwfe7hX3C0kcUhAAP8JQ1is1ozoxHx9yMRM1vUufF8nePcE7t97QK6c0DKz9xagmaJH46PO7vVH_msC0wbSrb0bSxTiiMollBKkFHk-m9GtB1clXhzD2HQtFQizDFDpRkC8z8wDv4rieFmzzy2FlJ6f-1iRS-SjeuFtbJln6baDhVL0o4K1zVVng5Sqqwaq86X6VENZqwM
+
+aws cognito-idp initiate-auth \
+    --client-id 3jiv1fi1rspotsst9m19hktu58 \
+    --auth-flow REFRESH_TOKEN_AUTH \
+    --auth-parameters REFRESH_TOKEN=eyJjdHkiOiJKV1QiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiUlNBLU9BRVAifQ.GPN-JGVZ58yyDXAPrjvY_TH9R1Z02e0ecOZ9wwaezsA7TGVPSD2n6zHvnLBKEGMir2Fy01HITjW62hjTfMirJZs62aFSVbgjZn2ERn9Pmp8m2-4NVDWscOWEqvR8-TALePgWyzq-OCrD_wsC9aLXWl882bX4mRmo5bGhKkXCgPQI21WjGFEkz7PeQJFFOk3tYh-V1U-FGHHPGycJJjeckdMdWS0Sx4e2k5fUjuvuIPYq8Em6TNelVUY5KHF-whJ6x3wkXtugH8NS6SRqWch_lakz4qp12mEadNJ12UDQy1GgeXC3xALAk4_QLJMfNI2ogVn7oV4qGQDtSv60nZqYIQ.74MWu1_Uc0pBOYRk.rFp785JbzX_D52C_wZ_gxQRtet8UighEa5R7JGp0GmtqjBYRvm2waAgPpAELhYm-PVzKuPxMyT4nnrUhN9FAhvXyZ3yloRdDfjFNUFrQsZO4zTvGbrNWLPJVaTUARR6dY_HBFvo-uT_wzeVMNQiNIDQdgSf6aSxbgPOO2k3nLTqrDk4bkAOhRGvVbOgd2KEi-lUMsn7j_FNldeKoHGUAB6uuZEKXNw7Bs0S44qSH1_OaixFPxmUg1IVooq2X_0n1-4EejkHz4xqdpvqwc91ybGwLtnstpEN9lavglxuqoOZJYy-p87gwPFZTSQVDqd2xATxotUzYM3U-hDbcuFzbUCU7TGXxy0adlOKdUCzQECLz7kTPeUaUIr6ebe0zxMBq1qBzr6vlsAtjxaE1gxnVo6tfR6ETV6A-GPRiALguXKBrWpeNhE3EuUX24KXxrKN5fyAXOgYF2GKzSgmyBnmDnp6Aj6i_64hr1nRyJaSyIh440PWmyq5UBd6g9cCx8UGrFq_ETtNCSwQtDiU5Ig3O6nna_iPmR65sJA95sxkjB_dHYPkpP1W-u2c7FmwR3zcnhtx3e-V7FiLgI_gS_sfrOxThZX9mIgfV_tD8wq3ExTZBHdm0g20RJJtR4Mz3qaJGLd7l290PimVkRyY3fE_auArkSCnCQGMfF-ixz6Va0hzpcqfZQMZsPYFiy5aUlvC3ngt_QIO9kWxny2exsdruMq2cfcTIkBlaoOZGD7Wuk0x4ldpFh-2goFEuTTmCeJmsTHZIxEWbmIfWDg7LSMH1wamEaV7HIL-u51kB79_e7028aWkO0N8PrvDBMYPimfQUVW1d7qerAcFc989nijjyCIG_B4CUXMkFdYeAtpkd81hqUsPzN7QZAfJF4RJKM11Ua9xKYiJkZYLegTiDZ8bIuoKEkjJ6p0dmiuNNtCPw-z8O3gBZShvI7uJrDSnxI8mgyOL6EzGmqsv0ZQprfAsC-g4NHVgeduUM-11N7OLLWW2tZySiq9CtHJwT8EnUtZ5A-3z-NiP5Y2VX6Gp-F5R7AeD4l32bLSX6SMGO434O4ci7Ce0TXD2sQuUxcNO4rC25IeedVPKdGKX4V_1oJ9Mk22FFqZAa8BsKn_F34rPbN5410t1H7R_VSAc2wJiNjF0YhN1KkyFr4UVAa-6q8rqQqlWQ3tD6guUW76YJhzU1MlUzIFXD58ICDhxpaqGh3a1oMKv4bj2f9TMP8vCNCc_OMxOjCf2nZb_LvuU7ddA8U4x36-_2GbDIXgKsRaRimgXDcZSOxO4z_wU.wcnsmozSlSq_8_a_CfxhCw
+
+aws cognito-idp initiate-auth \
+    --client-id 3jiv1fi1rspotsst9m19hktu58 \
+    --auth-flow USER_PASSWORD_AUTH \
+    --auth-parameters USERNAME=testuser2,PASSWORD=NewPass0123$
+
+aws cognito-idp delete-user-pool-client \
+    --user-pool-id us-east-1_fYsb1Gyec \
+    --client-id 3jiv1fi1rspotsst9m19hktu58 \
+    --profile admin
+
+aws cognito-idp admin-delete-user \
+     --user-pool-id us-east-1_fYsb1Gyec \
+     --username testuser2 \
+     --profile admin

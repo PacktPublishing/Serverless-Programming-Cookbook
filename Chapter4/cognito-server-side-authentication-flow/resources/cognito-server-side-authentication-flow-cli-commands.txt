@@ -1,0 +1,55 @@
+aws cognito-idp create-user-pool-client \
+    --user-pool-id us-east-1_fYsb1Gyec \
+    --client-name my-user-pool-client \
+    --explicit-auth-flows ADMIN_NO_SRP_AUTH \
+    --profile admin
+
+aws cognito-idp describe-user-pool-client \
+    --user-pool-id us-east-1_fYsb1Gyec \
+    --client-id 5hh4v7nveu22vea74h8stt9238 \
+    --profile admin
+
+aws cognito-idp admin-create-user \
+     --user-pool-id us-east-1_fYsb1Gyec \
+     --username testuser \
+     --temporary-password Passw0rd$ \
+     --profile admin
+
+aws cognito-idp admin-initiate-auth \
+    --user-pool-id us-east-1_fYsb1Gyec \
+    --client-id 5hh4v7nveu22vea74h8stt9238 \
+    --auth-flow ADMIN_NO_SRP_AUTH \
+    --auth-parameters USERNAME=testuser,PASSWORD=Passw0rd$ \
+    --profile admin
+
+aws cognito-idp admin-respond-to-auth-challenge \
+    --user-pool-id us-east-1_fYsb1Gyec \
+    --client-id 5hh4v7nveu22vea74h8stt9238 \
+    --challenge-name NEW_PASSWORD_REQUIRED \
+    --challenge-responses USERNAME=testuser,NEW_PASSWORD=NewPass0123$ \
+    --session <session-id> \
+    --profile admin
+
+aws cognito-idp admin-initiate-auth \
+    --user-pool-id us-east-1_fYsb1Gyec \
+    --client-id 5hh4v7nveu22vea74h8stt9238 \
+    --auth-flow ADMIN_NO_SRP_AUTH \
+    --auth-parameters USERNAME=testuser,PASSWORD=NewPass0123$ \
+    --profile admin
+
+aws cognito-idp admin-initiate-auth \
+    --user-pool-id us-east-1_fYsb1Gyec \
+    --client-id 5hh4v7nveu22vea74h8stt9238 \
+    --auth-flow REFRESH_TOKEN_AUTH \
+    --auth-parameters REFRESH_TOKEN=<refresh-token> \
+    --profile admin
+
+aws cognito-idp delete-user-pool-client \
+    --user-pool-id us-east-1_fYsb1Gyec \
+    --client-id 5hh4v7nveu22vea74h8stt9238 \
+    --profile admin
+
+aws cognito-idp admin-delete-user \
+     --user-pool-id us-east-1_fYsb1Gyec \
+     --username testuser \
+     --profile admin

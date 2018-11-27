@@ -1,0 +1,16 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'My First Cognito User Pool Client'
+Resources:
+  MyUserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      ClientName: 'My Cognito User Pool Client'
+      ExplicitAuthFlows:
+      - USER_PASSWORD_AUTH
+      RefreshTokenValidity: 30
+      UserPoolId: !ImportValue MyFirstUserPoolId
+Outputs:
+  ClientId:
+    Description: 'Cognito user pool Client'
+    Value: !Ref MyUserPoolClient

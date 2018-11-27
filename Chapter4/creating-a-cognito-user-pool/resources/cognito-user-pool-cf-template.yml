@@ -1,0 +1,35 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'My First Cognito User Pool'
+Resources:
+  MyFirstUserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 8
+          RequireLowercase: true
+          RequireNumbers: true
+          RequireSymbols: true
+          RequireUppercase: true
+      AutoVerifiedAttributes:
+      - email
+      AliasAttributes:
+      - email
+      EmailVerificationMessage: 'Your verification code from MyApp is {####}.'
+      EmailVerificationSubject: 'Your verification code from MyApp'
+      AdminCreateUserConfig:
+        AllowAdminCreateUserOnly: false
+        InviteMessageTemplate:
+          EmailMessage: 'Your username for MyApp is {username} and password is {####}.'
+          EmailSubject: 'Your temporary password for MyApp'
+        UnusedAccountValidityDays: 7
+      UserPoolName: MyApp User Pool
+      UserPoolTags:
+        Team: Dev
+Outputs:
+  UserPoolId:
+    Description: 'Cognito user pool'
+    Value: !Ref MyFirstUserPool
+    Export:
+      Name: MyFirstUserPoolId

@@ -1,0 +1,21 @@
+aws cloudformation create-stack \
+    --stack-name myuserpoolstack \
+    --template-body file://resources/cognito-user-pool-cf-template.yml \
+    --region us-east-1 \
+    --profile admin
+
+aws cloudformation describe-stacks \
+    --stack-name myuserpoolstack \
+    --region us-east-1 \
+    --profile admin
+
+aws cloudformation delete-stack \
+    --stack-name myuserpoolstack \
+    --region us-east-1 \
+    --profile admin
+
+aws cloudformation update-stack \
+    --stack-name myuserpoolstack \
+    --template-body file://resources/cognito-user-pool-cf-template.yml \
+    --region us-east-1 \
+    --profile admin

@@ -1,0 +1,31 @@
+{
+  "PoolName": "MyFirstUserPool",
+  "Policies": {
+    "PasswordPolicy": {
+      "MinimumLength": 8,
+      "RequireUppercase": true,
+      "RequireLowercase": true,
+      "RequireNumbers": true,
+      "RequireSymbols": true
+    }
+  },
+  "AutoVerifiedAttributes": [
+    "email"
+  ],
+  "AliasAttributes": [
+    "email"
+  ],
+  "EmailVerificationMessage": "Your verification code from MyApp is {####}.",
+  "EmailVerificationSubject": "Your verification code from MyApp",
+  "UserPoolTags": {
+    "Team": "Dev"
+  },
+  "AdminCreateUserConfig": {
+    "AllowAdminCreateUserOnly": false,
+    "UnusedAccountValidityDays": 7,
+    "InviteMessageTemplate": {
+      "EmailMessage": "Your username for MyApp is {username} and password is {####}.",
+      "EmailSubject": "Your temporary password for MyApp"
+    }
+  }
+}

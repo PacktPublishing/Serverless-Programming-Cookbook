@@ -1,0 +1,98 @@
+aws apigateway create-rest-api  \
+    --name "API Gateway With Cognito" \
+    --region us-east-1 \
+    --profile admin
+
+aws apigateway get-resources \
+    --rest-api-id 3t0t98ifdh \
+    --region us-east-1  \
+    --profile admin
+
+aws apigateway create-resource \
+    --rest-api-id 3t0t98ifdh \
+    --region us-east-1 \
+    --parent-id kumjjoni6h \
+    --path-part greeting \
+    --profile admin
+
+aws apigateway create-authorizer \
+    --rest-api-id 3t0t98ifdh \
+    --name First_Cognito_Custom_Authorizer \
+    --type COGNITO_USER_POOLS \
+    --provider-arns arn:aws:cognito-idp:us-east-1:<account id>:userpool/us-east-1_LccU5yCbI \
+    --identity-source method.request.header.Authorization \
+    --profile admin
+
+aws apigateway put-method \
+    --rest-api-id 3t0t98ifdh \
+    --resource-id b0549c \
+    --http-method GET \
+    --authorization-type COGNITO_USER_POOLS \
+    --authorizer-id fv8qt3 \
+    --region us-east-1 \
+    --profile admin
+
+aws apigateway put-method-response \
+    --rest-api-id  3t0t98ifdh \
+    --resource-id  b0549c \
+    --http-method  GET \
+    --status-code  200 \
+    --region  us-east-1 \
+    --profile  admin
+
+aws apigateway put-integration \
+    --rest-api-id 3t0t98ifdh \
+    --resource-id b0549c \
+    --http-method GET \
+    --type MOCK \
+    --integration-http-method GET \
+    --request-templates '{"application/json": "{\"statusCode\": 200}" }' \
+    --region us-east-1 \
+    --profile admin
+
+aws apigateway put-integration-response \
+    --rest-api-id 3t0t98ifdh  \
+    --resource-id b0549c \
+    --http-method GET \
+    --status-code 200 \
+    --selection-pattern "" \
+    --response-templates '{"application/json": "{\"message\": \"Welcome $context.authorizer.claims.given_name\"}"}' \
+    --region us-east-1 \
+    --profile admin
+
+aws apigateway create-deployment \
+    --rest-api-id 3t0t98ifdh \
+    --region us-east-1 \
+    --stage-name dev \
+    --stage-description "Dev stage" \
+    --description "First deployment" \
+    --profile admin
+
+https://3t0t98ifdh.execute-api.us-east-1.amazonaws.com/dev/greeting
+
+aws cognito-idp create-user-pool-client \
+    --user-pool-id us-east-1_LccU5yCbI \
+    --client-name my-user-pool-client \
+    --explicit-auth-flows USER_PASSWORD_AUTH \
+    --profile admin
+
+aws cognito-idp sign-up \
+    --client-id 3mjvkhfi93tdc24dibks6fs0v3 \
+    --username testuser5 \
+    --password Passw0rd$ \
+    --user-attributes Name=given_name,Value=Heartin
+
+aws cognito-idp admin-confirm-sign-up \
+    --user-pool-id us-east-1_LccU5yCbI \
+    --username testuser5 \
+    --profile admin
+
+aws cognito-idp initiate-auth \
+    --client-id 3mjvkhfi93tdc24dibks6fs0v3 \
+    --auth-flow USER_PASSWORD_AUTH \
+    --auth-parameters USERNAME=testuser5,PASSWORD=Passw0rd$
+
+aws cognito-idp admin-delete-user \
+     --user-pool-id us-east-1_LccU5yCbI \
+     --username testuser5 \
+     --profile admin

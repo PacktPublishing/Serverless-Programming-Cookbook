@@ -1,0 +1,34 @@
+aws cognito-idp create-user-pool-client \
+    --user-pool-id us-east-1_13qoPiN7F \
+    --explicit-auth-flows USER_PASSWORD_AUTH \
+    --client-name user-pool-client-sms-signup \
+    --profile admin
+
+aws cognito-idp describe-user-pool-client \
+    --user-pool-id us-east-1_13qoPiN7F \
+    --client-id 4s69op0v8es2cojl5ncjql2v4g \
+    --profile admin
+
+aws cognito-idp sign-up \
+    --client-id 4s69op0v8es2cojl5ncjql2v4g \
+    --username testuser4 \
+    --password Passw0rd$ \
+    --user-attributes Name=phone_number,Value=+919901162222
+
+aws cognito-idp confirm-sign-up \
+    --client-id 4s69op0v8es2cojl5ncjql2v4g \
+    --username testuser4 \
+    --confirmation-code 156202
+
+aws cognito-idp initiate-auth \
+    --client-id 4s69op0v8es2cojl5ncjql2v4g \
+    --auth-flow USER_PASSWORD_AUTH \
+    --auth-parameters USERNAME=testuser4,PASSWORD=Passw0rd$
+
+aws cognito-idp delete-user \
+    --access-token eyJraWQiOiI0VTY1ZHNqWlgyRHZoUDNwVFhnaTVkNU4zNkhmUkdOOFFVZHFvd1pmTXVnPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJkYTYyZDFjZS0zMjQyLTQ2MzMtYmE5ZC0xNjljYjRkZmFiZmQiLCJldmVudF9pZCI6IjczMTE3MjFkLWVkYTUtMTFlOC04ZTFhLWQ3OWVjYzQ1ZDhmYSIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoiYXdzLmNvZ25pdG8uc2lnbmluLnVzZXIuYWRtaW4iLCJhdXRoX3RpbWUiOjE1NDI4MTU1NDksImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX2ZZc2IxR3llYyIsImV4cCI6MTU0MjgxOTE0OSwiaWF0IjoxNTQyODE1NTQ5LCJqdGkiOiIzZGFmYjYyMi1kNTE2LTRlYWQtYjdlYi0wNzFmODIxYjY1M2IiLCJjbGllbnRfaWQiOiI0czY5b3AwdjhlczJjb2psNW5janFsMnY0ZyIsInVzZXJuYW1lIjoidGVzdHVzZXI0In0.HYWt5V6lJTNQ2mPu7sf2937f80ZAZtz7PVRcc15N4IppUS5hqWij7HXINNUB7V6QNNV5fnNawG1m44LFAyiKR4NHz-XfAk_y9UMkmrAZ-YFkUF8vHPxN_nGjaH6oUMqmgq_j0qgQ01mN-fGAqvjSnTGlQJ6x-nvIc9SCb4g0DhGjQ3BJfle7AZ8F9H2Uh4f57HzCMG6Xx7NvbI-na1AUUaN661BpoR1YNp220ur8Wf6am_MT7mLEBYICR97ZoiN5d2VSCvnktCQjmP2eonvN5ZoxFBv9LAPEY0HYHKNDkTco1eE19lPPrIQiUU1SUtK8slXwNY9qZcuGMolVERVjJA
+
+aws cognito-idp delete-user-pool-client \
+    --user-pool-id us-east-1_13qoPiN7F \
+    --client-id 4s69op0v8es2cojl5ncjql2v4g \
+    --profile admin

@@ -1,0 +1,66 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Building Cognito API with AWS CloudFormation
+Resources:
+  MyFirstRestAPI:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: Greeting API
+      Description: API for greeting an user
+      FailOnWarnings: true
+      
+  CustomCognitoAuthorizer:
+    Type: AWS::ApiGateway::Authorizer
+    Properties:
+        Name: FirstCognitoAuthorizer
+        RestApiId: !Ref MyFirstRestAPI
+        Type: COGNITO_USER_POOLS
+        ProviderARNs:
+        - Fn::Sub:
+          - arn:aws:cognito-idp:${AWS::Region}:${AWS::AccountId}:userpool/${UserPoolId}
+          - UserPoolId: !ImportValue MyFirstUserPoolId
+        IdentitySource: method.request.header.Authorization        
+        
+  GreetingResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId: !Ref MyFirstRestAPI
+      ParentId: !GetAtt MyFirstRestAPI.RootResourceId
+      PathPart: 'greeting'
+
+  MyMockMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId: !Ref CustomCognitoAuthorizer
+      HttpMethod: GET
+      Integration:
+        Type: MOCK
+        IntegrationHttpMethod: GET
+        IntegrationResponses:
+        - StatusCode: 200
+          ResponseTemplates:
+            application/json: "{\"message\": \"Welcome $context.authorizer.claims.given_name\" }"
+        RequestTemplates:
+          application/json: "{\"statusCode\": 200}"
+      ResourceId: !Ref GreetingResource
+      RestApiId: !Ref MyFirstRestAPI
+      MethodResponses:
+      - StatusCode: 200
+
+  MyFirstDeployment:
+    DependsOn: MyMockMethod
+    Type: AWS::ApiGateway::Deployment
+    Properties:
+      Description: 'First Deployment'
+      RestApiId: !Ref MyFirstRestAPI
+      StageDescription:
+        Description: 'Dev Stage'
+      StageName: 'dev'
+
+Outputs:
+  SampleEndpoint:
+    Description: 'Sample Endpoint'
+    Value: !Sub
+        - https://${API_ID}.execute-api.${AWS::Region}.amazonaws.com/dev/greeting
+        - API_ID: !Ref MyFirstRestAPI

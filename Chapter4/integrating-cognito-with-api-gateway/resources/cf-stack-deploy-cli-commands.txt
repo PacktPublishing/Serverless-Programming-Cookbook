@@ -1,0 +1,15 @@
+aws cloudformation create-stack \
+    --stack-name myapigatewaystack \
+    --template-body file://resources/integrating-cognito-with-api-gateway-cf-template.yml \
+    --region us-east-1 \
+    --profile admin
+
+aws cloudformation describe-stacks \
+    --stack-name myapigatewaystack \
+    --region us-east-1 \
+    --profile admin
+
+aws cloudformation delete-stack \
+    --stack-name myapigatewaystack \
+    --region us-east-1 \
+    --profile admin

@@ -1,0 +1,15 @@
+aws cognito-idp create-user-pool \
+    --generate-cli-skeleton
+
+aws cognito-idp create-user-pool \
+    --cli-input-json file://resources/create-user-pool-cli-input-with-sms.json \
+    --profile admin
+
+aws cognito-idp describe-user-pool \
+    --user-pool-id us-east-1_13qoPiN7F \
+    --profile admin
+
+aws cognito-idp delete-user-pool \
+    --user-pool-id us-east-1_13qoPiN7F \
+    --profile admin
+
