@@ -1,0 +1,35 @@
+-- Create CloudFront Distribution --
+
+aws cloudformation create-stack \
+    --stack-name mycloudfrontstackwithssl \
+    --template-body file://resources/create-cloud-front-distribution-with-ssl.yml \
+    --parameters file://resources/create-cloud-front-parameters.json \
+    --profile admin
+
+aws cloudformation describe-stacks \
+    --stack-name mycloudfrontstackwithssl \
+    --profile admin
+
+aws cloudformation delete-stack \
+    --stack-name mycloudfrontstackwithssl \
+    --profile admin
+
+
+
+-- Add ALIAS Records --
+
+aws cloudformation create-stack \
+    --stack-name recordsetstack \
+    --template-body file://resources/add-route-53-record-sets.yml \
+    --parameters ParameterKey=RootDomainName,ParameterValue=quizzercloud.com \
+            ParameterKey=SubDomainName,ParameterValue=www.quizzercloud.com \
+            ParameterKey=RecordHostedZoneId,ParameterValue=Z2FDTNDATAQYW2 \
+    --profile admin
+
+aws cloudformation describe-stacks \
+    --stack-name recordsetstack \
+    --profile admin
+
+aws cloudformation delete-stack \
+    --stack-name recordsetstack \
+    --profile admin

@@ -1,0 +1,26 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'CNAME record set for verification'
+Parameters:
+  HostedZone:
+    Description: HostedZone name for your website (quizzercloud.com.)
+    Type: String
+  CNAMEname:
+    Description: CNAME name
+    Type: String
+  CNAMEValue:
+    Description: CNAME value
+    Type: String
+Resources:
+  CNAMERecordSetGroup:
+    Type: AWS::Route53::RecordSetGroup
+    Properties:
+      HostedZoneName: !Ref HostedZone
+      Comment: Zone apex alias.
+      RecordSets:
+      -
+        Name: !Ref CNAMEname
+        Type: CNAME
+        TTL: 900
+        ResourceRecords:
+          - !Ref CNAMEValue

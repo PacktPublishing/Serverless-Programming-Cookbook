@@ -1,0 +1,67 @@
+-- Creating Root Bucket --
+
+aws s3api create-bucket \
+    --bucket qnatime.com \
+    --create-bucket-configuration LocationConstraint=ap-south-1 \
+    --region ap-south-1 \
+    --profile admin
+
+aws s3 cp resources/index.html s3://qnatime.com/index.html \
+    --profile admin
+
+aws s3 cp resources/error.html s3://qnatime.com/error.html \
+    --profile admin
+
+aws s3api put-bucket-website \
+    --bucket qnatime.com \
+    --website-configuration file://resources/s3-website-configuration.json \
+    --profile admin
+
+aws s3api put-bucket-policy \
+    --bucket qnatime.com \
+    --policy file://resources/s3-website-policy.json \
+    --profile admin
+
+http://qnatime.com.s3-website.ap-south-1.amazonaws.com/
+
+
+
+
+-- Creating redirect bucket --
+
+aws s3api create-bucket \
+    --bucket www.qnatime.com \
+    --create-bucket-configuration LocationConstraint=ap-south-1 \
+    --region ap-south-1 \
+    --profile admin
+
+aws s3api put-bucket-website \
+    --bucket www.qnatime.com \
+    --website-configuration file://resources/s3-website-redirect-configuration.json \
+    --profile admin
+
+
+
+
+-- Creating A records --
+
+aws route53 change-resource-record-sets \
+    --hosted-zone-id Z18ZT9JI8CNW5X \
+    --change-batch file://resources/change-resource-record-sets.json \
+    --profile admin
+
+
+aws route53 get-change \
+    --id /change/C1KSXLKZ4DWPPW \
+    --profile admin
+
+
+
+
+-- UPLOAD FOR CloudFormation TEMPLATE --
+
+aws s3 cp resources/index.html s3://quizzer.cloud/index.html \
+    --profile admin
+
+aws s3 cp resources/error.html s3://quizzer.cloud/error.html \
+    --profile admin

@@ -1,0 +1,15 @@
+aws cloudfront create-distribution \
+  --origin-domain-name qnatime.com.s3.amazonaws.com \
+  --default-root-object index.html \
+  --profile admin
+
+aws cloudfront get-distribution \
+    --id E14WRTCC3KJYCH \
+    --profile admin
+
+
+
+aws cloudfront delete-distribution \
+    --id E14WRTCC3KJYCH \
+    --if-match EMIP1HSUEAXXV \
+    --profile admin

@@ -1,0 +1,6 @@
+{
+  "RedirectAllRequestsTo": {
+    "HostName": "qnatime.com",
+    "Protocol": "http"
+  }
+}

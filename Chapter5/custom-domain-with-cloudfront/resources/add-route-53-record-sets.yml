@@ -1,0 +1,45 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'CloudFront Distribution with Domain'
+Parameters:
+  RootDomainName:
+    Description: Domain name for your website (quizzercloud.com)
+    Type: String
+  SubDomainName:
+    Description: Sub Domain name for your website (www.quizzercloud.com)
+    Type: String
+  CFHostedZoneId:
+    Description: S3 hosted zone id for the region (Z2FDTNDATAQYW2)
+    Type: String
+Resources:
+  QuizzerCloudDNS:
+    Type: AWS::Route53::RecordSetGroup
+    Properties:
+      HostedZoneName: !Sub
+        - ${DomainName}.
+        - DomainName: !Ref RootDomainName
+      Comment: Zone apex alias.
+      RecordSets:
+      -
+        Name: !Ref RootDomainName
+        Type: A
+        AliasTarget:
+          HostedZoneId: !Ref CFHostedZoneId
+          DNSName: !ImportValue CloudFrontDomainName
+      -
+        Name: !Ref SubDomainName
+        Type: A
+        AliasTarget:
+          HostedZoneId: !Ref CFHostedZoneId
+          DNSName: !ImportValue CloudFrontDomainName
+Outputs:
+  RootDomainURL:
+    Value: !Sub
+      - http://${DomainName}
+      - DomainName: !Ref RootDomainName
+    Description: URL for root domain
+  SubDomainURL:
+    Value: !Sub
+      - http://${DomainName}
+      - DomainName: !Ref SubDomainName
+    Description: URL for redirect (sub) domain

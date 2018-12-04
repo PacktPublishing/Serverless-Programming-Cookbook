@@ -1,0 +1,40 @@
+aws cloudfront create-distribution \
+    --distribution-config file://resources/distribution-config.json \
+    --profile admin
+
+aws cloudfront get-distribution \
+    --id E18OUP1REXZHGA \
+    --profile admin
+
+
+
+-- Creating A records --
+
+aws route53 change-resource-record-sets \
+    --hosted-zone-id Z3G50MON7IDA18 \
+    --change-batch file://resources/change-resource-record-sets.json \
+    --profile admin
+
+aws route53 get-change \
+    --id /change/C1P0E2LUACKQ6W \
+    --profile admin
+
+
+
+-- Disable and delete CloudFront Distribution --
+
+aws cloudfront update-distribution \
+    --id E18OUP1REXZHGA \
+    --if-match EV3RMCDP8DYAA \
+    --distribution-config file://resources/distribution-config-disable.json \
+    --profile admin
+
+aws cloudfront get-distribution \
+    --id E18OUP1REXZHGA \
+    --profile admin
+
+aws cloudfront delete-distribution \
+    --id E18OUP1REXZHGA \
+    --if-match E2CDLHTOPGMT5J \
+    --profile admin
+

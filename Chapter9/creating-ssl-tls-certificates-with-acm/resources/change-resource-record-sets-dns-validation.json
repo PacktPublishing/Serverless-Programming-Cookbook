@@ -1,0 +1,18 @@
+{
+  "Comment": "change batch request for dns validation www.qnatime.net",
+  "Changes": [
+    {
+      "Action": "CREATE",
+      "ResourceRecordSet": {
+        "Name": "_f086ad8e4c10e38385c3c36394a06182.www.qnatime.net.",
+        "Type": "CNAME",
+        "TTL": 300,
+        "ResourceRecords": [
+          {
+            "Value": "_ee9788f2dcf3eaefaa85bb096163ffd4.tljzshvwok.acm-validations.aws."
+          }
+        ]
+      }
+    }
+  ]
+}

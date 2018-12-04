@@ -1,0 +1,29 @@
+{
+  "Comment": "change batch request for qnatime",
+  "Changes": [
+    {
+      "Action": "CREATE",
+      "ResourceRecordSet": {
+        "Name": "qnatime.com",
+        "Type": "A",
+        "AliasTarget": {
+          "HostedZoneId": "Z11RGJOFQNVJUP",
+          "DNSName": "s3-website.ap-south-1.amazonaws.com",
+          "EvaluateTargetHealth": false
+        }
+      }
+    },
+    {
+      "Action": "CREATE",
+      "ResourceRecordSet": {
+        "Name": "www.qnatime.com",
+        "Type": "A",
+        "AliasTarget": {
+          "HostedZoneId": "Z11RGJOFQNVJUP",
+          "DNSName": "s3-website.ap-south-1.amazonaws.com",
+          "EvaluateTargetHealth": false
+        }
+      }
+    }
+  ]
+}

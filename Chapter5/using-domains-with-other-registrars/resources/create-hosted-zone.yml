@@ -1,0 +1,19 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Route 53 HostedZone'
+Resources:
+  CloudMaterialsHostedZone:
+    Type: "AWS::Route53::HostedZone"
+    Properties:
+      HostedZoneConfig:
+        Comment: HostedZone for CloudMaterials.com
+      Name: cloudmaterials.com
+Outputs:
+  HostedZoneId:
+    Value: !Ref CloudMaterialsHostedZone
+    Description: HostedZone for cloudmaterials.com
+  HostedZoneNameservers:
+    Value: !Join
+      - ','
+      - !GetAtt CloudMaterialsHostedZone.NameServers
+    Description: HostedZone Nameservers for cloudmaterials.com

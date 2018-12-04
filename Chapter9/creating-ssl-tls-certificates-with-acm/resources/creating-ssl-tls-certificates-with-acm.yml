@@ -1,0 +1,19 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Certificate Manager'
+Parameters:
+  RootDomainName:
+    Description: Domain name for generating certificate
+    Type: String
+Resources:
+  RootDomainCert:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: !Ref RootDomainName
+      ValidationMethod: DNS
+Outputs:
+  CertificateArn:
+    Value: !Ref RootDomainCert
+    Description: Root domain cert
+    Export:
+      Name: DomainNameCert

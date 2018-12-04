@@ -1,0 +1,16 @@
+aws cloudformation create-stack \
+    --stack-name s3websitestack \
+    --template-body file://resources/s3-static-website-cf-template.yml \
+    --parameters ParameterKey=BucketName,ParameterValue=quizzercloud \
+    --region ap-south-1 \
+    --profile admin
+
+aws cloudformation describe-stacks \
+    --stack-name s3websitestack \
+    --region ap-south-1 \
+    --profile admin
+
+aws cloudformation delete-stack \
+    --stack-name s3websitestack \
+    --region ap-south-1 \
+    --profile admin

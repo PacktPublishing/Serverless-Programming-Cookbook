@@ -1,0 +1,41 @@
+-- Create CloudFront Distribution --
+
+aws cloudformation create-stack \
+    --stack-name mycloudfrontstackwithdomain \
+    --template-body file://resources/create-cloud-front-distribution-with-domain.yml \
+    --parameters file://resources/create-cloud-front-parameters.json \
+    --region ap-south-1 \
+    --profile admin
+
+aws cloudformation describe-stacks \
+    --stack-name mycloudfrontstackwithdomain \
+    --region ap-south-1 \
+    --profile admin
+
+aws cloudformation delete-stack \
+    --stack-name mycloudfrontstackwithdomain \
+    --region ap-south-1 \
+    --profile admin
+
+
+
+-- Add A Records --
+
+aws cloudformation create-stack \
+    --stack-name recordsetstack \
+    --template-body file://resources/add-route-53-record-sets.yml \
+    --parameters ParameterKey=RootDomainName,ParameterValue=quizzercloud.com \
+            ParameterKey=SubDomainName,ParameterValue=www.quizzercloud.com \
+            ParameterKey=CFHostedZoneId,ParameterValue=Z2FDTNDATAQYW2 \
+    --region ap-south-1 \
+    --profile admin
+
+aws cloudformation describe-stacks \
+    --stack-name recordsetstack \
+    --region ap-south-1 \
+    --profile admin
+
+aws cloudformation delete-stack \
+    --stack-name recordsetstack \
+    --region ap-south-1 \
+    --profile admin

@@ -1,0 +1,16 @@
+aws cloudformation create-stack \
+    --stack-name mys3websitestack \
+    --template-body file://resources/s3-static-website-with-custom-domain-cf-template.yml \
+    --parameters ParameterKey=RootDomainName,ParameterValue=quizzer.cloud ParameterKey=SubDomainName,ParameterValue=www.quizzer.cloud \
+    --region ap-south-1 \
+    --profile admin
+
+aws cloudformation describe-stacks \
+    --stack-name mys3websitestack \
+    --region ap-south-1 \
+    --profile admin
+
+aws cloudformation delete-stack \
+    --stack-name mys3websitestack \
+    --region ap-south-1 \
+    --profile admin

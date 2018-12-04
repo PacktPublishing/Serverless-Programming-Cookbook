@@ -1,0 +1,9 @@
+aws cloudfront -distribution \
+    --id E18OUP1REXZHGA \
+    --if-match EDP6N3HLLG1MK \
+    --distribution-config file://resources/distribution-config-update.json \
+    --profile admin
+
+aws cloudfront get-distribution \
+    --id EFMZAV2I3L601 \
+    --profile admin

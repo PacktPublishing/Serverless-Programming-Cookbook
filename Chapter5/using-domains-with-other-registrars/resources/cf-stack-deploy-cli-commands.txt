@@ -1,0 +1,15 @@
+aws cloudformation create-stack \
+    --stack-name mydnsstack \
+    --template-body file://resources/create-hosted-zone.yml \
+    --region ap-south-1 \
+    --profile admin
+
+aws cloudformation describe-stacks \
+    --stack-name mydnsstack \
+    --region ap-south-1 \
+    --profile admin
+
+aws cloudformation delete-stack \
+    --stack-name mydnsstack \
+    --region ap-south-1 \
+    --profile admin

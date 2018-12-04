@@ -1,0 +1,23 @@
+aws route53domains check-domain-availability \
+    --domain-name qnatime.com \
+    --profile admin
+
+aws route53domains check-domain-availability \
+    --domain-name qnatime.net \
+    --profile admin
+
+aws route53domains register-domain \
+    --domain-name 'qnatime.net' \
+    --duration-in-years 1 \
+    --no-auto-renew \
+    --admin-contact file://resources/contact.json \
+    --registrant-contact file://resources/contact.json \
+    --tech-contact file://resources/contact.json \
+    --privacy-protect-admin-contact \
+    --privacy-protect-registrant-contact \
+    --privacy-protect-tech-contact \
+    --profile admin
+
+aws route53domains get-operation-detail \
+    --operation-id ba6b494d-9e86-4acc-8904-3ba861228916 \
+    --profile admin

@@ -1,0 +1,76 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'S3 Static Website with Custom Domain and Redirect'
+Parameters:
+  RootDomainName:
+    Description: Domain name for your website (quizzer.cloud)
+    Type: String
+  SubDomainName:
+    Description: Sub Domain name for your website (www.quizzer.cloud)
+    Type: String
+Resources:
+  RootBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref RootDomainName
+      AccessControl: PublicRead
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: error.html
+  WebsitePublicAccessPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref RootBucket
+      PolicyDocument:
+        Statement:
+          -
+            Action:
+              - "s3:GetObject"
+            Effect: "Allow"
+            Resource:
+              Fn::Join:
+                - ""
+                -
+                  - "arn:aws:s3:::"
+                  - !Ref RootBucket
+                  - "/*"
+            Principal: "*"
+  WWWBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref SubDomainName
+      AccessControl: BucketOwnerFullControl
+      WebsiteConfiguration:
+        RedirectAllRequestsTo:
+          HostName: !Ref RootDomainName
+  myDNS:
+    Type: AWS::Route53::RecordSetGroup
+    Properties:
+      HostedZoneName: !Sub
+        - ${DomainName}.
+        - DomainName: !Ref RootDomainName
+      Comment: Zone apex alias.
+      RecordSets:
+      -
+        Name: !Ref RootDomainName
+        Type: A
+        AliasTarget:
+          HostedZoneId: 'Z11RGJOFQNVJUP'
+          DNSName: 's3-website.ap-south-1.amazonaws.com'
+      -
+        Name: !Ref SubDomainName
+        Type: A
+        AliasTarget:
+          HostedZoneId: 'Z11RGJOFQNVJUP'
+          DNSName: 's3-website.ap-south-1.amazonaws.com'
+Outputs:
+  RootDomainURL:
+    Value: !Sub
+      - http://${DomainName}
+      - DomainName: !Ref RootDomainName
+    Description: URL for root domain
+  SubDomainURL:
+    Value: !Sub
+      - http://${DomainName}
+      - DomainName: !Ref SubDomainName
+    Description: URL for redirect (sub) domain

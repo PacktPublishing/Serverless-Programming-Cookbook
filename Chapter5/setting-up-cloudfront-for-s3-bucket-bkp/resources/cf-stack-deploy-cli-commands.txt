@@ -1,0 +1,15 @@
+aws cloudformation create-stack \
+    --stack-name mycloudfrontstack \
+    --template-body file://resources/create-cloud-front-distribution.yml \
+    --region ap-south-1 \
+    --profile admin
+
+aws cloudformation describe-stacks \
+    --stack-name mycloudfrontstack \
+    --region ap-south-1 \
+    --profile admin
+
+aws cloudformation delete-stack \
+    --stack-name mycloudfrontstack \
+    --region ap-south-1 \
+    --profile admin

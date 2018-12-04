@@ -1,0 +1,40 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'S3 Static Website'
+Parameters:
+  BucketName:
+    Description: Bucket name for your website
+    Type: String
+Resources:
+  MyBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref BucketName
+      AccessControl: PublicRead
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: error.html
+  WebsitePublicAccessPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref MyBucket
+      PolicyDocument:
+        Statement:
+          -
+            Action:
+              - "s3:GetObject"
+            Effect: "Allow"
+            Resource:
+              Fn::Join:
+                - ""
+                -
+                  - "arn:aws:s3:::"
+                  - !Ref MyBucket
+                  - "/*"
+            Principal: "*"
+Outputs:
+  S3WebsiteURL:
+    Value: !Sub
+      - http://${Bucket}.s3-website.${AWS::Region}.amazonaws.com
+      - Bucket: !Ref MyBucket
+    Description: URL for S3 static website

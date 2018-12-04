@@ -1,0 +1,42 @@
+-- Create CloudFront Distribution --
+
+aws cloudformation create-stack \
+    --stack-name mycertstack \
+    --template-body file://resources/creating-ssl-tls-certificates-with-acm.yml \
+    --parameters ParameterKey=RootDomainName,ParameterValue=quizzercloud.com\
+    --profile admin
+
+aws cloudformation describe-stack-events \
+    --stack-name mycertstack \
+    --profile admin
+
+aws cloudformation describe-stacks \
+    --stack-name mycertstack \
+    --profile admin
+
+aws cloudformation delete-stack \
+    --stack-name mycertstack \
+    --profile admin
+
+
+
+-- Validation record set --
+
+aws cloudformation create-stack \
+    --stack-name cnamerecordsetstack \
+    --template-body file://resources/certificate-validation-with-cname-record.yml \
+    --parameters ParameterKey=HostedZone,ParameterValue=quizzercloud.com. \
+            ParameterKey=CNAMEname,ParameterValue=_7d2add77f3493141152bc8765e40401c.quizzercloud.com. \
+            ParameterKey=CNAMEValue,ParameterValue=_9376279cf263f4ec3ced17d9b08122ce.tljzshvwok.acm-validations.aws. \
+    --region ap-south-1 \
+    --profile admin
+
+aws cloudformation describe-stacks \
+    --stack-name cnamerecordsetstack \
+    --region ap-south-1 \
+    --profile admin
+
+aws cloudformation delete-stack \
+    --stack-name cnamerecordsetstack \
+    --region ap-south-1 \
+    --profile admin

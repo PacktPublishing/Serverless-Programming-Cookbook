@@ -1,0 +1,37 @@
+{
+  "CallerReference": "qnatime-distribution-2019-01-12-07-45",
+  "Aliases": {
+    "Quantity": 2,
+    "Items": ["qnatime.net", "www.qnatime.net"]
+  },
+  "DefaultRootObject": "index.html",
+  "Origins": {
+    "Quantity": 1,
+    "Items": [
+      {
+        "Id": "my-origin",
+        "DomainName": "qnatime.com.s3.amazonaws.com",
+        "S3OriginConfig": {
+          "OriginAccessIdentity": ""
+        }
+      }
+    ]
+  },
+  "DefaultCacheBehavior": {
+    "TargetOriginId": "my-origin",
+    "ForwardedValues": {
+      "QueryString": true,
+      "Cookies": {
+        "Forward": "none"
+      }
+    },
+    "TrustedSigners": {
+      "Enabled": false,
+      "Quantity": 0
+    },
+    "ViewerProtocolPolicy": "allow-all",
+    "MinTTL": 3600
+  },
+  "Comment": "",
+  "Enabled": true
+}

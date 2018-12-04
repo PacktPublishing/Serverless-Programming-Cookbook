@@ -1,0 +1,9 @@
+aws route53 create-hosted-zone \
+    --name quizzercloud.com \
+    --caller-reference 2018-28-11-11:55 \
+    --hosted-zone-config Comment="HostedZone for quizzercloud.com" \
+    --profile admin
+
+aws route53 get-hosted-zone \
+    --id Z1MSS6K1EB49B4 \
+    --profile admin

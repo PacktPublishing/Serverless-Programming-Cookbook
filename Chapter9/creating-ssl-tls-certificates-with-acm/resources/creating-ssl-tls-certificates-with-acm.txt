@@ -1,0 +1,17 @@
+aws acm request-certificate \
+    --domain-name www.qnatime.net \
+    --validation-method DNS \
+    --profile admin
+
+aws acm describe-certificate \
+    --certificate-arn arn:aws:acm:us-east-1:<account id>:certificate/42b3ba99-66e9-4e71-8c1c-4239c1e81c84 \
+    --profile admin
+
+aws route53 change-resource-record-sets \
+    --hosted-zone-id Z3G50MON7IDA18 \
+    --change-batch file://resources/change-resource-record-sets-dns-validation.json \
+    --profile admin
+
+aws route53 get-change \
+    --id /change/C1K3NNG2J7W6KZ \
+    --profile admin

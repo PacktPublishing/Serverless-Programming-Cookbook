@@ -1,0 +1,10 @@
+[
+  {
+    "ParameterKey": "DomainNameAliases",
+    "ParameterValue": "quizzercloud.com,www.quizzercloud.com"
+  },
+  {
+    "ParameterKey": "DomainNameCert",
+    "ParameterValue": "arn:aws:acm:us-east-1:218317422462:certificate/2d98d52b-376b-40c2-9d07-6954d5f132f2"
+  }
+]

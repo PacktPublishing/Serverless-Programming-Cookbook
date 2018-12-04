@@ -1,0 +1,43 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'CloudFront Distribution with Domain'
+Parameters:
+  DomainNameAliases:
+    Description: Domain name aliases for your website (quizzercloud.com,www.quizzercloud.com)
+    Type: CommaDelimitedList
+  DomainNameCert:
+    Description: Domain name ACM certificate ARN
+    Type: CommaDelimitedList
+Resources:
+  MyCloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Origins:
+        - DomainName: quizzer.cloud.s3.amazonaws.com
+          Id: myS3Origin
+          S3OriginConfig:
+            OriginAccessIdentity: ''
+        Enabled: 'true'
+        Comment: 'CloudFront Distribution with Domain'
+        DefaultRootObject: index.html
+        Aliases: !Ref DomainNameAliases
+        DefaultCacheBehavior:
+          TargetOriginId: myS3Origin
+          ForwardedValues:
+            QueryString: 'false'
+            Cookies:
+              Forward: none
+          ViewerProtocolPolicy: redirect-to-https
+        ViewerCertificate:
+          AcmCertificateArn: !Ref DomainNameCert
+          SslSupportMethod: sni-only
+Outputs:
+  CloudFrontDistributionId:
+    Value: !Ref MyCloudFrontDistribution
+    Description: 'CloudFront distribution id'
+  CloudFrontDomain:
+    Value: !GetAtt MyCloudFrontDistribution.DomainName
+    Description: 'CloudFront distribution domain name'
+    Export:
+      Name: CloudFrontDomainName
