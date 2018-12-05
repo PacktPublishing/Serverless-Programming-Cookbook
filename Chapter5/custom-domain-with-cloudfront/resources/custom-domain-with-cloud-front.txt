@@ -26,7 +26,7 @@ aws route53 get-change \
 aws cloudfront update-distribution \
     --id E18OUP1REXZHGA \
     --if-match EV3RMCDP8DYAA \
-    --distribution-config file://resources/distribution-config-disable.json \
+    --distribution-config file://resources/distr-config-disable.json \
     --profile admin
 
 aws cloudfront get-distribution \
