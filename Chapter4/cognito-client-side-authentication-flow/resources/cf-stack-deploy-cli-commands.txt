@@ -9,12 +9,6 @@ aws cloudformation describe-stacks \
     --region us-east-1 \
     --profile admin
 
-aws cloudformation update-stack \
-    --stack-name myclientstack \
-    --template-body file://resources/cognito-user-pool-cf-template.yml-updated.yml \
-    --region us-east-1 \
-    --profile admin
-
 aws cloudformation delete-stack \
     --stack-name myclientstack \
     --region us-east-1 \

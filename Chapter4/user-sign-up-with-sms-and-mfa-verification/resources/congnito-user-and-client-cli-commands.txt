@@ -1,0 +1,30 @@
+aws cognito-idp create-user-pool \
+    --generate-cli-skeleton
+
+aws cognito-idp create-user-pool \
+    --cli-input-json file://resources/create-user-pool-for-sms-and-mfa-verification-cli-input.json \
+    --profile admin
+
+aws cognito-idp describe-user-pool \
+    --user-pool-id us-east-1_ASuytZRyc \
+    --profile admin
+
+aws cognito-idp delete-user-pool \
+    --user-pool-id us-east-1_ASuytZRyc \
+    --profile admin
+
+aws cognito-idp create-user-pool-client \
+    --user-pool-id us-east-1_ASuytZRyc \
+    --explicit-auth-flows USER_PASSWORD_AUTH \
+    --client-name user-pool-client-signup \
+    --profile admin
+
+aws cognito-idp describe-user-pool-client \
+    --user-pool-id us-east-1_ASuytZRyc \
+    --client-id 2aviajrvqgrse1s9cgk25d01ag \
+    --profile admin
+
+aws cognito-idp delete-user-pool-client \
+    --user-pool-id us-east-1_fYsb1Gyec \
+    --client-id 6amm4ins1md8fo5tvhtmel183h \
+    --profile admin

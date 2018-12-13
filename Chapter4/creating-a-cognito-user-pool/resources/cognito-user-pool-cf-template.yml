@@ -24,7 +24,7 @@ Resources:
           EmailMessage: 'Your username for MyApp is {username} and password is {####}.'
           EmailSubject: 'Your temporary password for MyApp'
         UnusedAccountValidityDays: 7
-      UserPoolName: MyApp User Pool
+      UserPoolName: 'MyApp User Pool'
       UserPoolTags:
         Team: Dev
 Outputs:

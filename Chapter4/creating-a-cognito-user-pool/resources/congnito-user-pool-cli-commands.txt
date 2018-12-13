@@ -1,5 +1,5 @@
 aws cognito-idp create-user-pool \
-    --generate-cli-skeleton \
+    --generate-cli-skeleton
 
 aws cognito-idp create-user-pool \
     --cli-input-json file://resources/create-user-pool-cli-input.json \

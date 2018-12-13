@@ -1,0 +1,79 @@
+-- Creating Users --
+
+aws cognito-idp admin-create-user \
+     --user-pool-id us-east-1_fYsb1Gyec \
+     --username admin_user \
+     --temporary-password Passw0rd$ \
+     --profile admin
+
+aws cognito-idp admin-create-user \
+     --user-pool-id us-east-1_fYsb1Gyec \
+     --username regular_user \
+     --temporary-password Passw0rd$ \
+     --profile admin
+
+
+
+-- Create Group --
+
+aws cognito-idp create-group \
+    --group-name 'administrators' \
+    --user-pool-id us-east-1_fYsb1Gyec \
+    --description 'Administrator Group' \
+    --profile admin
+
+aws cognito-idp create-group \
+    --group-name 'authenticated_users' \
+    --user-pool-id us-east-1_fYsb1Gyec \
+    --description 'Authenticated User Group' \
+    --profile admin
+
+
+
+-- Adding to Group --
+
+aws cognito-idp admin-add-user-to-group \
+    --user-pool-id us-east-1_fYsb1Gyec \
+    --username regular_user \
+    --group-name authenticated_users \
+    --profile admin
+
+aws cognito-idp admin-add-user-to-group \
+    --user-pool-id us-east-1_fYsb1Gyec \
+    --username admin_user \
+    --group-name authenticated_users \
+    --profile admin
+
+aws cognito-idp admin-add-user-to-group \
+    --user-pool-id us-east-1_fYsb1Gyec \
+    --username admin_user \
+    --group-name administrators \
+    --profile admin
+
+
+
+-- Checking User Groups --
+
+aws cognito-idp admin-list-groups-for-user \
+    --username admin_user \
+    --user-pool-id us-east-1_fYsb1Gyec \
+    --profile admin
+
+aws cognito-idp admin-list-groups-for-user \
+    --username regular_user\
+    --user-pool-id us-east-1_fYsb1Gyec \
+    --profile admin
+
+
+
+-- Cleanup --
+
+aws cognito-idp admin-delete-user \
+     --user-pool-id us-east-1_fYsb1Gyec \
+     --username admin_user \
+     --profile admin
+
+aws cognito-idp admin-delete-user \
+     --user-pool-id us-east-1_fYsb1Gyec \
+     --username regular_user \
+     --profile admin

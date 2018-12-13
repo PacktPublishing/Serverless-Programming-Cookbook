@@ -1,0 +1,34 @@
+{
+  "PoolName": "QnaTime.com User Pool",
+  "Policies": {
+    "PasswordPolicy": {
+      "MinimumLength": 8,
+      "RequireUppercase": true,
+      "RequireLowercase": true,
+      "RequireNumbers": true,
+      "RequireSymbols": true
+    }
+  },
+  "AutoVerifiedAttributes": [
+    "phone_number"
+  ],
+  "UsernameAttributes": [
+    "phone_number"
+  ],
+  "SmsVerificationMessage": "Your verification code from qnatime.com is {####}.",
+  "MfaConfiguration": "ON",
+  "SmsConfiguration": {
+    "SnsCallerArn": "arn:aws:iam::855923912133:role/cognito_sns_iam_role",
+    "ExternalId": "some-unique-external-id-preferably-a-uuid"
+  },
+
+  "UserPoolTags": {
+    "Team": "Dev"
+  },
+  "AdminCreateUserConfig": {
+    "AllowAdminCreateUserOnly": false,
+    "UnusedAccountValidityDays": 7,
+    "InviteMessageTemplate": {
+      "SMSMessage": "Your username for qnatime.com is {username} and password is {####}."}
+  }
+}

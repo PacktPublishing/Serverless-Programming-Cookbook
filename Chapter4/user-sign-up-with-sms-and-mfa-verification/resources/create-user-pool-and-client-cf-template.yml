@@ -1,0 +1,64 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Cognito User Pool with SMS and MFA Verification
+
+Resources:
+  SNSRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+        - Effect: "Allow"
+          Principal:
+            Service:
+            - "cognito-idp.amazonaws.com"
+          Action:
+          - "sts:AssumeRole"
+      Policies:
+      - PolicyName: "CognitoSNSPolicy"
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+          - Effect: "Allow"
+            Action: "sns:publish"
+            Resource: "*"
+
+  UserPool:
+    Type: "AWS::Cognito::UserPool"
+    Properties:
+      AutoVerifiedAttributes:
+      - phone_number
+      UsernameAttributes:
+      - phone_number
+      SmsVerificationMessage: 'Your verification code from qnatime.com is {####}.'
+      MfaConfiguration: "ON"
+      SmsConfiguration:
+        ExternalId: 'some-unique-external-id-preferably-a-uuid'
+        SnsCallerArn: !GetAtt SNSRole.Arn
+      AdminCreateUserConfig:
+        AllowAdminCreateUserOnly: false
+        InviteMessageTemplate:
+          SMSMessage: 'Your username for qnatime.com is {username} and password is {####}.'
+        UnusedAccountValidityDays: 7
+      UserPoolName: 'Qnatime.com User Pool'
+      UserPoolTags:
+        Team: Dev
+
+  UserPoolClient:
+    Type: "AWS::Cognito::UserPoolClient"
+    Properties:
+      ClientName: 'Qnatime.com Client for SMS and Verify'
+      ExplicitAuthFlows:
+      - USER_PASSWORD_AUTH
+      RefreshTokenValidity: 30
+      UserPoolId: !Ref UserPool
+
+Outputs:
+  UserPoolId:
+    Value: !Ref UserPool
+    Export:
+      Name: "UserPool::Id"
+  UserPoolClientId:
+    Value: !Ref UserPoolClient
+    Export:
+      Name: "UserPoolClient::Id"
