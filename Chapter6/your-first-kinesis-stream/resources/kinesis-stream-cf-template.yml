@@ -1,0 +1,21 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'My first Kinesis stream'
+
+Resources:
+  KinesisStream:
+    Type: AWS::Kinesis::Stream
+    Properties:
+      Name: my-first-kinesis-stream
+      RetentionPeriodHours: 24
+      ShardCount: 1
+
+Outputs:
+  KinesisStreamId:
+    Value: !Ref KinesisStream
+    Export:
+      Name: "KinesisStreamId"
+  KinesisStreamArn:
+    Value: !GetAtt KinesisStream.Arn
+    Export:
+      Name: "KinesisStreamArn"

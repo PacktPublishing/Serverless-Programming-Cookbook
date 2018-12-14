@@ -1,0 +1,106 @@
+-- Creating Stream --
+
+aws kinesis create-stream \
+    --stream-name my-first-kinesis-stream \
+    --shard-count 1 \
+    --profile admin
+
+
+
+-- Checking Stream --
+
+aws kinesis describe-stream \
+    --stream-name my-first-kinesis-stream \
+    --profile admin
+
+aws kinesis list-streams \
+    --profile admin
+
+
+
+-- Adding and reading data --
+
+aws kinesis put-record \
+    --stream-name my-first-kinesis-stream \
+    --partition-key 12345 \
+    --data sampledata01 \
+    --profile admin
+
+aws kinesis put-record \
+    --stream-name my-first-kinesis-stream \
+    --partition-key 12345 \
+    --data sampledata02 \
+    --profile admin
+
+
+-- Reading data --
+
+aws kinesis get-shard-iterator \
+    --shard-id shardId-000000000000 \
+    --shard-iterator-type TRIM_HORIZON \
+    --stream-name my-first-kinesis-stream \
+    --profile admin
+
+aws kinesis get-records \
+    --shard-iterator AAAAAAAAAAEJUwvUDixnEXlZLFiQx++pgZlp8ItiwIZvpHupKiGnGC0eCWZNdTkIIA+07W16TXKWbE99MMBC/xCI7Ka6O5UEH7PwasKr0ibm5DktiLzXz3lO3mYkD9kob1YDASQFPpt647yXc1tves6eCpDLd2YN0Q34RZ3N65poluSvd9Wbw/48iDWChn8prTwr4LSiitCSmcI1zPca8uz45zFEt5k1sCyxHz/V3+eENANOTI5QCGTvwyXb8YC8VdQ2fZAK0hw= \
+    --profile admin
+
+echo c2FtcGxlZGF0YTAx | base64 --decode
+
+
+-- Shard Iterator Types --
+
+aws kinesis get-shard-iterator \
+    --shard-id shardId-000000000000 \
+    --shard-iterator-type AT_SEQUENCE_NUMBER \
+    --starting-sequence-number 49591022060730660638274567187983948851027405480717713410 \
+    --stream-name my-first-kinesis-stream \
+    --profile admin
+
+aws kinesis get-shard-iterator \
+    --shard-id shardId-000000000000 \
+    --shard-iterator-type AFTER_SEQUENCE_NUMBER \
+    --starting-sequence-number 49591022060730660638274567187983948851027405480717713410 \
+    --stream-name my-first-kinesis-stream \
+    --profile admin
+
+aws kinesis get-shard-iterator \
+    --shard-id shardId-000000000000 \
+    --shard-iterator-type AT_TIMESTAMP \
+    --timestamp 1544692680.484 \
+    --stream-name my-first-kinesis-stream \
+    --profile admin
+
+aws kinesis get-shard-iterator \
+    --shard-id shardId-000000000000 \
+    --shard-iterator-type TRIM_HORIZON \
+    --stream-name my-first-kinesis-stream \
+    --profile admin
+
+
+
+-- Testing shard iterator type LATEST --
+
+aws kinesis get-shard-iterator \
+    --shard-id shardId-000000000000 \
+    --shard-iterator-type LATEST \
+    --stream-name my-first-kinesis-stream \
+    --profile admin
+
+aws kinesis put-record \
+    --stream-name my-first-kinesis-stream \
+    --partition-key 12345 \
+    --data sampledata03 \
+    --profile admin
+
+aws kinesis get-records \
+    --shard-iterator AAAAAAAAAAGJC/akLF9sIIXiBF/GTwYfKN1VQlgiUgrC8tmuq9TgkvT7K1+0x9DXSzIgCYB0iE18foHlHXpXCKEA7Jc1NTAhOCWMABi6Igw4PtAbCVvR4pWHuBJL2bulQu3YjIrL8jb/w2g2MghUNYNEjGZ3S2Pe9K+ol7YEOQm9mXY4T/zgIPK+KezLoEBbzAS+dSCQx25Oztj2jYVEJdWpq2NYeaisUSVZlLCGwmJh3cp52EWB/A== \
+    --profile admin
+
+echo c2FtcGxlZGF0YTAy | base64 --decode
+
+-- Deleting Stream --
+
+aws kinesis delete-stream \
+    --stream-name my-first-kinesis-stream \
+    --profile admin

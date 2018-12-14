@@ -19,6 +19,7 @@
         <aws.sdk.version>1.11.414</aws.sdk.version>
         <aws.lambda.java.core.version>1.2.0</aws.lambda.java.core.version>
         <aws.lambda.java.events.version>2.2.2</aws.lambda.java.events.version>
+        <aws.java.sdk.kinesis.version>1.11.468</aws.java.sdk.kinesis.version>
         <aws.lambda.java.log4j2>1.0.0</aws.lambda.java.log4j2>
     </properties>
 
@@ -47,6 +48,13 @@
             <artifactId>aws-java-sdk-iam</artifactId>
             <version>${aws.sdk.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-kinesis</artifactId>
+            <version></version>
+        </dependency>
+
     </dependencies>
     -->
 
