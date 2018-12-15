@@ -19,8 +19,8 @@ public final class LambdaKinesisSdkWriteHandler implements RequestHandler<Reques
      */
     public Response handleRequest(final Request request,
                                   final Context context) {
-        context.getLogger().log("Hello " + request.getName());
+        context.getLogger().log("Hello " + request.getStreamName());
 
-        return new Response("Hello " + request.getName());
+        return new Response("Hello " + request.getStreamName());
     }
 }

@@ -7,5 +7,8 @@ import lombok.Data;
  */
 @Data
 public class Request {
-    private String name;
+    private String streamName;
+    private String payload;
+    private String  count;
+    private String batchSize;
 }
