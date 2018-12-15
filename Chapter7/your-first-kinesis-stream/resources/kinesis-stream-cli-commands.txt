@@ -3,6 +3,7 @@
 aws kinesis create-stream \
     --stream-name my-first-kinesis-stream \
     --shard-count 1 \
+    --region us-east-1 \
     --profile admin
 
 
@@ -11,9 +12,11 @@ aws kinesis create-stream \
 
 aws kinesis describe-stream \
     --stream-name my-first-kinesis-stream \
+    --region us-east-1 \
     --profile admin
 
 aws kinesis list-streams \
+    --region us-east-1 \
     --profile admin
 
 
@@ -24,12 +27,14 @@ aws kinesis put-record \
     --stream-name my-first-kinesis-stream \
     --partition-key 12345 \
     --data sampledata01 \
+    --region us-east-1 \
     --profile admin
 
 aws kinesis put-record \
     --stream-name my-first-kinesis-stream \
     --partition-key 12345 \
     --data sampledata02 \
+    --region us-east-1 \
     --profile admin
 
 
@@ -39,10 +44,12 @@ aws kinesis get-shard-iterator \
     --shard-id shardId-000000000000 \
     --shard-iterator-type TRIM_HORIZON \
     --stream-name my-first-kinesis-stream \
+    --region us-east-1 \
     --profile admin
 
 aws kinesis get-records \
-    --shard-iterator AAAAAAAAAAEJUwvUDixnEXlZLFiQx++pgZlp8ItiwIZvpHupKiGnGC0eCWZNdTkIIA+07W16TXKWbE99MMBC/xCI7Ka6O5UEH7PwasKr0ibm5DktiLzXz3lO3mYkD9kob1YDASQFPpt647yXc1tves6eCpDLd2YN0Q34RZ3N65poluSvd9Wbw/48iDWChn8prTwr4LSiitCSmcI1zPca8uz45zFEt5k1sCyxHz/V3+eENANOTI5QCGTvwyXb8YC8VdQ2fZAK0hw= \
+    --shard-iterator AAAAAAAAAAHUQHd/93NG5NuoKB9+zvyxVTlMTuWl+PsVo9jFDYjrcgGr/cxhC0w2SwHdC4OMzrezuI9whtocVcq0yPjSfz+vfB6MDVJdxISwi0owswCGOQFBv+FklO/WnpnQ2ugxkWXcO6B6XtbkBc0Lgtm9eoLpsIo/n+IanoVHSaWXJzrHWMzztlIEzq0CHEZsfO3ikERJuWbwhgLLf7WsEJdX3R5fm01iNOvOoG7Zo+KTWKjG+w== \
+    --region us-east-1 \
     --profile admin
 
 echo c2FtcGxlZGF0YTAx | base64 --decode
@@ -53,8 +60,9 @@ echo c2FtcGxlZGF0YTAx | base64 --decode
 aws kinesis get-shard-iterator \
     --shard-id shardId-000000000000 \
     --shard-iterator-type AT_SEQUENCE_NUMBER \
-    --starting-sequence-number 49591022060730660638274567187983948851027405480717713410 \
+    --starting-sequence-number 49591085571825738360783315339177893851368407703329177602 \
     --stream-name my-first-kinesis-stream \
+    --region us-east-1 \
     --profile admin
 
 aws kinesis get-shard-iterator \
@@ -62,19 +70,22 @@ aws kinesis get-shard-iterator \
     --shard-iterator-type AFTER_SEQUENCE_NUMBER \
     --starting-sequence-number 49591022060730660638274567187983948851027405480717713410 \
     --stream-name my-first-kinesis-stream \
+    --region us-east-1 \
     --profile admin
 
 aws kinesis get-shard-iterator \
     --shard-id shardId-000000000000 \
     --shard-iterator-type AT_TIMESTAMP \
-    --timestamp 1544692680.484 \
+    --timestamp 1544870699.15 \
     --stream-name my-first-kinesis-stream \
+    --region us-east-1 \
     --profile admin
 
 aws kinesis get-shard-iterator \
     --shard-id shardId-000000000000 \
     --shard-iterator-type TRIM_HORIZON \
     --stream-name my-first-kinesis-stream \
+    --region us-east-1 \
     --profile admin
 
 
@@ -85,16 +96,19 @@ aws kinesis get-shard-iterator \
     --shard-id shardId-000000000000 \
     --shard-iterator-type LATEST \
     --stream-name my-first-kinesis-stream \
+    --region us-east-1 \
     --profile admin
 
 aws kinesis put-record \
     --stream-name my-first-kinesis-stream \
     --partition-key 12345 \
     --data sampledata03 \
+    --region us-east-1 \
     --profile admin
 
 aws kinesis get-records \
-    --shard-iterator AAAAAAAAAAGJC/akLF9sIIXiBF/GTwYfKN1VQlgiUgrC8tmuq9TgkvT7K1+0x9DXSzIgCYB0iE18foHlHXpXCKEA7Jc1NTAhOCWMABi6Igw4PtAbCVvR4pWHuBJL2bulQu3YjIrL8jb/w2g2MghUNYNEjGZ3S2Pe9K+ol7YEOQm9mXY4T/zgIPK+KezLoEBbzAS+dSCQx25Oztj2jYVEJdWpq2NYeaisUSVZlLCGwmJh3cp52EWB/A== \
+    --shard-iterator AAAAAAAAAAGvrK4hANFQjw4zqUJ5TWr4FpFOcQ9cqfpQONGAiQ8zY8QR+palbz+Iziu1vNbjSQIYHNWJfNt3659pr3298V+oAOuxZksZ9BJ10vHC/ISDgQDzOc1zXSzOlf3KEVdOJO7zDQPhwpXDcaTSfvNthOcEdJIszfwXprNiO9oiRgqcUxHDIkvihPybgfy/VUy4uHuAMsjEIc8LblacGfkfckljG8igQ7S7LIMIcDMXUSOOqg== \
+    --region us-east-1 \
     --profile admin
 
 echo c2FtcGxlZGF0YTAy | base64 --decode
@@ -103,4 +117,5 @@ echo c2FtcGxlZGF0YTAy | base64 --decode
 
 aws kinesis delete-stream \
     --stream-name my-first-kinesis-stream \
+    --region us-east-1 \
     --profile admin

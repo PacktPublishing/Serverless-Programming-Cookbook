@@ -4,12 +4,12 @@
       {
          "Effect":"Allow",
          "Action":[
-            "logs:CreateLogGroup",
-            "logs:CreateLogStream",
-            "logs:PutLogEvents"
+            "kinesis:DescribeStream",
+            "kinesis:PutRecord",
+            "kinesis:PutRecords"
          ],
          "Resource":[
-            "arn:aws:logs:*:*:*"
+            "arn:aws:kinesis:*:*:*"
          ]
       }
    ]

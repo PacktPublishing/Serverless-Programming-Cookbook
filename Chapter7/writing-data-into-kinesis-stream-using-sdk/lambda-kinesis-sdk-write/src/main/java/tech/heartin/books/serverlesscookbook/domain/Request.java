@@ -8,7 +8,8 @@ import lombok.Data;
 @Data
 public class Request {
     private String streamName;
+    private String partitionKey;
     private String payload;
-    private String  count;
-    private String batchSize;
+    private int  count;
+    private int batchSize;
 }

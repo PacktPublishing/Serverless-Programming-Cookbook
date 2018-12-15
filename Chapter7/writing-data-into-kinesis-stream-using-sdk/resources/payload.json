@@ -1,0 +1,8 @@
+{
+    "streamName" : "my-first-kinesis-stream",
+    "partitionKey": "12345",
+    "payload": "testpayloadfromcli",
+    "count": 10,
+    "batchSize" : 5
+
+}

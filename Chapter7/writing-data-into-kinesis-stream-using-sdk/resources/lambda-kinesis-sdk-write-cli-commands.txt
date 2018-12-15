@@ -9,8 +9,8 @@ aws iam create-policy \
     --profile admin
 
 aws iam create-policy \
-    --policy-name lambda_iam_policy_test \
-    --policy-document file://resources/basic-lambda-permissions.txt \
+    --policy-name lambda_kinesis_producer_policy \
+    --policy-document file://resources/lambda-kinesis-producer-permissions.txt \
     --profile admin
 
 aws iam create-role \
@@ -19,37 +19,47 @@ aws iam create-role \
     --profile admin
 
 aws iam attach-role-policy \
-    --role-name lambda_iam_role_test \
-    --policy-arn arn:aws:iam::<account_id>:policy/lambda_iam_policy_test \
+    --role-name lambda_kinesis_write_role \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda_iam_policy_test \
+    --profile admin
+
+aws iam attach-role-policy \
+    --role-name lambda_kinesis_write_role \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda_kinesis_producer_policy \
     --profile admin
 
 aws lambda create-function \
     --function-name lambda-kinesis-sdk-write \
     --runtime java8 \
-    --role arn:aws:iam::<account_id>:role/lambda_iam_role_test \
-    --handler tech.heartin.books.serverlesscookbook.MyLambdaHandler::handleRequest \
+    --role arn:aws:iam::855923912133:role/lambda_kinesis_write_role \
+    --handler tech.heartin.books.serverlesscookbook.LambdaKinesisSdkWriteHandler::handleRequest \
     --code S3Bucket=serverless-cookbook,S3Key=lambda-kinesis-sdk-write-0.0.1-SNAPSHOT.jar \
     --timeout 15 \
     --memory-size 512 \
+    --region us-east-1 \
     --profile admin
 
 aws lambda invoke \
     --invocation-type RequestResponse \
-    --function-name demo-lambda-with-cli \
+    --function-name lambda-kinesis-sdk-write \
     --log-type Tail \
-    --payload '{"name":"Heartin"}' \
+    --payload file://resources/payload.json \
+    --region us-east-1 \
     --profile admin \
     outputfile.txt
 
 aws iam detach-role-policy \
     --role-name lambda_iam_role_test \
     --policy-arn arn:aws:iam::<account_id>:policy/lambda_iam_policy_test \
+    --region us-east-1 \
     --profile admin
 
 aws iam delete-role \
     --role-name lambda_iam_role_test \
+    --region us-east-1 \
     --profile admin
 
 aws iam delete-policy \
     --policy-arn arn:aws:iam::<account_id>:policy/lambda_iam_policy_test \
+    --region us-east-1 \
     --profile admin
