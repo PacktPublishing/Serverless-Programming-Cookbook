@@ -12,15 +12,14 @@
     <parent>
         <groupId>tech.heartin.starters</groupId>
         <artifactId>simple-starter-parent-java</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
     </parent>
 
     <properties>
-        <aws.sdk.version>1.11.414</aws.sdk.version>
+        <aws.sdk.version>1.11.470</aws.sdk.version>
         <aws.lambda.java.core.version>1.2.0</aws.lambda.java.core.version>
-        <aws.lambda.java.events.version>2.2.2</aws.lambda.java.events.version>
-        <aws.java.sdk.kinesis.version>1.11.468</aws.java.sdk.kinesis.version>
-        <aws.lambda.java.log4j2>1.0.0</aws.lambda.java.log4j2>
+        <aws.lambda.java.events.version>2.2.4</aws.lambda.java.events.version>
+        <aws.lambda.java.log4j2>1.1.0</aws.lambda.java.log4j2>
     </properties>
 
     <!-- Sample dependency declarations. -->
@@ -51,7 +50,7 @@
 
         <dependency>
             <groupId>com.amazonaws</groupId>
-            <artifactId>aws-java-sdk-kinesis</artifactId>
+            <artifactId>${aws.sdk.version}</artifactId>
             <version></version>
         </dependency>
 
