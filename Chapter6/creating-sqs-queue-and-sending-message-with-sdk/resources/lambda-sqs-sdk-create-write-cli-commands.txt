@@ -1,0 +1,95 @@
+-- Deploying and testing Lambda --
+
+cd lambda-sqs-sdk-create-send
+
+aws s3 cp \
+    target/lambda-sqs-sdk-create-send-0.0.1-SNAPSHOT.jar \
+    s3://serverless-cookbook/lambda-sqs-sdk-create-send-0.0.1-SNAPSHOT.jar \
+    --profile admin
+
+cd ..
+
+cd resources
+
+aws iam create-role \
+    --role-name lambda-sqs-create-send-role \
+    --assume-role-policy-document file://iam-role-trust-relationship.txt \
+    --profile admin
+
+aws iam create-policy \
+    --policy-name lambda-basic-iam-policy \
+    --policy-document file://basic-lambda-permissions.txt \
+    --profile admin
+
+aws iam attach-role-policy \
+    --role-name lambda-sqs-create-send-role \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-basic-iam-policy \
+    --profile admin
+
+aws iam create-policy \
+    --policy-name lambda-sqs-create-send-policy \
+    --policy-document file://lambda-sqs-create-send-permissions.txt \
+    --profile admin
+
+aws iam attach-role-policy \
+    --role-name lambda-sqs-create-send-role \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-sqs-create-send-policy \
+    --profile admin
+
+aws lambda create-function \
+    --function-name lambda-sqs-create-send \
+    --runtime java8 \
+    --role arn:aws:iam::855923912133:role/lambda-sqs-create-send-role \
+    --handler tech.heartin.books.serverlesscookbook.LambdaSqsSdkCreateSendHandler::handleRequest \
+    --code S3Bucket=serverless-cookbook,S3Key=lambda-sqs-sdk-create-send-0.0.1-SNAPSHOT.jar \
+    --timeout 15 \
+    --memory-size 512 \
+    --region us-east-1 \
+    --profile admin
+
+aws lambda invoke \
+    --invocation-type RequestResponse \
+    --function-name lambda-sqs-create-send \
+    --log-type Tail \
+    --payload file://payload.json \
+    --region us-east-1 \
+    --profile admin \
+    outputfile.txt
+
+
+-- Verifying Results --
+
+aws sqs receive-message \
+    --queue-url https://queue.amazonaws.com/855923912133/create-send-demo-queue \
+    --profile admin
+
+
+
+-- Cleanup --
+
+aws iam detach-role-policy \
+    --role-name lambda-sqs-create-send_role \
+    --policy-arn arn:aws:iam::<account_id>:policy/lambda-basic-iam-policy \
+    --region us-east-1 \
+    --profile admin
+
+aws iam detach-role-policy \
+    --role-name lambda-sqs-create-send_role \
+    --policy-arn arn:aws:iam::<account_id>:policy/lambda-sqs-create-send-policy \
+    --region us-east-1 \
+    --profile admin
+
+aws iam delete-role \
+    --role-name lambda-sqs-create-send-role \
+    --region us-east-1 \
+    --profile admin
+
+aws iam delete-policy \
+    --policy-arn arn:aws:iam::<account_id>:policy/lambda-basic-iam-policy \
+    --region us-east-1 \
+    --profile admin
+
+aws iam delete-policy \
+    --policy-arn arn:aws:iam::<account_id>:policy/lambda-sqs-create-send-policy \
+    --region us-east-1 \
+    --profile admin

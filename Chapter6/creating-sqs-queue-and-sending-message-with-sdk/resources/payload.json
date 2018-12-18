@@ -1,0 +1,4 @@
+{
+    "queueName" : "create-send-demo-queue",
+    "message": "test payload 1"
+}

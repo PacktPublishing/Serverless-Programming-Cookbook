@@ -1,0 +1,155 @@
+-- Setting Up Queues --
+
+aws sqs create-queue \
+    --queue-name 'my-input-queue' \
+    --profile admin
+
+aws sqs create-queue \
+    --queue-name 'my-output-queue' \
+    --profile admin
+
+
+
+-- Deploying and Invoking Lambda --
+
+cd lambda-invoke-sqs-event
+
+aws s3 cp \
+    target/lambda-invoke-sqs-event-0.0.1-SNAPSHOT.jar \
+    s3://serverless-cookbook/lambda-invoke-sqs-event-0.0.1-SNAPSHOT.jar \
+    --profile admin
+
+cd ..
+
+cd resources
+
+aws iam create-role \
+    --role-name lambda-invoke-sqs-event-role \
+    --assume-role-policy-document file://iam-role-trust-relationship.txt \
+    --profile admin
+
+aws iam create-policy \
+    --policy-name lambda-basic-iam-policy \
+    --policy-document file://basic-lambda-permissions.txt \
+    --profile admin
+
+aws iam attach-role-policy \
+    --role-name lambda-invoke-sqs-event-role \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-basic-iam-policy \
+    --profile admin
+
+aws iam create-policy \
+    --policy-name lambda-invoke-sqs-event-policy \
+    --policy-document file://lambda-invoke-sqs-event-permissions.txt \
+    --profile admin
+
+aws iam attach-role-policy \
+    --role-name lambda-invoke-sqs-event-role \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-invoke-sqs-event-policy \
+    --profile admin
+
+aws lambda create-function \
+    --function-name lambda-invoke-sqs-event \
+    --runtime java8 \
+    --role arn:aws:iam::855923912133:role/lambda-invoke-sqs-event-role \
+    --handler tech.heartin.books.serverlesscookbook.LambdaSqsEventHandler::handleRequest \
+    --code S3Bucket=serverless-cookbook,S3Key=lambda-invoke-sqs-event-0.0.1-SNAPSHOT.jar \
+    --environment Variables={SPC_OUTPUT_QUEUE_URL='https://queue.amazonaws.com/855923912133/my-output-queue'} \
+    --timeout 15 \
+    --memory-size 512 \
+    --region us-east-1 \
+    --profile admin
+
+aws lambda create-event-source-mapping \
+    --event-source-arn arn:aws:sqs:us-east-1:855923912133:my-input-queue \
+    --function-name lambda-invoke-sqs-event \
+    --batch-size 4 \
+    --profile admin
+
+aws lambda  list-event-source-mappings \
+    --function-name lambda-invoke-sqs-event \
+    --profile admin
+
+
+-- Sending Messages for Verification --
+
+aws sqs send-message \
+    --queue-url https://queue.amazonaws.com/855923912133/my-input-queue \
+    --message-body 'This is test message 1' \
+    --profile admin
+
+aws sqs send-message \
+    --queue-url https://queue.amazonaws.com/855923912133/my-input-queue \
+    --message-body 'This is test message 2' \
+    --profile admin
+
+aws sqs send-message \
+    --queue-url https://queue.amazonaws.com/855923912133/my-input-queue \
+    --message-body 'This is test message 3' \
+    --profile admin
+
+aws sqs send-message \
+    --queue-url https://queue.amazonaws.com/855923912133/my-input-queue \
+    --message-body 'This is test message 4' \
+    --profile admin
+
+aws sqs send-message \
+    --queue-url https://queue.amazonaws.com/855923912133/my-input-queue \
+    --message-body 'This is test message 5' \
+    --profile admin
+
+
+
+-- Verification --
+
+aws sqs receive-message \
+    --queue-url https://queue.amazonaws.com/855923912133/my-output-queue \
+    --max-number-of-messages 5 \
+    --profile admin
+
+
+
+-- Cleanup --
+
+aws iam detach-role-policy \
+    --role-name lambda-invoke-sqs-event-role \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-basic-iam-policy \
+    --region us-east-1 \
+    --profile admin
+
+aws iam delete-policy \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-basic-iam-policy \
+    --region us-east-1 \
+    --profile admin
+
+aws iam detach-role-policy \
+    --role-name lambda-invoke-sqs-event-role \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-invoke-sqs-event-policy \
+    --region us-east-1 \
+    --profile admin
+
+aws iam delete-policy \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-invoke-sqs-event-policy \
+    --region us-east-1 \
+    --profile admin
+
+aws iam delete-role \
+    --role-name lambda-invoke-sqs-event-role \
+    --region us-east-1 \
+    --profile admin
+
+aws lambda delete-function \
+    --function-name lambda-invoke-sqs-event \
+    --profile admin
+
+aws lambda delete-event-source-mapping \
+    --uuid 'add31b59-4a25-42cc-ba36-0909939b4e9f' \
+    --profile admin
+
+aws sqs delete-queue \
+    --queue-url 'https://queue.amazonaws.com/855923912133/my-input-queue' \
+    --profile admin
+
+aws sqs delete-queue \
+    --queue-url 'https://queue.amazonaws.com/855923912133/my-output-queue' \
+    --profile admin

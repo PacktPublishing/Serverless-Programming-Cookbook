@@ -1,0 +1,145 @@
+-- Setting Up Queues --
+
+aws sqs create-queue \
+    --queue-name 'my-input-queue' \
+    --profile admin
+
+aws sqs create-queue \
+    --queue-name 'my-output-queue' \
+    --profile admin
+
+aws sqs send-message \
+    --queue-url https://queue.amazonaws.com/855923912133/my-input-queue \
+    --message-body 'This is test message 1' \
+    --profile admin
+
+aws sqs send-message \
+    --queue-url https://queue.amazonaws.com/855923912133/my-input-queue \
+    --message-body 'This is test message 2' \
+    --profile admin
+
+aws sqs send-message \
+    --queue-url https://queue.amazonaws.com/855923912133/my-input-queue \
+    --message-body 'This is test message 3' \
+    --profile admin
+
+aws sqs send-message \
+    --queue-url https://queue.amazonaws.com/855923912133/my-input-queue \
+    --message-body 'This is test message 4' \
+    --profile admin
+
+aws sqs send-message \
+    --queue-url https://queue.amazonaws.com/855923912133/my-input-queue \
+    --message-body 'This is test message 5' \
+    --profile admin
+
+aws sqs send-message \
+    --queue-url https://queue.amazonaws.com/855923912133/my-input-queue \
+    --message-body 'This is test message 6' \
+    --profile admin
+
+aws sqs send-message \
+    --queue-url https://queue.amazonaws.com/855923912133/my-input-queue \
+    --message-body 'This is test message 7' \
+    --profile admin
+
+
+
+-- Deploying and Invoking Lambda --
+
+cd lambda-sqs-sdk-receive-send-batch
+
+aws s3 cp \
+    target/lambda-sqs-sdk-receive-send-batch-0.0.1-SNAPSHOT.jar \
+    s3://serverless-cookbook/lambda-sqs-sdk-receive-send-batch-0.0.1-SNAPSHOT.jar \
+    --profile admin
+
+cd ..
+
+cd resource
+
+aws iam create-role \
+    --role-name lambda-sqs-sdk-receive-send-batch-role \
+    --assume-role-policy-document file://iam-role-trust-relationship.txt \
+    --profile admin
+
+aws iam create-policy \
+    --policy-name lambda-basic-iam-policy \
+    --policy-document file://basic-lambda-permissions.txt \
+    --profile admin
+
+aws iam attach-role-policy \
+    --role-name lambda-sqs-sdk-receive-send-batch-role \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-basic-iam-policy \
+    --profile admin
+
+aws iam create-policy \
+    --policy-name lambda-sqs-sdk-receive-send-delete-policy \
+    --policy-document file://lambda-sqs-receive-send-batch-permissions.txt \
+    --profile admin
+
+aws iam attach-role-policy \
+    --role-name lambda-sqs-sdk-receive-send-batch-role \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-sqs-sdk-receive-send-delete-policy \
+    --profile admin
+
+aws lambda create-function \
+    --function-name lambda-sqs-sdk-receive-send-batch \
+    --runtime java8 \
+    --role arn:aws:iam::855923912133:role/lambda-sqs-sdk-receive-send-batch-role \
+    --handler tech.heartin.books.serverlesscookbook.LambdaSqsSdkReceiveSendBatchHandler::handleRequest \
+    --code S3Bucket=serverless-cookbook,S3Key=lambda-sqs-sdk-receive-send-batch-0.0.1-SNAPSHOT.jar \
+    --timeout 15 \
+    --memory-size 512 \
+    --region us-east-1 \
+    --profile admin
+
+aws lambda invoke \
+    --invocation-type RequestResponse \
+    --function-name lambda-sqs-sdk-receive-send-batch \
+    --log-type Tail \
+    --payload file://payload.json \
+    --region us-east-1 \
+    --profile admin \
+    outputfile.txt
+
+
+
+-- Verification --
+
+aws sqs receive-message \
+    --queue-url https://queue.amazonaws.com/855923912133/my-output-queue \
+    --max-number-of-messages 7 \
+    --profile admin
+
+
+-- Cleanup --
+
+aws iam detach-role-policy \
+    --role-name lambda_iam_role_test \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-sqs-sdk-receive-send-batch-policy \
+    --region us-east-1 \
+    --profile admin
+
+aws iam delete-role \
+    --role-name lambda-sqs-sdk-receive-send-batch-role \
+    --region us-east-1 \
+    --profile admin
+
+aws iam delete-policy \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-basic-iam-policy \
+    --region us-east-1 \
+    --profile admin
+
+aws iam delete-policy \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-sqs-sdk-receive-send-batch-policy \
+    --region us-east-1 \
+    --profile admin
+
+aws sqs delete-queue \
+    --queue-url 'https://queue.amazonaws.com/855923912133/my-input-queue' \
+    --profile admin
+
+aws sqs delete-queue \
+    --queue-url 'https://queue.amazonaws.com/855923912133/my-output-queue' \
+    --profile admin

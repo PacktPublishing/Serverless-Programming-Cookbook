@@ -1,0 +1,22 @@
+-- Recipe steps --
+
+aws sqs create-queue \
+    --queue-name 'my-first-queue' \
+    --profile admin
+
+aws sqs send-message \
+    --queue-url https://queue.amazonaws.com/855923912133/my-first-queue \
+    --message-body 'This is a test message' \
+    --profile admin
+
+aws sqs receive-message \
+    --queue-url https://queue.amazonaws.com/855923912133/my-first-queue \
+    --profile admin
+
+
+
+-- Cleanup --
+
+aws sqs delete-queue \
+    --queue-url 'queue-url https://queue.amazonaws.com/855923912133/my-first-queue' \
+    --profile admin

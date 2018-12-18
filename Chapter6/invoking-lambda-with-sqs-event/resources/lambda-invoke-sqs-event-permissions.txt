@@ -1,0 +1,18 @@
+{
+   "Version":"2012-10-17",
+   "Statement":[
+      {
+         "Effect":"Allow",
+         "Action":[
+            "sqs:GetQueueAttributes",
+            "sqs:ReceiveMessage",
+            "sqs:DeleteMessage",
+            "sqs:SendMessage",
+            "sqs:SendMessageBatch"
+         ],
+         "Resource":[
+            "arn:aws:sqs:*:*:*"
+         ]
+      }
+   ]
+}

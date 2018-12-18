@@ -1,0 +1,19 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'My first SQS queue'
+
+Resources:
+  SQSQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: my-first-sqs-queue-cf
+
+Outputs:
+  SQSQueueURL:
+    Value: !Ref SQSQueue
+    Export:
+      Name: "SQSQueueURL"
+  SQSQueueArn:
+    Value: !GetAtt SQSQueue.Arn
+    Export:
+      Name: "SQSQueueArn"
