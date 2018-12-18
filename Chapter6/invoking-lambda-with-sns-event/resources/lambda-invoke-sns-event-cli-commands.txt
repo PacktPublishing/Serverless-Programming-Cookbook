@@ -40,7 +40,7 @@ aws iam create-policy \
 
 aws iam attach-role-policy \
     --role-name lambda-invoke-sns-event-role \
-    --policy-arn arn:aws:iam::855923912133:policy/lambda-basic-iam-policy \
+    --policy-arn arn:aws:iam::123456789012:policy/lambda-basic-iam-policy \
     --profile admin
 
 aws iam create-policy \
@@ -50,24 +50,24 @@ aws iam create-policy \
 
 aws iam attach-role-policy \
     --role-name lambda-invoke-sns-event-role \
-    --policy-arn arn:aws:iam::855923912133:policy/lambda-invoke-sns-event-policy \
+    --policy-arn arn:aws:iam::123456789012:policy/lambda-invoke-sns-event-policy \
     --profile admin
 
 aws lambda create-function \
     --function-name lambda-invoke-sns-event \
     --runtime java8 \
-    --role arn:aws:iam::855923912133:role/lambda-invoke-sns-event-role \
+    --role arn:aws:iam::123456789012:role/lambda-invoke-sns-event-role \
     --handler tech.heartin.books.serverlesscookbook.LambdaSnsEventHandler::handleRequest \
     --code S3Bucket=serverless-cookbook,S3Key=lambda-invoke-sns-event-0.0.1-SNAPSHOT.jar \
-    --environment Variables={SPC_OUTPUT_QUEUE_URL='https://queue.amazonaws.com/855923912133/my-output-queue'} \
+    --environment Variables={SPC_OUTPUT_QUEUE_URL='https://queue.amazonaws.com/123456789012/my-output-queue'} \
     --timeout 15 \
     --memory-size 512 \
     --region us-east-1 \
     --profile admin
 
-aws sns subscribe --topic-arn arn:aws:sns:us-east-1:855923912133:lambda-invoke-sns-topic \
+aws sns subscribe --topic-arn arn:aws:sns:us-east-1:123456789012:lambda-invoke-sns-topic \
   --protocol lambda \
-  --notification-endpoint arn:aws:lambda:us-east-1:855923912133:function:lambda-invoke-sns-event \
+  --notification-endpoint arn:aws:lambda:us-east-1:123456789012:function:lambda-invoke-sns-event \
   --profile admin
 
 
@@ -75,19 +75,19 @@ aws sns subscribe --topic-arn arn:aws:sns:us-east-1:855923912133:lambda-invoke-s
 -- Publishing Messages for Verification --
 
 aws sns publish \
-    --topic-arn arn:aws:sns:us-east-1:855923912133:lambda-invoke-sns-topic \
+    --topic-arn arn:aws:sns:us-east-1:123456789012:lambda-invoke-sns-topic \
     --message "sending message to lambda 3" \
     --profile admin
 
 aws sns publish \
-    --topic-arn arn:aws:sns:us-east-1:855923912133:lambda-invoke-sns-topic \
+    --topic-arn arn:aws:sns:us-east-1:123456789012:lambda-invoke-sns-topic \
     --message "sending message to lambda 4" \
     --profile admin
 
 -- Verification --
 
 aws sns receive-message \
-    --queue-url https://queue.amazonaws.com/855923912133/my-output-queue \
+    --queue-url https://queue.amazonaws.com/123456789012/my-output-queue \
     --max-number-of-messages 5 \
     --profile admin
 
@@ -97,23 +97,23 @@ aws sns receive-message \
 
 aws iam detach-role-policy \
     --role-name lambda-invoke-sns-event-role \
-    --policy-arn arn:aws:iam::855923912133:policy/lambda-basic-iam-policy \
+    --policy-arn arn:aws:iam::123456789012:policy/lambda-basic-iam-policy \
     --region us-east-1 \
     --profile admin
 
 aws iam delete-policy \
-    --policy-arn arn:aws:iam::855923912133:policy/lambda-basic-iam-policy \
+    --policy-arn arn:aws:iam::123456789012:policy/lambda-basic-iam-policy \
     --region us-east-1 \
     --profile admin
 
 aws iam detach-role-policy \
     --role-name lambda-invoke-sns-event-role \
-    --policy-arn arn:aws:iam::855923912133:policy/lambda-invoke-sns-event-policy \
+    --policy-arn arn:aws:iam::123456789012:policy/lambda-invoke-sns-event-policy \
     --region us-east-1 \
     --profile admin
 
 aws iam delete-policy \
-    --policy-arn arn:aws:iam::855923912133:policy/lambda-invoke-sns-event-policy \
+    --policy-arn arn:aws:iam::123456789012:policy/lambda-invoke-sns-event-policy \
     --region us-east-1 \
     --profile admin
 
@@ -131,9 +131,9 @@ aws lambda delete-event-source-mapping \
     --profile admin
 
 aws sqs delete-queue \
-    --queue-url 'https://queue.amazonaws.com/855923912133/my-input-queue' \
+    --queue-url 'https://queue.amazonaws.com/123456789012/my-input-queue' \
     --profile admin
 
 aws sqs delete-queue \
-    --queue-url 'https://queue.amazonaws.com/855923912133/my-output-queue' \
+    --queue-url 'https://queue.amazonaws.com/123456789012/my-output-queue' \
     --profile admin

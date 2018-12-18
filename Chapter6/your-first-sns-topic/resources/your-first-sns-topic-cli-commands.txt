@@ -3,13 +3,13 @@ aws sns create-topic \
     --profile admin
 
 aws sns subscribe \
-    --topic-arn arn:aws:sns:us-east-1:855923912133:my-first-sns-topic \
+    --topic-arn arn:aws:sns:us-east-1:123456789012:my-first-sns-topic \
     --protocol sms \
     --notification-endpoint +917411174114 \
     --profile admin
 
 aws sns subscribe \
-    --topic-arn arn:aws:sns:us-east-1:855923912133:my-first-sns-topic \
+    --topic-arn arn:aws:sns:us-east-1:123456789012:my-first-sns-topic \
     --protocol email \
     --notification-endpoint serverlesscookbook@gmail.com \
     --profile admin
@@ -18,11 +18,11 @@ aws sns list-subscriptions \
     --profile admin
 
 aws sns list-subscriptions-by-topic \
-    --topic-arn arn:aws:sns:us-east-1:855923912133:my-first-sns-topic \
+    --topic-arn arn:aws:sns:us-east-1:123456789012:my-first-sns-topic \
     --profile admin
 
 aws sns publish \
-    --topic-arn arn:aws:sns:us-east-1:855923912133:my-first-sns-topic \
+    --topic-arn arn:aws:sns:us-east-1:123456789012:my-first-sns-topic \
     --message "sending message to both mobile and email" \
     --profile admin
 
@@ -31,9 +31,9 @@ aws sns publish \
 -- Cleanup --
 
 aws sns unsubscribe \
-    --subscription-arn arn:aws:sns:us-east-1:855923912133:my-first-sns-topic:f4adc47e-c4a4-4e9c-a8c4-e51394832de2 \
+    --subscription-arn arn:aws:sns:us-east-1:123456789012:my-first-sns-topic:f4adc47e-c4a4-4e9c-a8c4-e51394832de2 \
     --profile admin
 
 aws sns delete-topic \
-    --topic-arn arn:aws:sns:us-east-1:855923912133:my-first-sns-topic \
+    --topic-arn arn:aws:sns:us-east-1:123456789012:my-first-sns-topic \
     --profile admin

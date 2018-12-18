@@ -23,7 +23,7 @@ aws iam create-policy \
 
 aws iam attach-role-policy \
     --role-name lambda-sns-publish-with-sdk-role \
-    --policy-arn arn:aws:iam::855923912133:policy/lambda-basic-iam-policy \
+    --policy-arn arn:aws:iam::123456789012:policy/lambda-basic-iam-policy \
     --profile admin
 
 aws iam create-policy \
@@ -33,13 +33,13 @@ aws iam create-policy \
 
 aws iam attach-role-policy \
     --role-name lambda-sns-publish-with-sdk-role \
-    --policy-arn arn:aws:iam::855923912133:policy/lambda-sns-publish-policy \
+    --policy-arn arn:aws:iam::123456789012:policy/lambda-sns-publish-policy \
     --profile admin
 
 aws lambda create-function \
     --function-name lambda-sns-publish-with-sdk \
     --runtime java8 \
-    --role arn:aws:iam::855923912133:role/lambda-sns-publish-with-sdk-role \
+    --role arn:aws:iam::123456789012:role/lambda-sns-publish-with-sdk-role \
     --handler tech.heartin.books.serverlesscookbook.LambdaSnsPublishHandler::handleRequest \
     --code S3Bucket=serverless-cookbook,S3Key=lambda-sns-publish-with-sdk-0.0.1-SNAPSHOT.jar \
     --timeout 15 \
@@ -68,23 +68,23 @@ Check Email and Mobile.
 
 aws iam detach-role-policy \
     --role-name lambda-sns-publish-with-sdk-role \
-    --policy-arn arn:aws:iam::855923912133:policy/lambda-basic-iam-policy \
+    --policy-arn arn:aws:iam::123456789012:policy/lambda-basic-iam-policy \
     --region us-east-1 \
     --profile admin
 
 aws iam delete-policy \
-    --policy-arn arn:aws:iam::855923912133:policy/lambda-basic-iam-policy \
+    --policy-arn arn:aws:iam::123456789012:policy/lambda-basic-iam-policy \
     --region us-east-1 \
     --profile admin
 
 aws iam detach-role-policy \
     --role-name lambda-sqs-create-send_role \
-    --policy-arn arn:aws:iam::855923912133:policy/lambda-sns-publish-policy \
+    --policy-arn arn:aws:iam::123456789012:policy/lambda-sns-publish-policy \
     --region us-east-1 \
     --profile admin
 
 aws iam delete-policy \
-    --policy-arn arn:aws:iam::855923912133:policy/lambda-sns-publish-policy \
+    --policy-arn arn:aws:iam::123456789012:policy/lambda-sns-publish-policy \
     --region us-east-1 \
     --profile admin
 
