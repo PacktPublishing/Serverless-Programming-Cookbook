@@ -1,0 +1,20 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'My first SNS topic'
+
+Resources:
+  SNSTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: 'My first SNS topic'
+      TopicName: my-first-sns-topic-cf
+
+Outputs:
+  SNSTopicARN:
+    Value: !Ref SNSTopic
+    Export:
+      Name: "SNSTopicARN"
+  SNSTopicName:
+    Value: !GetAtt SNSTopic.TopicName
+    Export:
+      Name: "SNSTopicName"

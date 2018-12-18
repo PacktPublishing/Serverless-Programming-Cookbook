@@ -1,20 +1,19 @@
 package tech.heartin.books.serverlesscookbook.services;
 
-import com.amazonaws.services.lambda.runtime.events.SQSEvent;
-
+import com.amazonaws.services.lambda.runtime.events.SNSEvent;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 
 /**
- * Service class interface for SQS operations.
+ * Service class interface for SNS operations.
  */
-public interface SqsService {
+public interface SnsService {
 
     /**
-     * Process SQSEvent.
+     * Process SNSEvent.
      * @param event SQS event received.
      * @param outputQueueURL Output queue URL.
      * @param logger Lambda Logger from context.
      * @return Response domain object.
      */
-    Boolean processEvent(SQSEvent event, String outputQueueURL, LambdaLogger logger);
+    Boolean processEvent(SNSEvent event, String outputQueueURL, LambdaLogger logger);
 }

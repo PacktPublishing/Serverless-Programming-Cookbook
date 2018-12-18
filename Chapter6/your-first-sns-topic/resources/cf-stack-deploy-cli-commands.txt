@@ -1,15 +1,15 @@
 aws cloudformation create-stack \
-    --stack-name sqsfirststack \
-    --template-body file://sqs-queue-cf-template.yml \
+    --stack-name snsfirststack \
+    --template-body file://sns-topic-cf-template.yml \
     --region us-east-1 \
     --profile admin
 
 aws cloudformation describe-stacks \
-    --stack-name sqsfirststack \
+    --stack-name snsfirststack \
     --region us-east-1 \
     --profile admin
 
 aws cloudformation delete-stack \
-    --stack-name sqsfirststack \
+    --stack-name snsfirststack \
     --region us-east-1 \
     --profile admin

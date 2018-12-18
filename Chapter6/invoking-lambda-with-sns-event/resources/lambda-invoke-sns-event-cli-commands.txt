@@ -1,0 +1,139 @@
+
+-- Setting Up SNS Topic --
+
+aws sns create-topic \
+    --name lambda-invoke-sns-topic \
+    --profile admin
+
+
+
+-- Setting Up Queues --
+
+aws sqs create-queue \
+    --queue-name 'my-output-queue' \
+    --profile admin
+
+
+
+-- Deploying and Invoking Lambda --
+
+cd lambda-invoke-sns-event
+
+aws s3 cp \
+    target/lambda-invoke-sns-event-0.0.1-SNAPSHOT.jar \
+    s3://serverless-cookbook/lambda-invoke-sns-event-0.0.1-SNAPSHOT.jar \
+    --profile admin
+
+cd ..
+
+cd resources
+
+aws iam create-role \
+    --role-name lambda-invoke-sns-event-role \
+    --assume-role-policy-document file://iam-role-trust-relationship.txt \
+    --profile admin
+
+aws iam create-policy \
+    --policy-name lambda-basic-iam-policy \
+    --policy-document file://basic-lambda-permissions.txt \
+    --profile admin
+
+aws iam attach-role-policy \
+    --role-name lambda-invoke-sns-event-role \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-basic-iam-policy \
+    --profile admin
+
+aws iam create-policy \
+    --policy-name lambda-invoke-sns-event-policy \
+    --policy-document file://lambda-invoke-sns-event-permissions.txt \
+    --profile admin
+
+aws iam attach-role-policy \
+    --role-name lambda-invoke-sns-event-role \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-invoke-sns-event-policy \
+    --profile admin
+
+aws lambda create-function \
+    --function-name lambda-invoke-sns-event \
+    --runtime java8 \
+    --role arn:aws:iam::855923912133:role/lambda-invoke-sns-event-role \
+    --handler tech.heartin.books.serverlesscookbook.LambdaSnsEventHandler::handleRequest \
+    --code S3Bucket=serverless-cookbook,S3Key=lambda-invoke-sns-event-0.0.1-SNAPSHOT.jar \
+    --environment Variables={SPC_OUTPUT_QUEUE_URL='https://queue.amazonaws.com/855923912133/my-output-queue'} \
+    --timeout 15 \
+    --memory-size 512 \
+    --region us-east-1 \
+    --profile admin
+
+aws sns subscribe --topic-arn arn:aws:sns:us-east-1:855923912133:lambda-invoke-sns-topic \
+  --protocol lambda \
+  --notification-endpoint arn:aws:lambda:us-east-1:855923912133:function:lambda-invoke-sns-event \
+  --profile admin
+
+
+
+-- Publishing Messages for Verification --
+
+aws sns publish \
+    --topic-arn arn:aws:sns:us-east-1:855923912133:lambda-invoke-sns-topic \
+    --message "sending message to lambda 3" \
+    --profile admin
+
+aws sns publish \
+    --topic-arn arn:aws:sns:us-east-1:855923912133:lambda-invoke-sns-topic \
+    --message "sending message to lambda 4" \
+    --profile admin
+
+-- Verification --
+
+aws sns receive-message \
+    --queue-url https://queue.amazonaws.com/855923912133/my-output-queue \
+    --max-number-of-messages 5 \
+    --profile admin
+
+
+
+-- Cleanup --
+
+aws iam detach-role-policy \
+    --role-name lambda-invoke-sns-event-role \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-basic-iam-policy \
+    --region us-east-1 \
+    --profile admin
+
+aws iam delete-policy \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-basic-iam-policy \
+    --region us-east-1 \
+    --profile admin
+
+aws iam detach-role-policy \
+    --role-name lambda-invoke-sns-event-role \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-invoke-sns-event-policy \
+    --region us-east-1 \
+    --profile admin
+
+aws iam delete-policy \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-invoke-sns-event-policy \
+    --region us-east-1 \
+    --profile admin
+
+aws iam delete-role \
+    --role-name lambda-invoke-sns-event-role \
+    --region us-east-1 \
+    --profile admin
+
+aws lambda delete-function \
+    --function-name lambda-invoke-sns-event \
+    --profile admin
+
+aws lambda delete-event-source-mapping \
+    --uuid 'add31b59-4a25-42cc-ba36-0909939b4e9f' \
+    --profile admin
+
+aws sqs delete-queue \
+    --queue-url 'https://queue.amazonaws.com/855923912133/my-input-queue' \
+    --profile admin
+
+aws sqs delete-queue \
+    --queue-url 'https://queue.amazonaws.com/855923912133/my-output-queue' \
+    --profile admin

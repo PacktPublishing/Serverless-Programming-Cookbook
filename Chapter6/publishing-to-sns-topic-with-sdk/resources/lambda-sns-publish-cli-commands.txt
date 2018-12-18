@@ -1,0 +1,98 @@
+-- Deploying and testing Lambda --
+
+cd lambda-sns-publish-with-sdk
+
+aws s3 cp \
+    target/lambda-sns-publish-with-sdk-0.0.1-SNAPSHOT.jar \
+    s3://serverless-cookbook/lambda-sns-publish-with-sdk-0.0.1-SNAPSHOT.jar \
+    --profile admin
+
+cd ..
+
+cd resources
+
+aws iam create-role \
+    --role-name lambda-sns-publish-with-sdk-role \
+    --assume-role-policy-document file://iam-role-trust-relationship.txt \
+    --profile admin
+
+aws iam create-policy \
+    --policy-name lambda-basic-iam-policy \
+    --policy-document file://basic-lambda-permissions.txt \
+    --profile admin
+
+aws iam attach-role-policy \
+    --role-name lambda-sns-publish-with-sdk-role \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-basic-iam-policy \
+    --profile admin
+
+aws iam create-policy \
+    --policy-name lambda-sns-publish-policy \
+    --policy-document file://lambda-sns-publish-permissions.txt \
+    --profile admin
+
+aws iam attach-role-policy \
+    --role-name lambda-sns-publish-with-sdk-role \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-sns-publish-policy \
+    --profile admin
+
+aws lambda create-function \
+    --function-name lambda-sns-publish-with-sdk \
+    --runtime java8 \
+    --role arn:aws:iam::855923912133:role/lambda-sns-publish-with-sdk-role \
+    --handler tech.heartin.books.serverlesscookbook.LambdaSnsPublishHandler::handleRequest \
+    --code S3Bucket=serverless-cookbook,S3Key=lambda-sns-publish-with-sdk-0.0.1-SNAPSHOT.jar \
+    --timeout 15 \
+    --memory-size 512 \
+    --region us-east-1 \
+    --profile admin
+
+aws lambda invoke \
+    --invocation-type RequestResponse \
+    --function-name lambda-sns-publish-with-sdk \
+    --log-type Tail \
+    --payload file://payload.json \
+    --region us-east-1 \
+    --profile admin \
+    outputfile.txt
+
+
+
+-- Verifying Results --
+
+Check Email and Mobile.
+
+
+
+-- Cleanup --
+
+aws iam detach-role-policy \
+    --role-name lambda-sns-publish-with-sdk-role \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-basic-iam-policy \
+    --region us-east-1 \
+    --profile admin
+
+aws iam delete-policy \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-basic-iam-policy \
+    --region us-east-1 \
+    --profile admin
+
+aws iam detach-role-policy \
+    --role-name lambda-sqs-create-send_role \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-sns-publish-policy \
+    --region us-east-1 \
+    --profile admin
+
+aws iam delete-policy \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-sns-publish-policy \
+    --region us-east-1 \
+    --profile admin
+
+aws iam delete-role \
+    --role-name lambda-sns-publish-with-sdk-role \
+    --region us-east-1 \
+    --profile admin
+
+aws lambda delete-function \
+    --function-name lambda-sns-publish-with-sdk \
+    --profile admin
