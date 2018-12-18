@@ -10,5 +10,5 @@ aws iam create-role \
 
 aws iam attach-role-policy \
     --role-name cognito_sns_iam_role \
-    --policy-arn arn:aws:iam::855923912133:policy/cognito_sns_iam_policy \
+    --policy-arn arn:aws:iam::123456789012:policy/cognito_sns_iam_policy \
     --profile admin

@@ -23,7 +23,7 @@ aws iam create-policy \
 
 aws iam attach-role-policy \
     --role-name lambda-sqs-create-send-role \
-    --policy-arn arn:aws:iam::855923912133:policy/lambda-basic-iam-policy \
+    --policy-arn arn:aws:iam::123456789012:policy/lambda-basic-iam-policy \
     --profile admin
 
 aws iam create-policy \
@@ -33,13 +33,13 @@ aws iam create-policy \
 
 aws iam attach-role-policy \
     --role-name lambda-sqs-create-send-role \
-    --policy-arn arn:aws:iam::855923912133:policy/lambda-sqs-create-send-policy \
+    --policy-arn arn:aws:iam::123456789012:policy/lambda-sqs-create-send-policy \
     --profile admin
 
 aws lambda create-function \
     --function-name lambda-sqs-create-send \
     --runtime java8 \
-    --role arn:aws:iam::855923912133:role/lambda-sqs-create-send-role \
+    --role arn:aws:iam::123456789012:role/lambda-sqs-create-send-role \
     --handler tech.heartin.books.serverlesscookbook.LambdaSqsSdkCreateSendHandler::handleRequest \
     --code S3Bucket=serverless-cookbook,S3Key=lambda-sqs-sdk-create-send-0.0.1-SNAPSHOT.jar \
     --timeout 15 \
@@ -60,7 +60,7 @@ aws lambda invoke \
 -- Verifying Results --
 
 aws sqs receive-message \
-    --queue-url https://queue.amazonaws.com/855923912133/create-send-demo-queue \
+    --queue-url https://queue.amazonaws.com/123456789012/create-send-demo-queue \
     --profile admin
 
 

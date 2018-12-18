@@ -20,18 +20,18 @@ aws iam create-role \
 
 aws iam attach-role-policy \
     --role-name lambda_kinesis_write_role \
-    --policy-arn arn:aws:iam::855923912133:policy/lambda_iam_policy_test \
+    --policy-arn arn:aws:iam::123456789012:policy/lambda_iam_policy_test \
     --profile admin
 
 aws iam attach-role-policy \
     --role-name lambda_kinesis_write_role \
-    --policy-arn arn:aws:iam::855923912133:policy/lambda_kinesis_producer_policy \
+    --policy-arn arn:aws:iam::123456789012:policy/lambda_kinesis_producer_policy \
     --profile admin
 
 aws lambda create-function \
     --function-name lambda-kinesis-sdk-write \
     --runtime java8 \
-    --role arn:aws:iam::855923912133:role/lambda_kinesis_write_role \
+    --role arn:aws:iam::123456789012:role/lambda_kinesis_write_role \
     --handler tech.heartin.books.serverlesscookbook.LambdaKinesisSdkWriteHandler::handleRequest \
     --code S3Bucket=serverless-cookbook,S3Key=lambda-kinesis-sdk-write-0.0.1-SNAPSHOT.jar \
     --timeout 15 \
