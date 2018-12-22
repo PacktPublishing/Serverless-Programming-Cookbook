@@ -60,7 +60,7 @@ public class KinesisServiceImpl implements KinesisService {
                     logger.log("Flushing records to Stream...");
                     flushBatch(request.getStreamName(), logger);
                 } catch (Exception e) {
-                    logger.log("Exception occured: " + e);
+                    logger.log("Exception occurred: " + e);
                     this.isError = false;
                 } finally {
                     this.kinesisBatch.clear();

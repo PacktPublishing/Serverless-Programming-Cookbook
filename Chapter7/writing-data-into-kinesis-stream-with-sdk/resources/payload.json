@@ -4,5 +4,4 @@
     "payload": "testpayloadfromcli",
     "count": 10,
     "batchSize" : 5
-
 }
