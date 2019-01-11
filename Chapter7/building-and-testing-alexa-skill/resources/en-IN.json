@@ -1,0 +1,32 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "self intro",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "SelfIntroIntent",
+                    "samples": [
+                        "please say intro",
+                        "say intro",
+                        "please say intro for",
+                        "say intro for",
+                        "intro",
+                        "intro for"
+                    ]
+                }
+            ]
+        }
+    }
+}

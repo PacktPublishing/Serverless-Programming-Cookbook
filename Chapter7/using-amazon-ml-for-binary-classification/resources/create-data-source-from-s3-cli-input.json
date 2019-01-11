@@ -1,0 +1,10 @@
+{
+    "DataSourceId": "my-first-s3-ds-id",
+    "DataSourceName": "My First S3 DataSource",
+    "DataSpec": {
+        "DataLocationS3": "s3://aml-sample-data/banking.csv",
+        "DataRearrangement": "{\"splitting\":{\"percentBegin\":10,\"percentEnd\":60}}",
+        "DataSchemaLocationS3": "s3://aml-sample-data/banking.csv.schema"
+    },
+    "ComputeStatistics": true
+}

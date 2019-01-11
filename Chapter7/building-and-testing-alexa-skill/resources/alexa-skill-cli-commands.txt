@@ -1,0 +1,25 @@
+-- install and configure ask cli --
+
+npm install -g ask-cli
+
+ask init
+
+
+-- Working with Alexa skill --
+
+ask api create-skill \
+    --file skill.json
+
+ask api update-model \
+    --skill-id amzn1.ask.skill.a585bf93-15bb-4361-ab56-ffbdc66027fd \
+    --file en-US.json \
+    --locale en-US
+
+ask api update-model \
+    --skill-id amzn1.ask.skill.a585bf93-15bb-4361-ab56-ffbdc66027fd \
+    --file en-IN.json \
+    --locale en-IN
+
+ask api enable-skill \
+    --skill-id amzn1.ask.skill.a585bf93-15bb-4361-ab56-ffbdc66027fd
+

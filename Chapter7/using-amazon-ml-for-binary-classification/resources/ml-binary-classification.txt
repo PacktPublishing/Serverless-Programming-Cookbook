@@ -1,0 +1,53 @@
+aws machinelearning create-data-source-from-s3 \
+    --generate-cli-skeleton input
+
+aws machinelearning create-data-source-from-s3 \
+    --cli-input-json file://create-data-source-from-s3-cli-input.json \
+    --region us-east-1 \
+    --profile admin
+
+aws machinelearning describe-data-sources \
+    --region us-east-1 \
+    --profile admin
+
+aws machinelearning create-ml-model \
+    --ml-model-id 'my-first-ml-model-id' \
+    --ml-model-name 'My First ML Model' \
+    --ml-model-type 'BINARY' \
+    --training-data-source-id 'my-first-s3-ds-id' \
+    --region us-east-1 \
+    --profile admin
+
+aws machinelearning describe-ml-models \
+    --region us-east-1 \
+    --profile admin
+
+aws machinelearning create-evaluation \
+    --evaluation-id 'my-first-ml-evaluation-id' \
+    --evaluation-name 'My First ML Evaluation' \
+    --ml-model-id 'my-first-ml-model-id' \
+    --evaluation-data-source-id 'my-first-s3-ds-id' \
+    --region us-east-1 \
+    --profile admin
+
+aws machinelearning describe-evaluations \
+    --region us-east-1 \
+    --profile admin
+
+aws machinelearning create-realtime-endpoint \
+    --ml-model-id 'my-first-ml-model-id' \
+    --region us-east-1 \
+    --profile admin
+
+
+aws machinelearning get-ml-model \
+    --ml-model-id 'my-first-ml-model-id' \
+    --region us-east-1 \
+    --profile admin
+
+aws machinelearning predict \
+    --ml-model-id 'my-first-ml-model-id' \
+    --record 'age=44,job=blue-collar,marital=married,education=basic.4y,default=unknown,housing=yes,loan=no,contact=cellular,month=aug,day_of_week=thu,duration=210,campaign=1,pdays=999,previous=0,poutcome=nonexistent,emp_var_rate=1.4,cons_price_idx=93.444,cons_conf_idx=-36.1,euribor3m=4.963,nr_employed=5228.1' \
+    --predict-endpoint 'https://realtime.machinelearning.us-east-1.amazonaws.com' \
+    --region us-east-1 \
+    --profile admin

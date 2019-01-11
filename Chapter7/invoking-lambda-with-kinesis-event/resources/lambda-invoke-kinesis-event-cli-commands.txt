@@ -1,0 +1,172 @@
+-- Creating Stream --
+
+aws kinesis create-stream \
+    --stream-name kinesis-stream-for-event \
+    --shard-count 1 \
+    --region us-east-1 \
+    --profile admin
+
+
+
+-- Checking Stream --
+
+aws kinesis describe-stream \
+    --stream-name kinesis-stream-for-event \
+    --region us-east-1 \
+    --profile admin
+
+aws kinesis list-streams \
+    --region us-east-1 \
+    --profile admin
+
+
+
+-- Deploying and Invoking Lambda --
+
+cd lambda-invoke-kinesis-event
+
+aws s3 cp \
+    target/lambda-invoke-kinesis-event-0.0.1-SNAPSHOT.jar \
+    s3://serverless-cookbook/lambda-invoke-kinesis-event-0.0.1-SNAPSHOT.jar \
+    --profile admin
+
+cd ..
+
+cd resources
+
+aws iam create-role \
+    --role-name lambda-invoke-kinesis-event-role \
+    --assume-role-policy-document file://iam-role-trust-relationship.txt \
+    --profile admin
+
+aws iam create-policy \
+    --policy-name lambda-basic-iam-policy \
+    --policy-document file://basic-lambda-permissions.txt \
+    --profile admin
+
+aws iam attach-role-policy \
+    --role-name lambda-invoke-kinesis-event-role \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-basic-iam-policy \
+    --profile admin
+
+aws iam create-policy \
+    --policy-name lambda-invoke-kinesis-event-policy \
+    --policy-document file://lambda-invoke-kinesis-event-permissions.txt \
+    --profile admin
+
+aws iam attach-role-policy \
+    --role-name lambda-invoke-kinesis-event-role \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-invoke-kinesis-event-policy \
+    --profile admin
+
+aws lambda create-function \
+    --function-name lambda-invoke-kinesis-event \
+    --runtime java8 \
+    --role arn:aws:iam::855923912133:role/lambda-invoke-kinesis-event-role \
+    --handler tech.heartin.books.serverlesscookbook.LambdaKinesisEventHandler::handleRequest \
+    --code S3Bucket=serverless-cookbook,S3Key=lambda-invoke-kinesis-event-0.0.1-SNAPSHOT.jar \
+    --timeout 15 \
+    --memory-size 512 \
+    --region us-east-1 \
+    --profile admin
+
+aws lambda create-event-source-mapping \
+    --event-source-arn arn:aws:kinesis:us-east-1:855923912133:stream/kinesis-stream-for-event \
+    --function-name lambda-invoke-kinesis-event \
+    --starting-position LATEST \
+    --batch-size 3 \
+    --region us-east-1 \
+    --profile admin
+
+aws lambda  list-event-source-mappings \
+    --function-name lambda-invoke-kinesis-event \
+    --region us-east-1 \
+    --profile admin
+
+
+
+-- Verification --
+
+aws kinesis put-record \
+    --stream-name kinesis-stream-for-event \
+    --partition-key 12345 \
+    --data sampledata01 \
+    --region us-east-1 \
+    --profile admin
+
+aws kinesis put-record \
+    --stream-name kinesis-stream-for-event \
+    --partition-key 12345 \
+    --data sampledata02 \
+    --region us-east-1 \
+    --profile admin
+
+aws kinesis put-record \
+    --stream-name kinesis-stream-for-event \
+    --partition-key 12345 \
+    --data sampledata03 \
+    --region us-east-1 \
+    --profile admin
+
+aws kinesis put-record \
+    --stream-name kinesis-stream-for-event \
+    --partition-key 12345 \
+    --data sampledata04 \
+    --region us-east-1 \
+    --profile admin
+
+aws kinesis put-record \
+    --stream-name kinesis-stream-for-event \
+    --partition-key 12345 \
+    --data sampledata05 \
+    --region us-east-1 \
+    --profile admin
+
+-- Cleanup --
+
+aws iam detach-role-policy \
+    --role-name lambda-invoke-kinesis-event-role \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-basic-iam-policy \
+    --region us-east-1 \
+    --profile admin
+
+aws iam delete-policy \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-basic-iam-policy \
+    --region us-east-1 \
+    --profile admin
+
+aws iam detach-role-policy \
+    --role-name lambda-invoke-kinesis-event-role \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-invoke-kinesis-event-policy \
+    --region us-east-1 \
+    --profile admin
+
+aws iam delete-policy \
+    --policy-arn arn:aws:iam::855923912133:policy/lambda-invoke-kinesis-event-policy \
+    --region us-east-1 \
+    --profile admin
+
+aws iam delete-role \
+    --role-name lambda-invoke-kinesis-event-role \
+    --region us-east-1 \
+    --profile admin
+
+aws lambda delete-function \
+    --function-name lambda-invoke-kinesis-event \
+    --region us-east-1 \
+    --profile admin
+
+aws lambda  list-event-source-mappings \
+    --function-name lambda-invoke-kinesis-event \
+    --region us-east-1 \
+    --profile admin
+
+aws lambda delete-event-source-mapping \
+    --uuid 'a26f4057-621c-4cb0-a6d6-2b602ecb670c' \
+    --region us-east-1 \
+    --profile admin
+
+aws kinesis delete-stream \
+    --stream-name kinesis-stream-for-event \
+    --region us-east-1 \
+    --profile admin
