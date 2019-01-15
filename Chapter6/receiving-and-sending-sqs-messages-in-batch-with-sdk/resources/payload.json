@@ -1,6 +1,6 @@
 {
-    "inputQueueURL" : "https://queue.amazonaws.com/855923912133/my-input-queue",
-    "outputQueueURL" : "https://queue.amazonaws.com/855923912133/my-output-queue",
+    "inputQueueURL" : "https://queue.amazonaws.com/123456789012/my-input-queue",
+    "outputQueueURL" : "https://queue.amazonaws.com/123456789012/my-output-queue",
     "maxMessagesToReceive" : 5,
     "delay": 10
 }

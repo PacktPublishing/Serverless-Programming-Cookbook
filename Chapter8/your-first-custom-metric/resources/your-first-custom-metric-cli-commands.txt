@@ -1,0 +1,30 @@
+aws cloudwatch put-metric-data \
+    --namespace 'ServerlessProgrammingCookbook' \
+    --metric-name 'FailedLogins' \
+    --value 1 \
+    --region us-east-1 \
+    --profile admin
+
+aws cloudwatch put-metric-data \
+    --namespace 'ServerlessProgrammingCookbook' \
+    --metric-name 'FailedLogins' \
+    --value 1 \
+    --dimensions 'Device=Mobile' \
+    --region us-east-1 \
+    --profile admin
+
+aws cloudwatch put-metric-data \
+    --namespace 'ServerlessProgrammingCookbook' \
+    --metric-name 'FailedLogins' \
+    --value 1 \
+    --dimensions 'Device=Laptop' \
+    --region us-east-1 \
+    --profile admin
+
+aws cloudwatch put-metric-data \
+    --namespace 'ServerlessProgrammingCookbook' \
+    --metric-name 'FailedLogins' \
+    --value 1 \
+    --dimensions 'Device=Laptop' \
+    --region us-east-1 \
+    --profile admin

@@ -1,4 +1,4 @@
 {
-    "topicArn" : "arn:aws:sns:us-east-1:855923912133:my-first-sns-topic",
+    "topicArn" : "arn:aws:sns:us-east-1:123456789012:my-first-sns-topic",
     "message": "test payload 1"
 }

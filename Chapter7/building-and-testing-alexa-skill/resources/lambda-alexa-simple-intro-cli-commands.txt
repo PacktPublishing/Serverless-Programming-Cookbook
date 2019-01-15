@@ -23,13 +23,13 @@ aws iam create-policy \
 
 aws iam attach-role-policy \
     --role-name lambda-alexa-simple-intro-role \
-    --policy-arn arn:aws:iam::855923912133:policy/lambda-basic-iam-policy \
+    --policy-arn arn:aws:iam::123456789012:policy/lambda-basic-iam-policy \
     --profile admin
 
 aws lambda create-function \
     --function-name lambda-alexa-simple-intro \
     --runtime java8 \
-    --role arn:aws:iam::855923912133:role/lambda-alexa-simple-intro-role \
+    --role arn:aws:iam::123456789012:role/lambda-alexa-simple-intro-role \
     --handler tech.heartin.books.serverlesscookbook.SelfIntroStreamHandler::handleRequest \
     --code S3Bucket=serverless-cookbook,S3Key=lambda-alexa-simple-intro-0.0.1-SNAPSHOT.jar \
     --timeout 15 \

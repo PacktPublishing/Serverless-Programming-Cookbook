@@ -18,7 +18,7 @@
   "SmsVerificationMessage": "Your verification code from qnatime.com is {####}.",
   "MfaConfiguration": "ON",
   "SmsConfiguration": {
-    "SnsCallerArn": "arn:aws:iam::855923912133:role/cognito_sns_iam_role",
+    "SnsCallerArn": "arn:aws:iam::123456789012:role/cognito_sns_iam_role",
     "ExternalId": "some-unique-external-id-preferably-a-uuid"
   },
 

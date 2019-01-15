@@ -1,6 +1,8 @@
+cd resources
+
 aws cloudformation create-stack \
     --stack-name kinesisfirststack \
-    --template-body file://resources/kinesis-stream-cf-template.yml \
+    --template-body file://kinesis-stream-cf-template.yml \
     --region us-east-1 \
     --profile admin
 

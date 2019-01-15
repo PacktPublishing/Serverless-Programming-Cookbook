@@ -46,7 +46,7 @@ aws iam create-policy \
 
 aws iam attach-role-policy \
     --role-name lambda-invoke-kinesis-event-role \
-    --policy-arn arn:aws:iam::855923912133:policy/lambda-basic-iam-policy \
+    --policy-arn arn:aws:iam::123456789012:policy/lambda-basic-iam-policy \
     --profile admin
 
 aws iam create-policy \
@@ -56,13 +56,13 @@ aws iam create-policy \
 
 aws iam attach-role-policy \
     --role-name lambda-invoke-kinesis-event-role \
-    --policy-arn arn:aws:iam::855923912133:policy/lambda-invoke-kinesis-event-policy \
+    --policy-arn arn:aws:iam::123456789012:policy/lambda-invoke-kinesis-event-policy \
     --profile admin
 
 aws lambda create-function \
     --function-name lambda-invoke-kinesis-event \
     --runtime java8 \
-    --role arn:aws:iam::855923912133:role/lambda-invoke-kinesis-event-role \
+    --role arn:aws:iam::123456789012:role/lambda-invoke-kinesis-event-role \
     --handler tech.heartin.books.serverlesscookbook.LambdaKinesisEventHandler::handleRequest \
     --code S3Bucket=serverless-cookbook,S3Key=lambda-invoke-kinesis-event-0.0.1-SNAPSHOT.jar \
     --timeout 15 \
@@ -71,7 +71,7 @@ aws lambda create-function \
     --profile admin
 
 aws lambda create-event-source-mapping \
-    --event-source-arn arn:aws:kinesis:us-east-1:855923912133:stream/kinesis-stream-for-event \
+    --event-source-arn arn:aws:kinesis:us-east-1:123456789012:stream/kinesis-stream-for-event \
     --function-name lambda-invoke-kinesis-event \
     --starting-position LATEST \
     --batch-size 3 \
@@ -126,23 +126,23 @@ aws kinesis put-record \
 
 aws iam detach-role-policy \
     --role-name lambda-invoke-kinesis-event-role \
-    --policy-arn arn:aws:iam::855923912133:policy/lambda-basic-iam-policy \
+    --policy-arn arn:aws:iam::123456789012:policy/lambda-basic-iam-policy \
     --region us-east-1 \
     --profile admin
 
 aws iam delete-policy \
-    --policy-arn arn:aws:iam::855923912133:policy/lambda-basic-iam-policy \
+    --policy-arn arn:aws:iam::123456789012:policy/lambda-basic-iam-policy \
     --region us-east-1 \
     --profile admin
 
 aws iam detach-role-policy \
     --role-name lambda-invoke-kinesis-event-role \
-    --policy-arn arn:aws:iam::855923912133:policy/lambda-invoke-kinesis-event-policy \
+    --policy-arn arn:aws:iam::123456789012:policy/lambda-invoke-kinesis-event-policy \
     --region us-east-1 \
     --profile admin
 
 aws iam delete-policy \
-    --policy-arn arn:aws:iam::855923912133:policy/lambda-invoke-kinesis-event-policy \
+    --policy-arn arn:aws:iam::123456789012:policy/lambda-invoke-kinesis-event-policy \
     --region us-east-1 \
     --profile admin
 

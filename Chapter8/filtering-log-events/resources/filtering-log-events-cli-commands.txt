@@ -1,0 +1,26 @@
+aws logs put-metric-filter \
+    --log-group-name /aws/lambda/demo-lambda-with-cli \
+    --filter-name 'HelloCountFilter' \
+    --filter-pattern 'Hello' \
+    --metric-transformations file://metric-transformations.json \
+    --region us-east-1 \
+    --profile admin
+
+aws lambda invoke \
+    --invocation-type RequestResponse \
+    --function-name demo-lambda-with-cli \
+    --log-type Tail \
+    --payload '{"name": "Heartin"}' \
+    --region us-east-1 \
+    --profile admin \
+    outputfile.txt
+
+aws lambda invoke \
+    --invocation-type RequestResponse \
+    --function-name myHelloWorldLambda \
+    --log-type Tail \
+    --payload '{"name":"Heartin"}' \
+    --region us-east-1 \
+    --profile admin \
+    outputfile.txt
+

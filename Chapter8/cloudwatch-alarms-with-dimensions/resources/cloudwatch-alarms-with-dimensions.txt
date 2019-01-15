@@ -1,0 +1,36 @@
+aws cloudwatch put-metric-alarm \
+    --alarm-name FailedRequestsAlarmWithDimensions \
+    --alarm-description 'Alarm for failed login requests' \
+    --metric-name 'FailedLogins' \
+    --namespace 'ServerlessProgrammingCookbook' \
+    --statistic 'Average' \
+    --period 10 \
+    --threshold 5 \
+    --comparison-operator GreaterThanOrEqualToThreshold \
+    --evaluation-periods 1 \
+    --dimensions Name=Device,Value=Laptop \
+    --alarm-actions arn:aws:sns:us-east-1:123456789012:my-first-sns-topic \
+    --region us-east-1 \
+    --profile admin
+
+aws cloudwatch describe-alarms \
+    --alarm-names FailedRequestsAlarmWithDimensions \
+    --region us-east-1 \
+    --profile admin
+
+aws cloudwatch put-metric-data \
+    --namespace 'ServerlessProgrammingCookbook' \
+    --metric-name 'FailedLogins' \
+    --value 1 \
+    --dimensions Device=Laptop \
+    --region us-east-1 \
+    --profile admin
+
+aws cloudwatch put-metric-data \
+    --namespace 'ServerlessProgrammingCookbook' \
+    --metric-name 'FailedLogins' \
+    --value 10 \
+    --dimensions Device=Laptop \
+    --region us-east-1 \
+    --profile admin
+
