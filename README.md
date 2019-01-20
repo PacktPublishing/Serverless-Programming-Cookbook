@@ -12,6 +12,6 @@ Inside the chapter's directory there will be subdirectories for each recipe whic
 
 Inside the recipe's directory there will be directory for storing all resources including the AWS CLI commands called 'resources'. 
 
-The recipe's directory also contains a subdirectory for each Lambda project. You need to run 'mvn clean package' for generating the Lambda jar from within this directory. You may also run the S3 upload command for the generated Lambda JAR from this directory. The remainder of the CLI commands may be run from the recipe's root folder or the 'resources' folder.
+The recipe's directory also contains a subdirectory for each Lambda project. You need to run 'mvn clean package' for generating the Lambda jar from within this directory. You can also run the S3 upload command for the generated Lambda JAR from this directory. The remainder of the CLI commands may be run from the recipe's root folder or the 'resources' folder.
 
 Before running 'mvn clean package' for any Lambda project, you should run 'mvn clean install' from within the common Lambda parent project's directory 'serverless-cookbook-parent-aws-java', if not already done.
