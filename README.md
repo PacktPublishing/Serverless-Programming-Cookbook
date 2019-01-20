@@ -4,7 +4,7 @@ This is the parent repository for code-files and resources for the book 'Serverl
 
 ## How to use the code files
 
-Completed code and AWS CLI commands for each chapter wherever applicable are present with the code code files. 
+Completed code and AWS CLI commands for each chapter wherever applicable are present with the code files. 
 
 Each chapter has a directory of its own (e.g. Chapter 1). 
 
