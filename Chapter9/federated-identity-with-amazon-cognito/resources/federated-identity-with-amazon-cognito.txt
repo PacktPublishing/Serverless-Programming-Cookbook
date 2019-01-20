@@ -1,0 +1,32 @@
+aws cognito-identity create-identity-pool \
+    --identity-pool-name qnatimepool \
+    --no-allow-unauthenticated-identities \
+    --supported-login-providers file://provider.json \
+    --region us-east-1 \
+    --profile admin
+
+aws  iam  create-policy  \
+    --policy-name  identity-pool-policy  \
+    --policy-document file://role_policy.txt \
+    --profile  admin
+
+aws  iam  create-role  \
+    --role-name  identity-pool-role  \
+    --assume-role-policy-document  file://iam-role-trust-relationship.txt \
+    --profile  admin
+
+aws  iam  attach-role-policy  \
+    --role-name  identity-pool-role  \
+    --policy-arn  arn:aws:iam::855923912133:policy/identity-pool-policy  \
+    --profile  admin
+
+aws cognito-identity  set-identity-pool-roles \
+    --identity-pool-id us-east-1:0f692fe2-c799-4334-b29b-54fd6544f2fb \
+    --roles file://roles.json \
+    --region us-east-1 \
+    --profile  admin
+
+aws s3 cp index.html s3://qnatime.com --profile admin
+aws s3 cp error.html s3://qnatime.com --profile admin
+
+

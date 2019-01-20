@@ -1,0 +1,116 @@
+** Setup *8
+
+mkdir aws_personal
+cd aws_personal
+npm i amazon-cognito-identity-js
+
+aws s3api create-bucket \
+    --bucket serverlesscookbook-cognito-files \
+    --profile admin
+
+aws s3 cp amazon-cognito-identity.min.js s3://serverlesscookbook-cognito-files \
+    --profile admin
+
+aws s3api put-bucket-policy \
+    --bucket serverlesscookbook-cognito-files \
+    --policy file://s3-website-policy.json \
+    --profile admin
+
+aws cognito-idp create-user-pool \
+    --cli-input-json file://create-user-pool-cli-input.json \
+    --region us-east-1 \
+    --profile admin
+
+aws cognito-idp create-user-pool-client \
+    --user-pool-id us-east-1_P8srRzYqn \
+    --client-name javscript-pool-client \
+    --explicit-auth-flows USER_PASSWORD_AUTH \
+    --region us-east-1 \
+    --profile admin
+
+    https://s3.amazonaws.com/serverlesscookbook-cognito-files/amazon-cognito-identity.min.js
+
+
+** JavaScript SDK code to register **
+
+var poolData = {
+    UserPoolId: 'us-east-1_P8srRzYqn',
+    ClientId: '3sk2emj3thcp6mdg43he50k4qn'
+};
+var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+var attributeList: CognitoUserAttribute[] = [];
+var emailAttribute = {
+
+Name : 'email',
+Value : 'serverlesscookbook@gmail.com'
+};
+
+attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute(emailAttribute));
+
+userPool.signUp('heartin', 'Passw0rd$1', attributeList, null, function(err, result){
+    if (err) {
+        console.log(JSON.stringify(err));
+        alert(err.message || JSON.stringify(err));
+        return;
+    }
+    var cognitoUser = result.user;
+    console.log('user name is ' + cognitoUser.getUsername());
+});
+
+
+** Confirming the registered user **
+
+var poolData = {
+   UserPoolId: 'us-east-1_P8srRzYqn',
+   ClientId: '3sk2emj3thcp6mdg43he50k4qn'
+};
+var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+var userData = {
+        Username : 'heartin',
+        Pool : userPool
+    };
+
+var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+    cognitoUser.confirmRegistration('698099', true, function(err, result) {
+        if (err) {
+            alert(err.message || JSON.stringify(err));
+            return;
+        }
+        console.log('call result: ' + result);
+    });
+
+
+** Signing in **
+
+var authenticationData = {
+        Username : 'heartin',
+        Password : 'Passw0rd$1',
+    };
+
+    var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(authenticationData);
+    var poolData = {
+        UserPoolId : 'us-east-1_P8srRzYqn',
+        ClientId : '3sk2emj3thcp6mdg43he50k4qn'
+    };
+
+    var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+    var userData = {
+        Username : 'heartin',
+        Pool : userPool
+    };
+
+    var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+    cognitoUser.authenticateUser(authenticationDetails, {
+        onSuccess: function (result) {
+            var accessToken = result.getAccessToken().getJwtToken();
+            console.log('access token is:' + accessToken);
+        },
+        onFailure: function(err) {
+          console.log(JSON.stringify(err));
+            alert(err.message || JSON.stringify(err));
+        },
+
+    });
+
+
+

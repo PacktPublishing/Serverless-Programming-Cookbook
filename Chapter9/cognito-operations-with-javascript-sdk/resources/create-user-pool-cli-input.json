@@ -1,0 +1,23 @@
+{
+    "PoolName": "javscript_pool",
+    "Policies": {
+        "PasswordPolicy": {
+            "MinimumLength": 8,
+            "RequireUppercase": true,
+            "RequireLowercase": true,
+            "RequireNumbers": true,
+            "RequireSymbols": true
+        }
+    },
+    "AutoVerifiedAttributes": [
+        "email"
+    ],
+    "AliasAttributes": [
+        "email"
+    ],
+    "EmailVerificationMessage": "Your verification code from MyApp is {####}",
+    "EmailVerificationSubject": "Your verification code from MyAp",
+    "UserPoolTags": {
+        "Team": "Dev"
+    }
+}

@@ -1,0 +1,115 @@
+aws apigateway create-rest-api \
+    --name 'API WITH CORS' \
+    --region us-east-1 \
+    --profile admin
+
+aws apigateway get-resources \
+    --rest-api-id xenqybowjg \
+    --region us-east-1 \
+    --profile admin
+
+aws apigateway create-resource  \
+    --rest-api-id xenqybowjg \
+    --parent-id p8yd8xde55 \
+    --path-part greeting \
+    --region us-east-1 \
+    --profile admin
+
+aws apigateway create-resource \
+    --rest-api-id xenqybowjg \
+    --parent-id xkjhh7 \
+    --path-part "{name}" \
+    --region us-east-1 \
+    --profile admin
+
+
+
+aws apigateway put-method  \
+    --rest-api-id xenqybowjg \
+    --resource-id sfgfk6 \
+    --http-method GET \
+    --authorization-type "NONE" \
+    --region us-east-1 \
+    --profile admin
+
+aws apigateway put-method-response \
+    --rest-api-id xenqybowjg \
+    --resource-id sfgfk6 \
+    --http-method GET \
+    --status-code 200 \
+    --response-parameters file://put-method-response-get.json \
+    --region us-east-1\
+    --profile admin
+
+aws apigateway put-integration \
+    --rest-api-id xenqybowjg \
+    --resource-id sfgfk6 \
+    --http-method GET  \
+    --type MOCK  \
+    --integration-http-method GET \
+    --request-templates "{\"application/json\": \"{"statusCode": "200"}\"}"  \
+    --region us-east-1 --profile admin
+
+aws apigateway put-integration-response \
+    --rest-api-id xenqybowjg \
+    --resource-id sfgfk6 \
+    --http-method GET \
+    --status-code 200 \
+    --response-templates file://response-template-get.json \
+    --response-parameters file://put-method-integration-get.json \
+    --selection-pattern "" \
+    --region us-east-1 --profile admin
+
+
+
+aws apigateway put-method  \
+    --rest-api-id xenqybowjg \
+    --resource-id sfgfk6 \
+    --http-method OPTIONS \
+    --authorization-type "NONE" \
+    --region us-east-1 \
+    --profile admin
+
+aws apigateway put-method-response \
+    --rest-api-id xenqybowjg \
+    --resource-id sfgfk6 \
+    --http-method OPTIONS \
+    --status-code 200 \
+    --response-parameters file://put-method-response-options.json \
+    --region us-east-1 --profile admin
+
+aws apigateway put-integration \
+    --rest-api-id xenqybowjg \
+    --resource-id sfgfk6 \
+    --http-method OPTIONS \
+    --type MOCK  \
+    --integration-http-method OPTIONS \
+    --request-templates "{\"application/json\": \"{"statusCode": "200"}\"}"  \
+    --region us-east-1 \
+    --profile admin
+
+aws apigateway put-integration-response \
+    --rest-api-id xenqybowjg \
+    --resource-id sfgfk6 \
+    --http-method OPTIONS \
+    --status-code 200 \
+    --response-parameters file://put-method-integration-response-options.json \
+    --selection-pattern "" \
+    --region us-east-1 \
+    --profile admin
+
+
+
+aws apigateway create-deployment \
+    --rest-api-id xenqybowjg \
+    --stage-name dev  \
+    --stage-description "Dev stage" \
+    --description "Dev deployment" \
+    --region us-east-1   \
+    --profile admin
+
+
+
+URL:
+https://xenqybowjg.execute-api.us-east-1.amazonaws.com/dev/greeting/Heartin
+

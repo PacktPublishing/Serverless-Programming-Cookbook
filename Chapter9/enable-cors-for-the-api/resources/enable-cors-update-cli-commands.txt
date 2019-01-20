@@ -1,0 +1,22 @@
+
+
+Add Response Header with name Access-Control-Allow-Origin, Access-Control-Allow-Headers, Access-Control-Allow-Methods for the resource
+
+aws apigateway update-method-response \
+    --rest-api-id lvd3vmhxaa  \
+    --resource-id in1q7f \
+    --http-method GET \
+    --status-code 200 \
+    --patch-operations file://method-response.json
+
+
+set up the mapping value for the newly added response headers to their static value
+
+aws apigateway update-integration-response \
+    --rest-api-id lvd3vmhxaa  \
+    --resource-id in1q7f \
+    --http-method GET \
+    --status-code 200 \
+    --patch-operations file://C:/2018/AWS_Serverless/integration-response.json
+
+
