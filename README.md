@@ -4,10 +4,14 @@ This is the parent repository for code-files and resources for the book 'Serverl
 
 ## How to use the code files
 
-Completed code and AWS CLI commands for each chapter wherever applicable are present with the code code files. Each chapter has a directory of its own (e.g. Chapter 1). Inside the chapter's directory there will be subdirectory for each recipe which has code files or WS CLI commands. 
+Completed code and AWS CLI commands for each chapter wherever applicable are present with the code code files. 
 
-The recipe specific directory has names corresponding to that recipe's title. Consider Chapter 1 recipe titled 'Your first Lambda with AWS CLI'.  Corresponding Lambda project directory is named as 'lambda-handler-with-pojos'. You run 'mvn clean package' for generating the Lambda jar within this directory. 
+Each chapter has a directory of its own (e.g. Chapter 1). 
 
-Before running 'mvn clean package' for any Lambda project, you should have run 'mvn clean install' from within the common Lambda parent project available within the root folder as 'serverless-cookbook-parent-aws-java'.
+Inside the chapter's directory there will be subdirectories for each recipe which has code files and/or AWS CLI commands. The recipe specific directory has names corresponding to the recipe's title. For example, directory for the Chapter 1 recipe titled 'Your first Lambda' is 'your-first-lambda'.  
 
-All resources including AWS CLI commands are available within another subdirectory called 'resources'within the recipe specific folder same level as the Lambda project directory. 
+Inside the recipe's directory there will be a subdirectory for each Lambda project. There is also one directory for storing all resources including the AWS CLI commands called 'resources'. 
+
+You need to run 'mvn clean package' for generating the Lambda jar within this directory. You also run the S3 upload command for the generated Lambda JAR from this directory. The remainder of the CLI commands may be run from the recipe's root folder or the resources folder.
+
+Before running 'mvn clean package' for any Lambda project, you should run 'mvn clean install' from within the common Lambda parent project available within the root folder as 'serverless-cookbook-parent-aws-java', if not already done so.
