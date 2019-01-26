@@ -1,6 +1,6 @@
 aws cloudformation create-stack \
     --stack-name myapigatewaystack \
-    --template-body file://resources/integrating-cognito-with-api-gateway-cf-template.yml \
+    --template-body file://integrating-cognito-with-api-gateway-cf-template.yml \
     --region us-east-1 \
     --profile admin
 

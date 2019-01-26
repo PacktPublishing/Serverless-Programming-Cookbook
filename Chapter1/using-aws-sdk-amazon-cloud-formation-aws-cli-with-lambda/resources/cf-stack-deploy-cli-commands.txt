@@ -1,6 +1,6 @@
 aws cloudformation create-stack \
     --stack-name myteststack \
-    --template-body file://resources/cf-template-iam-operations.yml \
+    --template-body file://cf-template-iam-operations.yml \
     --region us-east-1 \
     --profile admin
 

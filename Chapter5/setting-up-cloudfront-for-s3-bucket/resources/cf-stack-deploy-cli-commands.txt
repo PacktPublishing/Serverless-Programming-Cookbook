@@ -1,6 +1,6 @@
 aws cloudformation create-stack \
     --stack-name mycloudfrontstack \
-    --template-body file://resources/create-cloud-front-distribution.yml \
+    --template-body file://create-cloud-front-distribution.yml \
     --region ap-south-1 \
     --profile admin
 

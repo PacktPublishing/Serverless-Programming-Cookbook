@@ -1,6 +1,6 @@
 aws cloudformation create-stack \
     --stack-name myapistack-1 \
-    --template-body file://resources/validating-payloads-cf-template.yml \
+    --template-body file://validating-payloads-cf-template.yml \
     --region us-east-1 \
     --profile admin
 

@@ -4,20 +4,20 @@ aws s3api create-bucket \
     --region ap-south-1 \
     --profile admin
 
-aws s3 cp resources/index.html s3://qnatime/index.html \
+aws s3 cp index.html s3://qnatime/index.html \
     --profile admin
 
-aws s3 cp resources/error.html s3://qnatime/error.html \
+aws s3 cp error.html s3://qnatime/error.html \
     --profile admin
 
 aws s3api put-bucket-website \
     --bucket qnatime \
-    --website-configuration file://resources/s3-website-configuration.json \
+    --website-configuration file://s3-website-configuration.json \
     --profile admin
 
 aws s3api put-bucket-policy \
     --bucket qnatime \
-    --policy file://resources/s3-website-policy.json \
+    --policy file://s3-website-policy.json \
     --profile admin
 
 
@@ -37,8 +37,8 @@ aws s3 rb s3://qnatime \
 
 -- Upload files for the CloudFormation template --
 
-aws s3 cp resources/index.html s3://quizzercloud/index.html \
+aws s3 cp index.html s3://quizzercloud/index.html \
     --profile admin
 
-aws s3 cp resources/error.html s3://quizzercloud/error.html \
+aws s3 cp error.html s3://quizzercloud/error.html \
     --profile admin

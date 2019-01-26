@@ -1,6 +1,6 @@
 aws cloudformation create-stack \
     --stack-name userpoolandclientstack \
-    --template-body file://resources/create-user-pool-and-client-cf-template.yml \
+    --template-body file://create-user-pool-and-client-cf-template.yml \
     --capabilities CAPABILITY_NAMED_IAM \
     --region us-east-1 \
     --profile admin

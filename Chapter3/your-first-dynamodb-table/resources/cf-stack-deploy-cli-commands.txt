@@ -1,6 +1,6 @@
 aws cloudformation create-stack \
     --stack-name myteststack \
-    --template-body file://resources/your-first-dynamodb-table-cf-template.yml \
+    --template-body file://your-first-dynamodb-table-cf-template.yml \
     --region us-east-1 \
     --profile admin
 
@@ -11,7 +11,7 @@ aws cloudformation describe-stacks \
 
 aws cloudformation update-stack \
     --stack-name myteststack \
-    --template-body file://resources/your-first-dynamodb-table-cf-template-updated.yml \
+    --template-body file://your-first-dynamodb-table-cf-template-updated.yml \
     --region us-east-1 \
     --profile admin
 

@@ -6,13 +6,13 @@ aws s3 cp \
 
 aws iam create-policy \
     --policy-name lambda_iam_policy_test \
-    --policy-document file://resources/basic-lambda-permissions.txt \
+    --policy-document file://basic-lambda-permissions.txt \
     --region us-east-1 \
     --profile admin
 
 aws iam create-role \
     --role-name lambda_iam_role_test \
-    --assume-role-policy-document file://resources/iam-role-trust-relationship.txt \
+    --assume-role-policy-document file://iam-role-trust-relationship.txt \
     --region us-east-1 \
     --profile admin
 

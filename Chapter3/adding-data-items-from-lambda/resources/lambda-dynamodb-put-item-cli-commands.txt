@@ -5,7 +5,7 @@ s3://serverless-cookbook/lambda-dynamodb-put-item-0.0.1-SNAPSHOT.jar \
 
 aws cloudformation create-stack \
     --stack-name myteststack-p \
-    --template-body file://resources/lambda-dynamodb-put-item-cf-template.yml \
+    --template-body file://lambda-dynamodb-put-item-cf-template.yml \
     --capabilities CAPABILITY_NAMED_IAM \
     --region us-east-1 \
     --profile admin

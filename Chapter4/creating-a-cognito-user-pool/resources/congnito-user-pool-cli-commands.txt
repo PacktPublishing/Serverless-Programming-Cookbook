@@ -2,7 +2,7 @@ aws cognito-idp create-user-pool \
     --generate-cli-skeleton
 
 aws cognito-idp create-user-pool \
-    --cli-input-json file://resources/create-user-pool-cli-input.json \
+    --cli-input-json file://create-user-pool-cli-input.json \
     --profile admin
 
 aws cognito-idp describe-user-pool \

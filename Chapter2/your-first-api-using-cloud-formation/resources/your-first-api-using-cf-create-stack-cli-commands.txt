@@ -1,6 +1,6 @@
 aws cloudformation create-stack \
     --stack-name myteststack \
-    --template-body file://resources/your-first-rest-api-with-api-gateway-cf.yml \
+    --template-body file://your-first-rest-api-with-api-gateway-cf.yml \
     --region us-east-1 \
     --profile admin
 

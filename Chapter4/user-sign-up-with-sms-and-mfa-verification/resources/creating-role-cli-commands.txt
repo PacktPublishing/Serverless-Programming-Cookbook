@@ -1,11 +1,11 @@
 aws iam create-policy \
     --policy-name cognito_sns_iam_policy \
-    --policy-document file://resources/sns-publish-policy.txt \
+    --policy-document file://sns-publish-policy.txt \
     --profile admin
 
 aws iam create-role \
     --role-name cognito_sns_iam_role \
-    --assume-role-policy-document file://resources/assume-role-trust-relationship-policy-document.txt \
+    --assume-role-policy-document file://assume-role-trust-relationship-policy-document.txt \
     --profile admin
 
 aws iam attach-role-policy \

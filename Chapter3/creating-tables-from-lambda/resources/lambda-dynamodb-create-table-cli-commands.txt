@@ -5,7 +5,7 @@ s3://serverless-cookbook/lambda-dynamodb-create-table-0.0.1-SNAPSHOT.jar \
 
 aws cloudformation create-stack \
     --stack-name myteststack-c \
-    --template-body file://resources/lambda-dynamodb-create-table-cf-template.yml \
+    --template-body file://lambda-dynamodb-create-table-cf-template.yml \
     --capabilities CAPABILITY_NAMED_IAM \
     --region us-east-1 \
     --profile admin

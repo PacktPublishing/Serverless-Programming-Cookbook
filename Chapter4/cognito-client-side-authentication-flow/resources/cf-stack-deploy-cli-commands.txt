@@ -1,6 +1,6 @@
 aws cloudformation create-stack \
     --stack-name myclientstack \
-    --template-body file://resources/cognito-client-side-authentication-client-cf-template.yml \
+    --template-body file://cognito-client-side-authentication-client-cf-template.yml \
     --region us-east-1 \
     --profile admin
 

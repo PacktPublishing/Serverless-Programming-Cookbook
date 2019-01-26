@@ -1,6 +1,6 @@
 aws cloudformation create-stack \
     --stack-name myuserpoolstack \
-    --template-body file://resources/cognito-user-pool-cf-template.yml \
+    --template-body file://cognito-user-pool-cf-template.yml \
     --region us-east-1 \
     --profile admin
 
@@ -16,6 +16,6 @@ aws cloudformation delete-stack \
 
 aws cloudformation update-stack \
     --stack-name myuserpoolstack \
-    --template-body file://resources/cognito-user-pool-cf-template.yml \
+    --template-body file://cognito-user-pool-cf-template.yml \
     --region us-east-1 \
     --profile admin

@@ -1,6 +1,6 @@
 aws cloudformation create-stack \
     --stack-name myteststack \
-    --template-body file://resources/template-for-hello-world-lambda.yml.yml \
+    --template-body file://template-for-hello-world-lambda.yml.yml \
     --region us-east-1 \
     --profile admin
 

@@ -6,20 +6,20 @@ aws s3api create-bucket \
     --region ap-south-1 \
     --profile admin
 
-aws s3 cp resources/index.html s3://qnatime.com/index.html \
+aws s3 cp index.html s3://qnatime.com/index.html \
     --profile admin
 
-aws s3 cp resources/error.html s3://qnatime.com/error.html \
+aws s3 cp error.html s3://qnatime.com/error.html \
     --profile admin
 
 aws s3api put-bucket-website \
     --bucket qnatime.com \
-    --website-configuration file://resources/s3-website-configuration.json \
+    --website-configuration file://s3-website-configuration.json \
     --profile admin
 
 aws s3api put-bucket-policy \
     --bucket qnatime.com \
-    --policy file://resources/s3-website-policy.json \
+    --policy file://s3-website-policy.json \
     --profile admin
 
 http://qnatime.com.s3-website.ap-south-1.amazonaws.com/
@@ -37,7 +37,7 @@ aws s3api create-bucket \
 
 aws s3api put-bucket-website \
     --bucket www.qnatime.com \
-    --website-configuration file://resources/s3-website-redirect-configuration.json \
+    --website-configuration file://s3-website-redirect-configuration.json \
     --profile admin
 
 
@@ -47,7 +47,7 @@ aws s3api put-bucket-website \
 
 aws route53 change-resource-record-sets \
     --hosted-zone-id Z18ZT9JI8CNW5X \
-    --change-batch file://resources/change-resource-record-sets.json \
+    --change-batch file://change-resource-record-sets.json \
     --profile admin
 
 
@@ -60,8 +60,8 @@ aws route53 get-change \
 
 -- UPLOAD FOR CloudFormation TEMPLATE --
 
-aws s3 cp resources/index.html s3://quizzer.cloud/index.html \
+aws s3 cp index.html s3://quizzer.cloud/index.html \
     --profile admin
 
-aws s3 cp resources/error.html s3://quizzer.cloud/error.html \
+aws s3 cp error.html s3://quizzer.cloud/error.html \
     --profile admin

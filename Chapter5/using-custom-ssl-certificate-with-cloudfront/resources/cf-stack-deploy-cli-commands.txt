@@ -2,8 +2,8 @@
 
 aws cloudformation create-stack \
     --stack-name mycloudfrontstackwithssl \
-    --template-body file://resources/create-cloud-front-distribution-with-ssl.yml \
-    --parameters file://resources/create-cloud-front-parameters.json \
+    --template-body file://create-cloud-front-distribution-with-ssl.yml \
+    --parameters file://create-cloud-front-parameters.json \
     --profile admin
 
 aws cloudformation describe-stacks \
@@ -20,7 +20,7 @@ aws cloudformation delete-stack \
 
 aws cloudformation create-stack \
     --stack-name recordsetstack \
-    --template-body file://resources/add-route-53-record-sets.yml \
+    --template-body file://add-route-53-record-sets.yml \
     --parameters ParameterKey=RootDomainName,ParameterValue=quizzercloud.com \
             ParameterKey=SubDomainName,ParameterValue=www.quizzercloud.com \
             ParameterKey=RecordHostedZoneId,ParameterValue=Z2FDTNDATAQYW2 \
