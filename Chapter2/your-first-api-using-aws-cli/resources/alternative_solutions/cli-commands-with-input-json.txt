@@ -1,0 +1,6 @@
+** We can use an input JSON template using the 'generate-cli-skeleton' parameter for most of the CLI commands and then use the template as input to the command.
+The template can be generated as 'aws apigateway put-integration --generate-cli-skeleton'. **
+
+aws apigateway put-integration --cli-input-json file://put-integration-cli-input.json --region us-east-1 --profile admin
+
+aws apigateway put-integration-response --cli-input-json file://put-integration-response-cli-input.json --region us-east-1 --profile admin
