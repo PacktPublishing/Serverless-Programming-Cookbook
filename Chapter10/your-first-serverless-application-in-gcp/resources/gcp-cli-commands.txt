@@ -1,0 +1,12 @@
+gcloud projects create 'heartin-gcp-project-id' --name='My First GCP Project'
+
+gcloud config set project 'heartin-gcp-project-id'
+
+gcloud services enable cloudfunctions.googleapis.com
+
+git clone https://github.com/GoogleCloudPlatform/nodejs-docs-samples.git
+
+cd nodejs-docs-samples/functions/helloworld/
+gcloud functions deploy helloGET --runtime nodejs6 --trigger-http
+
+Run: https://us-central1-heartin-gcp-project-id.cloudfunctions.net/helloGET

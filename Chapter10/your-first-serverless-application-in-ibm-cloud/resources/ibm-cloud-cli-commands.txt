@@ -1,0 +1,12 @@
+ibmcloud login
+
+ibmcloud target –cf
+
+ibmcloud plugin install cloud-functions
+
+ibmcloud fn action create hello hello.js
+
+ibmcloud fn action invoke helloworld --blocking --result
+
+ibmcloud fn action invoke hello --blocking --result --param name Heartin
+
