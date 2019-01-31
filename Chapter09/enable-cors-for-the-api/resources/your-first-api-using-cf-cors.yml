@@ -1,0 +1,90 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Building API with AWS CloudFormation
+Resources:
+  MyFirstRestAPI:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: CORS API
+      Description: API for greeting an user
+      FailOnWarnings: true
+
+  GreetingResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId: !Ref MyFirstRestAPI
+      ParentId: !GetAtt MyFirstRestAPI.RootResourceId
+      PathPart: 'greeting'
+
+  NamePathParamResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId: !Ref MyFirstRestAPI
+      ParentId: !Ref GreetingResource
+      PathPart: '{name}'
+
+  MyMockMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      AuthorizationType: NONE
+      HttpMethod: GET
+      Integration:
+        Type: MOCK
+        IntegrationHttpMethod: GET
+        IntegrationResponses:
+        - StatusCode: 200
+          ResponseTemplates:
+            application/json: "{\"message\": \"Hello $input.params('name')\" }"
+          ResponseParameters:
+            method.response.header.Access-Control-Allow-Origin: "'*'"
+        RequestTemplates:
+          application/json: "{\"statusCode\": 200}"
+      ResourceId: !Ref NamePathParamResource
+      RestApiId: !Ref MyFirstRestAPI
+      MethodResponses:
+      - StatusCode: 200
+        ResponseParameters:
+          method.response.header.Access-Control-Allow-Origin: false
+          
+  MyMockOptionMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      AuthorizationType: NONE
+      HttpMethod: OPTIONS
+      Integration:
+        Type: MOCK
+        IntegrationHttpMethod: OPTIONS
+        IntegrationResponses:
+        - StatusCode: 200
+          ResponseParameters:
+            method.response.header.Access-Control-Allow-Origin: "'*'"
+            method.response.header.Access-Control-Allow-Headers: "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'"
+        RequestTemplates:
+          application/json: "{\"statusCode\": 200}"
+      ResourceId: !Ref NamePathParamResource
+      RestApiId: !Ref MyFirstRestAPI
+      MethodResponses:
+      - StatusCode: 200
+        ResponseParameters:
+          method.response.header.Access-Control-Allow-Origin: false 
+          method.response.header.Access-Control-Allow-Headers: false
+          method.response.header.Access-Control-Allow-Methods: false
+
+  MyFirstDeployment:
+    DependsOn: 
+      - MyMockMethod
+      - MyMockOptionMethod         
+    Type: AWS::ApiGateway::Deployment
+    Properties:
+      Description: 'First Deployment'
+      RestApiId: !Ref MyFirstRestAPI
+      StageDescription:
+        Description: 'Dev Stage'
+      StageName: 'dev'
+
+Outputs:
+  SampleEndpoint:
+    Description: 'Sample Endpoint'
+    Value: !Sub
+        - https://${API_ID}.execute-api.${AWS::Region}.amazonaws.com/dev/greeting/Heartin
+        - API_ID: !Ref MyFirstRestAPI

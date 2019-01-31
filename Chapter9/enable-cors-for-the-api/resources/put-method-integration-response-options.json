@@ -1,4 +1,0 @@
-{
-    "method.response.header.Access-Control-Allow-Origin": "'*'",
-    "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'"
-}

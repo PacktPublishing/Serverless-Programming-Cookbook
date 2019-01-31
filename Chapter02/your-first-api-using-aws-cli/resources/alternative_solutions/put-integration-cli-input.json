@@ -1,0 +1,12 @@
+{
+	"restApiId": "ic0sd5rav5",
+	"resourceId": "3mo727",
+	"httpMethod": "POST",
+	"type": "AWS",
+	"integrationHttpMethod": "POST",
+	"uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:845886054802:function:demo-lambda-with-cli_api/invocations",
+	"requestTemplates": {
+		"application/json": "{ \"name\" : $input.json('$.user.name'), \"time\" : $input.json('$.greeting.time')}"
+	},
+	"passthroughBehavior": "WHEN_NO_TEMPLATES"
+}
