@@ -17,7 +17,7 @@ SQS and SNS for effective communication between microservices
 Monitoring and troubleshooting with CloudWatch logs and metrics 
 Explore Kinesis Streams, Amazon ML models and Alexa Skills Kit 
 
-If you feel this book is for you, get your [copy](https://www.amazon.com/dp/1-788-62379-7) today!
+If you feel this book is for you, get your [copy](https://www.amazon.com/dp/1788623797) today!
 
 <a href="https://www.packtpub.com/?utm_source=github&utm_medium=banner&utm_campaign=GitHubBanner"><img src="https://raw.githubusercontent.com/PacktPublishing/GitHub/master/GitHub.png" 
 alt="https://www.packtpub.com/" border="5" /></a>
@@ -82,9 +82,9 @@ However, please check all previous issues before raising a new issue.
 
 
 ### Related products
-* Hands-On Serverless Applications with Go [[Packt]](https://www.packtpub.com/application-development/hands-serverless-applications-go?utm_source=github&utm_medium=repository&utm_campaign=9781789134612 ) [[Amazon]](https://www.amazon.com/dp/1-789-13461-7)
+* Hands-On Serverless Applications with Go [[Packt]](https://www.packtpub.com/application-development/hands-serverless-applications-go?utm_source=github&utm_medium=repository&utm_campaign=9781789134612 ) [[Amazon]](https://www.amazon.com/dp/1789134617)
 
-* Hands-On Serverless Applications with Kotlin [[Packt]](https://www.packtpub.com/application-development/hands-serverless-applications-kotlin?utm_source=github&utm_medium=repository&utm_campaign=) [[Amazon]](https://www.amazon.com/dp/1-788-99370-5)
+* Hands-On Serverless Applications with Kotlin [[Packt]](https://www.packtpub.com/application-development/hands-serverless-applications-kotlin?utm_source=github&utm_medium=repository&utm_campaign=) [[Amazon]](https://www.amazon.com/dp/1788993705)
 
 
 ## Get to Know the Author
