@@ -24,6 +24,11 @@ public final class HelloWorldLambdaHandler implements RequestHandler<String, Str
     public void testTestBranch(){
         // todo nothing
     }
+
+    public void testTodoTestBranch(){
+        // second todo test Branch
+    }
+
     public void testMasterBranch(){
         // todo checkout master
     }
