@@ -20,4 +20,20 @@ public final class HelloWorldLambdaHandler implements RequestHandler<String, Str
         String greeting = "Hello " + s;
         return greeting;
     }
+
+    public void testTestBranch(){
+        // todo nothing
+    }
+
+    public void testTodoTestBranch(){
+        // second todo test Branch
+    }
+
+    public void testMasterBranch(){
+        // todo checkout master
+    }
+
+    public voidTestSecondMasterBranch(){
+        // todo for second time
+    }
 }
